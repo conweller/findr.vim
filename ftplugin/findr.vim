@@ -8,13 +8,13 @@ setlocal buftype=nofile
 setlocal noswapfile
 setlocal nofoldenable 
 
-inoremap <silent> <buffer> <tab> <esc>:call findr#change_dir()<cr>a
-inoremap <silent> <buffer> / <esc>:call findr#change_dir()<cr>a
-inoremap <silent> <buffer> <cr> <esc>:call findr#edit()<cr>
-inoremap <silent> <buffer> <up>   <esc>:call findr#prev_item()<cr>a
-inoremap <silent> <buffer> <c-p>  <esc>:call findr#prev_item()<cr>a
-inoremap <silent> <buffer> <down> <esc>:call findr#next_item()<cr>a
-inoremap <silent> <buffer> <c-n>  <esc>:call findr#next_item()<cr>a
-inoremap <silent> <buffer> <c-c> <esc>:call findr#quit()<cr>
-inoremap <silent> <buffer> <esc> <esc>:call findr#quit()<cr>
-inoremap <silent> <buffer> <backspace> <c-o>:call findr#delete()<cr>
+imap <buffer> <tab> <Plug>findr_cd
+imap <buffer> / <plug>findr_cd
+imap <buffer> <cr> <plug>findr_edit
+imap <buffer> <up>   <plug>findr_prev
+imap <buffer> <c-p>  <plug>findr_prev
+imap <buffer> <down> <plug>findr_next
+imap <buffer> <c-n>  <plug>findr_next
+imap <buffer> <c-c> <plug>findr_quit
+imap <buffer> <esc> <plug>findr_quit
+imap <buffer> <backspace> <plug>findr_delete
