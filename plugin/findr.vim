@@ -1,4 +1,4 @@
-command! Finder call findr#launch()
+command! Findr call findr#launch()
 
 if !highlight_exists('FindrSelected')
   hi! link FindrSelected search
