@@ -30,6 +30,7 @@ function! findr#gen_completion(inputs, candidates)
   for candidate in a:candidates
     let match = v:true
     for input in a:inputs
+      let input = substitute(input, '\~', '\\\~', 'g')
       if match(tolower(candidate), tolower(input)) == -1
         let match = v:false
         break
