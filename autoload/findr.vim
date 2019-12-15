@@ -175,8 +175,9 @@ function! findr#change_dir()
   let s:cur_dir = getcwd()
   let s:selected_loc = min([line('$'), s:start_loc+1])
   call setline(s:start_loc, s:short_path())
-  normal A
   call findr#redraw()
+  normal $
+  startinsert!
 endfunction
 
 function! s:short_path()
@@ -194,10 +195,14 @@ function! findr#delete()
     let s:selected_loc = min([line('$'), s:start_loc+1])
     let s:cur_dir = getcwd()
     call setline(s:start_loc, s:short_path())
-    normal A
+    normal $
+    startinsert!
     call findr#redraw()
   else
-    normal "_x
+    let [_b, line, _col, _o, col] = getcurpos()
+    let curline=curline[0:col-3] . curline[col-1:]
+    call setline(s:start_loc, curline)
+    call cursor('.', col-1)
   endif
 endfunction
 
@@ -238,11 +243,11 @@ endfunction
 " }}}
 " }}}
 " Mappings: {{{
-inoremap <silent> <plug>findr_cd <esc>:call findr#change_dir()<cr>a
-inoremap <silent> <plug>findr_edit <esc>:call findr#edit()<cr>
-inoremap <silent> <plug>findr_next <esc>:call findr#next_item()<cr>a
-inoremap <silent> <plug>findr_prev <esc>:call findr#prev_item()<cr>a
+inoremap <silent> <plug>findr_cd <cmd>call findr#change_dir()<cr>
+inoremap <silent> <plug>findr_edit <cmd>call findr#edit()<cr>
+inoremap <silent> <plug>findr_next <cmd>call findr#next_item()<cr>
+inoremap <silent> <plug>findr_prev <cmd>call findr#prev_item()<cr>
 inoremap <silent> <plug>findr_quit <esc>:call findr#quit()<cr>
-inoremap <silent> <plug>findr_delete <esc>:call findr#delete()<cr>a
+inoremap <silent> <plug>findr_delete <cmd>call findr#delete()<cr>
 " }}}
 " vim: set sw=2 ts=2 sts=2 et tw=80 ft=vim fdm=marker:
