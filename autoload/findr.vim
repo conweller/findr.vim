@@ -12,7 +12,7 @@ let s:hist_file = '/Users/Connor/.config/nvim/assets/finder.hist'
 let s:hist = readfile(s:hist_file)
 let s:hist_loc = len(s:hist) - 1
 " }}}
-" Model: {{{
+" Logic: {{{
 function! findr#get_input()
   let line = getline(s:start_loc)
   if line !='' && line[-1] != '/'
@@ -59,7 +59,7 @@ endfunction
 function! findr#update()
 endfunction
 " }}}
-" View: {{{
+" UI: {{{
 " Selection: {{{
 function! findr#next_item()
   if s:selected_loc < line('$')

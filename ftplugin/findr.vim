@@ -15,7 +15,6 @@ inoremap <silent> <buffer> <up> <c-o>:call findr#prev_item()<cr>
 inoremap <silent> <buffer> <down> <c-o>:call findr#next_item()<cr>
 inoremap <silent> <buffer> <c-p> <c-o>:call findr#prev_item()<cr>
 inoremap <silent> <buffer> <c-n> <c-o>:call findr#next_item()<cr>
-inoremap <silent> <buffer> <c-g> <esc>:call findr#quit()<cr>
 inoremap <silent> <buffer> <c-c> <esc>:call findr#quit()<cr>
 inoremap <silent> <buffer> <esc> <esc>:call findr#quit()<cr>
 inoremap <silent> <buffer> <backspace> <c-o>:call findr#delete()<cr>

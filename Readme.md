@@ -5,4 +5,4 @@ An incremental file finder for nvim, inspired by [ivy](https://github.com/abo-ab
 ## TODO
 * Scrolling
 * History
-* Documentation
+* Configuration

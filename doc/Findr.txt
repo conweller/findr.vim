@@ -1,10 +1,41 @@
-Findr, incremental file binding                   *Findr* *findr*
+Findr, incremental file finding                         *findr*
 
 ===========================================================================
-0. Commands ~
-                                    *Findr-commands* *findr-commands*
-                                                          *:Findr*
+COMMANDS                                                *findr-commands*
 
-- :Findr launches a findr buffer in the current directory
+                                                        *:Findr*
+:Findr                launches a findr buffer in the current directory
+===========================================================================
+MAPS                                                    *findr-maps*
+
+While Findr buffers operate entirely in insert mode, so all mappings are imaps
+local to findr buffers
+
+                                                        *findr_/*
+                                                        *findr_<tab>*
+/                     Enter the selected directory
+<tab>
+
+                                                        *findr_<cr>*
+<cr>                  Edit the selected item
+
+                                                        *findr_up*
+                                                        *findr_<c-p>*
+<up>                  Select the previous item
+<c-p>
+
+                                                        *findr_down*
+                                                        *findr_<c-n>*
+<down>                Select the next item
+<c-n>
+
+                                                        *findr_<bs>*
+<bs>                  If previous char in line is '/', then go back one
+                      directory, else delete previous char
+
+                                                        *findr_<esc>*
+                                                        *findr_<c-c>*
+<esc>                 Quit findr, return to previous buffer
+<c-c>
 
 vim:tw=78:ts=2:sts=2:sw=2:ft=help:norl

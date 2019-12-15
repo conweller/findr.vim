@@ -1,5 +1,14 @@
 :Findr	Findr.txt	/*:Findr*
-Findr	Findr.txt	/*Findr*
-Findr-commands	Findr.txt	/*Findr-commands*
 findr	Findr.txt	/*findr*
 findr-commands	Findr.txt	/*findr-commands*
+findr-maps	Findr.txt	/*findr-maps*
+findr_/	Findr.txt	/*findr_\/*
+findr_<bs>	Findr.txt	/*findr_<bs>*
+findr_<c-c>	Findr.txt	/*findr_<c-c>*
+findr_<c-n>	Findr.txt	/*findr_<c-n>*
+findr_<c-p>	Findr.txt	/*findr_<c-p>*
+findr_<cr>	Findr.txt	/*findr_<cr>*
+findr_<esc>	Findr.txt	/*findr_<esc>*
+findr_<tab>	Findr.txt	/*findr_<tab>*
+findr_down	Findr.txt	/*findr_down*
+findr_up	Findr.txt	/*findr_up*
