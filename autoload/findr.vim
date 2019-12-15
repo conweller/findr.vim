@@ -244,10 +244,10 @@ endfunction
 " }}}
 " Mappings: {{{
 inoremap <silent> <plug>findr_cd <cmd>call findr#change_dir()<cr>
-inoremap <silent> <plug>findr_edit <cmd>call findr#edit()<cr>
 inoremap <silent> <plug>findr_next <cmd>call findr#next_item()<cr>
 inoremap <silent> <plug>findr_prev <cmd>call findr#prev_item()<cr>
-inoremap <silent> <plug>findr_quit <esc>:call findr#quit()<cr>
 inoremap <silent> <plug>findr_delete <cmd>call findr#delete()<cr>
+inoremap <silent> <plug>findr_edit <esc>:<c-u>call findr#edit()<cr>
+inoremap <silent> <plug>findr_quit <esc>:<c-u>call findr#quit()<cr>
 " }}}
 " vim: set sw=2 ts=2 sts=2 et tw=80 ft=vim fdm=marker:
