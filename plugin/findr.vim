@@ -15,3 +15,7 @@ endif
 if !highlight_exists('FindrDirPartial')
   hi! link FindrDirPartial string
 endif
+
+if !highlight_exists('FindrDir')
+  hi! link FindrDir directory
+endif

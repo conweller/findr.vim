@@ -146,7 +146,7 @@ endfunction
 function! findr#redraw_highlights()
   call clearmatches()
   call matchadd('FindrDirPartial','^.*/')
-  call matchadd('Directory','^.*/$')
+  call matchadd('FindrDir','^.*/$')
   call matchadd('FindrSelected','\%'.s:selected_loc.'l.*')
   call matchadd('FindrSelectedDirPartial','^\%'.s:selected_loc.'l.*/')
   call matchadd('FindrSelectedDir','^\%'.s:selected_loc.'l.*/$')
