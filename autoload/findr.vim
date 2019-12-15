@@ -93,10 +93,11 @@ function! findr#floating()
   let buf = nvim_create_buf(v:false, v:true)
   call setbufvar(buf, '&signcolumn', 'no')
 
-  let height = float2nr(15)
+  " let height = float2nr(15)
+  let height= &lines-4
   let width = float2nr(80)
   let horizontal = float2nr((&columns - width) / 2)
-  let vertical = 2
+  let vertical = 1
   let opts = {
         \ 'relative': 'editor',
         \ 'row': vertical,
