@@ -85,7 +85,9 @@ function! findr#prev_item()
 endfunction
 " }}}
 " Display: {{{
+
 let s:border = v:true
+
 function! findr#floating()
  let width = min([&columns - 4, max([80, &columns - 20])])
   let buf = nvim_create_buf(v:false, v:true)
@@ -226,7 +228,7 @@ function! findr#launch()
     execute "botright 10split findr"
   endif
   call setline(s:start_loc, s:short_path())
-  set ft=finder
+  set ft=findr
   call findr#redraw()
   normal $
   startinsert!
