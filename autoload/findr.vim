@@ -9,8 +9,8 @@ let s:old_input = ''
 
 " TODO: make this more portable
 " let s:hist_file = 'Todo'
-let s:hist = readfile(s:hist_file)
-let s:hist_loc = len(s:hist) - 1
+" let s:hist = readfile(s:hist_file)
+" let s:hist_loc = len(s:hist) - 1
 " }}}
 " Logic: {{{
 function! findr#get_input()
@@ -156,14 +156,14 @@ endfunction
 " Actions {{{
 function! findr#change_dir()
   if split(findr#get_input()) == ['~']
-    cd ~
+    lcd ~
   elseif split(findr#get_input()) == ['..']
-    cd ..
+    lcd ..
   elseif isdirectory(s:cur_dir . '/' . findr#get_choice())
-    execute 'cd ' . s:cur_dir . '/' . findr#get_choice()
+    execute 'lcd ' . s:cur_dir . '/' . findr#get_choice()
   elseif split(findr#get_input()) != []
     if isdirectory(s:cur_dir . '/' . split(findr#get_input())[0])
-      execute 'cd ' . s:cur_dir . '/' . findr#get_input()
+      execute 'lcd ' . s:cur_dir . '/' . findr#get_input()
     endif
   else
     return
@@ -186,7 +186,7 @@ endfunction
 function! findr#delete()
   let curline = getline(s:start_loc)
   if curline !='' && split(curline,'\c')[-1] == '/'
-    execute 'cd ..'
+    execute 'lcd ..'
     let s:selected_loc = min([line('$'), s:start_loc+1])
     let s:cur_dir = getcwd()
     call setline(s:start_loc, s:short_path())
