@@ -9,3 +9,4 @@ An incremental file finder for neovim, inspired by [ivy](https://github.com/abo-
 * Scrolling
 * History
 * Configuration
+* Vim compatibility
