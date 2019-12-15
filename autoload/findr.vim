@@ -8,7 +8,7 @@ let s:use_floating_win = v:true
 let s:old_input = ''
 
 " TODO: make this more portable
-let s:hist_file = '/Users/Connor/.config/nvim/assets/finder.hist'
+" let s:hist_file = 'Todo'
 let s:hist = readfile(s:hist_file)
 let s:hist_loc = len(s:hist) - 1
 " }}}
