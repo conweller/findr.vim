@@ -86,6 +86,12 @@ endfunction
 " }}}
 " Display: {{{
 
+function! s:tabline_visible()
+  let count = 0
+  tabdo let count+=1
+  return count > 1 && &showtabline
+endfunction
+
 let s:border = v:true
 
 function! findr#floating()
@@ -94,10 +100,10 @@ function! findr#floating()
   call setbufvar(buf, '&signcolumn', 'no')
 
   " let height = float2nr(15)
-  let height= &lines-4
+  let height= &lines-(4+s:tabline_visible())
   let width = float2nr(80)
   let horizontal = float2nr((&columns - width) / 2)
-  let vertical = 1
+  let vertical = 1 + s:tabline_visible()
   let opts = {
         \ 'relative': 'editor',
         \ 'row': vertical,
