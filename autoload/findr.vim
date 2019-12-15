@@ -166,6 +166,8 @@ function! findr#change_dir()
   elseif split(findr#get_input()) != []
     if isdirectory(s:cur_dir . '/' . split(findr#get_input())[0])
       execute 'lcd ' . s:cur_dir . '/' . findr#get_input()
+    else 
+      return
     endif
   else
     return
