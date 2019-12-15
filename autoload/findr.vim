@@ -115,7 +115,7 @@ function! findr#floating()
     let opts.height -= 2
     let opts.col += 2
     let opts.width -= 4
-    set winhl=Normal:NormalFloatBorder
+    set winhl=Normal:FindrBorder
     call nvim_open_win(nvim_create_buf(v:true, v:false), v:true, opts)
     au BufWipeout <buffer> exe 'bw! '.s:buf
   else
@@ -222,7 +222,6 @@ function! findr#launch()
   let s:cur_dir = getcwd()
   if s:use_floating_win
     call findr#floating()
-    " execute "call FloatingWindow()"
   else
     execute "botright 10split findr"
   endif

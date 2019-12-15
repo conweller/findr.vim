@@ -14,6 +14,7 @@ findr_<esc>	Findr.txt	/*findr_<esc>*
 findr_<tab>	Findr.txt	/*findr_<tab>*
 findr_down	Findr.txt	/*findr_down*
 findr_up	Findr.txt	/*findr_up*
+hl-FindrBorder	Findr.txt	/*hl-FindrBorder*
 hl-FindrDir	Findr.txt	/*hl-FindrDir*
 hl-FindrDirPartial	Findr.txt	/*hl-FindrDirPartial*
 hl-FindrSelected	Findr.txt	/*hl-FindrSelected*

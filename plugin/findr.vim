@@ -19,3 +19,7 @@ endif
 if !highlight_exists('FindrDir')
   hi! link FindrDir directory
 endif
+
+if !highlight_exists('FindrBorder')
+  hi! link FindrBorder Comment
+endif
