@@ -2,6 +2,7 @@
 findr	Findr.txt	/*findr*
 findr-commands	Findr.txt	/*findr-commands*
 findr-maps	Findr.txt	/*findr-maps*
+findr-usage	Findr.txt	/*findr-usage*
 findr_/	Findr.txt	/*findr_\/*
 findr_<bs>	Findr.txt	/*findr_<bs>*
 findr_<c-c>	Findr.txt	/*findr_<c-c>*

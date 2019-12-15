@@ -1,10 +1,25 @@
 Findr, incremental file finding                         *findr*
 
 ===========================================================================
+USAGE                                                   *findr-usage*
+
+Open Findr with the command `:Findr`. This will launch a findr buffer (in a
+floating window by default).
+
+Once you are in a findr buffer, you can find files and subdirectories in your
+current directory by entering the pattern in the first line.
+
+You can delimit multiple patterns you are searching for with a space.
+
+You can also enter `~/` to go to your home directory, or `../` to go to the
+parent directory of your current directory.
+
+===========================================================================
 COMMANDS                                                *findr-commands*
 
                                                         *:Findr*
 :Findr                launches a findr buffer in the current directory
+
 ===========================================================================
 MAPS                                                    *findr-maps*
 
