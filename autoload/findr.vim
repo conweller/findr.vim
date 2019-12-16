@@ -197,7 +197,7 @@ function! s:short_path()
   return shortpath
 endfunction
 
-function! findr#delete()
+function! findr#bs()
   let curline = getline(s:start_loc)
   if curline !='' && split(curline,'\c')[-1] == '/'
     execute 'lcd ..'
@@ -213,6 +213,12 @@ function! findr#delete()
     call setline(s:start_loc, curline)
     call cursor('.', col-1)
   endif
+endfunction
+
+function! findr#clear()
+  let curline = getline(s:start_loc)
+  let index = match(curline, '[^/]*$')-1
+  call setline(s:start_loc, curline[:index])
 endfunction
 
 function! findr#edit()
@@ -255,7 +261,8 @@ endfunction
 inoremap <silent> <plug>findr_cd <cmd>call findr#change_dir()<cr>
 inoremap <silent> <plug>findr_next <cmd>call findr#next_item()<cr>
 inoremap <silent> <plug>findr_prev <cmd>call findr#prev_item()<cr>
-inoremap <silent> <plug>findr_delete <cmd>call findr#delete()<cr>
+inoremap <silent> <plug>findr_bs <cmd>call findr#bs()<cr>
+inoremap <silent> <plug>findr_clear <cmd>call findr#clear()<cr>
 inoremap <silent> <plug>findr_edit <esc>:<c-u>call findr#edit()<cr>
 inoremap <silent> <plug>findr_quit <esc>:<c-u>call findr#quit()<cr>
 " }}}

@@ -48,6 +48,9 @@ local to findr buffers
 <bs>                      If previous char in line is '/', then go back one
                           directory, else delete previous char
 
+                                                  *findr_<c-u>*
+<c-u>                     Clears text in prompt up until the path
+
                                                   *findr_<esc>*
                                                   *findr_<c-c>*
 <esc>                     Quit findr, return to previous buffer
