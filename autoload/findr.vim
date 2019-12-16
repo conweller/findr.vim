@@ -87,8 +87,10 @@ endfunction
 " Display: {{{
 
 function! s:tabline_visible()
+  let tabnum = tabpagenr()
   let count = 0
   tabdo let count+=1
+  execute tabnum.'tabnext'
   return count > 1 && &showtabline
 endfunction
 
