@@ -217,9 +217,11 @@ function! findr#bs()
 endfunction
 
 function! findr#clear()
+  let [_b, line, _col, _o, col] = getcurpos()
   let curline = getline(s:start_loc)
   let index = match(curline, '[^/]*$')-1
-  call setline(s:start_loc, curline[:index])
+  call setline(s:start_loc, curline[:index].curline[col-1:])
+  call cursor('.', index+2)
 endfunction
 
 function! findr#edit()
