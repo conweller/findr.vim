@@ -10,3 +10,4 @@ An incremental file finder for neovim, inspired by [ivy](https://github.com/abo-
 * History
 * Configuration
 * Vim compatibility
+* Improve performance
