@@ -17,8 +17,8 @@ let s:selected_loc = s:start_loc+1
 let s:winnum = 1
 " let s:use_virtual = v:true
 let s:use_floating_win = v:true
-let s:old_input = ''
-let s:old_dir = ''
+let s:old_input = -1
+let s:old_dir = -1
 let s:files = []
 
 " TODO: make this more portable
@@ -159,11 +159,11 @@ function! findr#redraw()
   if s:old_input ==  findr#get_input() && s:old_dir == s:cur_dir
     let s:selected_loc = min([s:selected_loc, line('$')])
   else
-    let s:selected_loc = min([s:start_loc+1, line('$')])
     let completions = findr#gen_completion(split(findr#get_input()), s:files)
     call deletebufline('%', s:start_loc + 1, line('$'))
     call setline(s:start_loc-1, '')
     call setline(s:start_loc+1, completions)
+    let s:selected_loc = min([s:start_loc+1, line('$')])
   endif
   let s:old_input = findr#get_input()
   let s:old_dir = s:cur_dir
@@ -261,6 +261,9 @@ function! findr#launch()
   let s:winnum = winnr()
   let s:selected_loc = s:start_loc+1
   let s:cur_dir = getcwd()
+  let s:old_input = -1
+  let s:old_dir = -1
+  let s:files = []
   if s:use_floating_win
     call findr#floating()
   else
