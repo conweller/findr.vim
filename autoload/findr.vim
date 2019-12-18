@@ -6,6 +6,8 @@ let s:winnum = 1
 " let s:use_virtual = v:true
 let s:use_floating_win = v:true
 let s:old_input = ''
+let s:old_dir = ''
+let s:files = []
 
 " TODO: make this more portable
 " let s:hist_file = 'Todo'
@@ -139,21 +141,21 @@ function! findr#floating()
 endfunction
 
 function! findr#redraw()
-  call deletebufline('%', s:start_loc + 1, line('$'))
-  let completions = findr#gen_completion(split(findr#get_input()), findr#list_files())
-  call setline(s:start_loc-1, '')
-  call setline(s:start_loc+1, completions)
-  if s:old_input == s:cur_dir . '/' . findr#get_input()
+  if s:cur_dir != s:old_dir
+    let s:files = findr#list_files()
+  endif
+  if s:old_input ==  findr#get_input() && s:old_dir == s:cur_dir
     let s:selected_loc = min([s:selected_loc, line('$')])
   else
     let s:selected_loc = min([s:start_loc+1, line('$')])
+    let completions = findr#gen_completion(split(findr#get_input()), s:files)
+    call deletebufline('%', s:start_loc + 1, line('$'))
+    call setline(s:start_loc-1, '')
+    call setline(s:start_loc+1, completions)
   endif
-  let s:old_input = s:cur_dir . '/' . findr#get_input()
+  let s:old_input = findr#get_input()
+  let s:old_dir = s:cur_dir
   call findr#redraw_highlights()
-endfunction
-
-function! Input()
-  return s:old_input == s:cur_dir . '/' . findr#get_input()
 endfunction
 
 function! findr#redraw_highlights()
