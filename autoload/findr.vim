@@ -1,3 +1,10 @@
+" TODO: Approach to improve performance
+"   - While in same dir, push <input, completion> tuples to stack
+"   - When new char(s) typed generate new completion from top of stack
+"   - When char(s) deleted, pop from stack until input is found that is a
+"     substring of the current input
+"   - Empty stack if it reaches some max size
+"   - Empty stack when new directory is entered
 " Variables: {{{
 let s:cur_dir = getcwd()
 let s:start_loc = 1
