@@ -1,15 +1,3 @@
-" TODO: Approach to improve performance
-" 1. Use previous completions stack as completion source
-"     - While in same dir, push <input, completion> tuples to stack
-"     - When new char(s) typed generate new completion from top of stack
-"     - When char(s) deleted, pop from stack until input is found that is a
-"       substring of the current input
-"     - Empty stack if it reaches some max size
-"     - Empty stack when new directory is entered
-" 2. Only display window height lines at a time
-"     - Store completions in memory not on the page
-"     - Write min(number of completions, win height) to page
-"     - Scroll by changing the index that completions to write starts at
 lua require("findr")
 " Variables: {{{
 let s:cur_dir = getcwd()
