@@ -21,6 +21,7 @@ let s:use_floating_win = v:true
 let s:old_input = -1
 let s:old_dir = -1
 let s:files = []
+let s:first_line = '..'
 
 " TODO: make this more portable
 " let s:hist_file = 'Todo'
@@ -93,10 +94,11 @@ function! findr#scroll_down()
   call setline(s:start_loc+1, scrolled)
 endfunction
 
-
 function! findr#next_item()
   if s:selected_loc > winheight('.')-1
-    call findr#scroll_down()
+    if  getline(winheight('.')+1) != s:first_line
+      call findr#scroll_down()
+    endif
   elseif s:selected_loc < line('$')
     let s:selected_loc += 1
   else
@@ -105,18 +107,24 @@ function! findr#next_item()
   call findr#redraw_highlights()
 endfunction
 
-function GetSelected()
-  return s:selected_loc
+function! FirstLine()
+  return s:first_line
 endfunction
-
 function! findr#prev_item()
   if s:selected_loc > s:start_loc
-    let s:selected_loc -=  1
+    if s:selected_loc == s:start_loc + 1 && getline(s:selected_loc) != s:first_line
+      call findr#scroll_up()
+    else
+      let s:selected_loc -=  1
+    endif
   else
     let s:selected_loc = s:start_loc
-    call findr#scroll_up()
   endif
   call findr#redraw_highlights()
+endfunction
+
+function GetSelected()
+  return s:selected_loc
 endfunction
 " }}}
 " Display: {{{
@@ -176,6 +184,7 @@ function! findr#redraw()
   call luaeval('update(_A, comp_stack)', findr#get_input())
   call luaeval('display(comp_stack, _A)', winheight('.')-1)
   let completions = luaeval('comp_display')
+  let s:first_line = completions[0]
   call deletebufline('%', s:start_loc + 1, line('$'))
   call setline(s:start_loc+1, completions)
   let s:selected_loc = min([s:start_loc+1, line('$')])
