@@ -261,7 +261,7 @@ function! findr#bs()
 endfunction
 
 function! findr#clear()
-  let [_b, line, _col, _o, col] = getcurpos()
+  let [_b, line, col, _col] = getpos('.')
   let curline = getline(s:start_loc)
   let index = match(curline, '[^/]*$')-1
   call setline(s:start_loc, curline[:index].curline[col-1:])
