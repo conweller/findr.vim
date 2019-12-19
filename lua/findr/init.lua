@@ -1,7 +1,7 @@
 -- Namespace
 findr = {}
 -- Helpers:
-findr.split = function(line)
+function findr.split(line)
     local t = {}
     for str in string.gmatch(line, "[^%s]+") do
         table.insert(t, str)
@@ -12,7 +12,7 @@ end
 --- Check if a file or directory exists in this path
 
 --- Check if a directory exists in this path
-findr.isdir = function(path)
+function findr.isdir(path)
     local function exists(file)
         local ok, err, code = os.rename(file, file)
         if not ok then
@@ -27,7 +27,7 @@ findr.isdir = function(path)
     return exists(path.."/")
 end
 
-findr.escape_pattern = function(text)
+function findr.escape_pattern(text)
     return text:gsub("([^%w])", "%%%1")
 end
 
@@ -40,21 +40,21 @@ end
 --  - data: node's data
 --  - next: next node
 
-findr.push = function(list, item)
+function findr.push(list, item)
     local node = {}
     node.data = item
     node.next = list.head
     list.head = node
 end
 
-findr.pop = function(list)
+function findr.pop(list)
     assert(list.head ~= nil)
     assert(list.head.next ~= nil)
     list.head = list.head.next
     return list.head
 end
 
-findr.scandir = function(directory)
+function findr.scandir(directory)
     local i, t, popen = 0, {}, io.popen
     local pfile = popen('ls -a '..directory..'')
     for filename in pfile:lines() do
@@ -69,7 +69,7 @@ findr.scandir = function(directory)
     return t
 end
 
-findr.candidates = function(list, inputs)
+function findr.candidates(list, inputs)
     local matches = {}
     for i, item in ipairs(list) do
         local match = true
@@ -87,7 +87,7 @@ findr.candidates = function(list, inputs)
     return matches
 end
 
-findr.update = function(input, stack)
+function findr.update(input, stack)
     while stack.head ~= nil and not findr.is_input_subset(stack.head.data.input, input) do
         findr.pop(stack)
     end
@@ -105,11 +105,11 @@ findr.update = function(input, stack)
     findr.push(stack, data)
 end
 
-findr.update_display = function(stack, winheight)
+function findr.update_display(stack, winheight)
     findr.display = stack.head.data.completions
 end
 
-findr.tablelength = function(T)
+function findr.tablelength(T)
     local count = 0
     for i, item in ipairs(T) do
         count = count + 1
@@ -117,7 +117,7 @@ findr.tablelength = function(T)
     return count
 end
 
-findr.scroll_down = function(count)
+function findr.scroll_down(count)
     local len = findr.tablelength(findr.display)
     local new_T = {}
     for i, item in ipairs(findr.display) do
@@ -126,7 +126,7 @@ findr.scroll_down = function(count)
     findr.display = new_T
 end
 
-findr.scroll_up = function(count)
+function findr.scroll_up(count)
     local len = findr.tablelength(findr.display)
     local new_T = {}
     for i, item in ipairs(findr.display) do
@@ -139,12 +139,12 @@ findr.comp_stack = {}
 findr.comp_stack.head = nil
 findr.display = {}
 
-findr.reset = function()
+function findr.reset()
     findr.comp_stack = {}
     findr.comp_stack.head = nil
     findr.display = {}
 end
 
-findr.is_input_subset = function(old, new)
+function findr.is_input_subset(old, new)
     return new == old or string.match(findr.escape_pattern(new),findr.escape_pattern(old))
 end
