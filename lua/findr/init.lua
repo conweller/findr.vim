@@ -117,20 +117,20 @@ findr.tablelength = function(T)
     return count
 end
 
-findr.scroll_down = function()
+findr.scroll_down = function(count)
     local len = findr.tablelength(findr.display)
     local new_T = {}
     for i, item in ipairs(findr.display) do
-        new_T[(i-2)%len+1] = item
+        new_T[(i-(1+count))%len+1] = item
     end
     findr.display = new_T
 end
 
-findr.scroll_up = function()
+findr.scroll_up = function(count)
     local len = findr.tablelength(findr.display)
     local new_T = {}
     for i, item in ipairs(findr.display) do
-        new_T[(i)%len+1] = item
+        new_T[(i+(count-1))%len+1] = item
     end
     findr.display = new_T
 end

@@ -28,55 +28,19 @@ endfunction
 function! findr#get_choice()
   return getline(s:selected_loc)
 endfunction
-
-function! findr#gen_completion(inputs, candidates)
-  let res = []
-  for candidate in a:candidates
-    let match = v:true
-    for input in a:inputs
-      let input = substitute(input, '\~', '\\\~', 'g')
-      let input = substitute(input, '\*\+', '*', 'g')
-      if match(tolower(candidate), tolower(input)) == -1
-        let match = v:false
-        break
-      endif
-    endfor
-    if match
-      if isdirectory(s:cur_dir . '/' . candidate)
-        call add(res, candidate . '/')
-      else
-        call add(res, candidate)
-      endif
-    endif
-  endfor
-  return res
-endfunction
-
-function! s:str_compare_smaller(i1, i2)
-  return strlen(a:i1) - strlen(a:i2)
-endfunction
-
-function! findr#list_files()
-  let file_str = glob('*')."\n".glob('.[^.]*')
-  let files = split(file_str,'\n')
-  return sort(files, "s:str_compare_smaller")
-endfunction
-
-function! findr#update()
-endfunction
 " }}}
 " UI: {{{
 " Selection: {{{
 
 function! findr#scroll_up()
-  call luaeval('findr.scroll_up()')
+  call luaeval('findr.scroll_up(1)')
   let scrolled = luaeval('findr.display')
   call deletebufline('%', s:start_loc + 1, line('$'))
   call setline(s:start_loc+1, scrolled)
 endfunction
 
 function! findr#scroll_down()
-  call luaeval('findr.scroll_down()')
+  call luaeval('findr.scroll_down(1)')
   let scrolled = luaeval('findr.display')
   call deletebufline('%', s:start_loc + 1, line('$'))
   call setline(s:start_loc+1, scrolled)
@@ -95,9 +59,6 @@ function! findr#next_item()
   call findr#redraw_highlights()
 endfunction
 
-function! FirstLine()
-  return s:first_line
-endfunction
 function! findr#prev_item()
   if s:selected_loc > s:start_loc
     if s:selected_loc == s:start_loc + 1 && getline(s:selected_loc) != s:first_line
@@ -109,10 +70,6 @@ function! findr#prev_item()
     let s:selected_loc = s:start_loc
   endif
   call findr#redraw_highlights()
-endfunction
-
-function GetSelected()
-  return s:selected_loc
 endfunction
 " }}}
 " Display: {{{
@@ -267,11 +224,6 @@ function! findr#quit()
   execute s:winnum . 'windo echo ""'
   bw findr
 endfunction
-
-function! findr#cwd()
-  echo s:cur_dir . '/' . findr#get_choice()
-endfunction
-
 
 function! findr#launch()
   let s:winnum = winnr()
