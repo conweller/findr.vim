@@ -69,15 +69,15 @@ endfunction
 " Selection: {{{
 
 function! findr#scroll_up()
-  call luaeval('scroll_up()')
-  let scrolled = luaeval('comp_display')
+  call luaeval('findr.scroll_up()')
+  let scrolled = luaeval('findr.display')
   call deletebufline('%', s:start_loc + 1, line('$'))
   call setline(s:start_loc+1, scrolled)
 endfunction
 
 function! findr#scroll_down()
-  call luaeval('scroll_down()')
-  let scrolled = luaeval('comp_display')
+  call luaeval('findr.scroll_down()')
+  let scrolled = luaeval('findr.display')
   call deletebufline('%', s:start_loc + 1, line('$'))
   call setline(s:start_loc+1, scrolled)
 endfunction
@@ -169,9 +169,9 @@ function! findr#floating()
 endfunction
 
 function! findr#redraw()
-  call luaeval('update(_A, comp_stack)', findr#get_input())
-  call luaeval('display(comp_stack, _A)', winheight('.')-1)
-  let completions = luaeval('comp_display')
+  call luaeval('findr.update(_A, findr.comp_stack)', findr#get_input())
+  call luaeval('findr.update_display(findr.comp_stack, _A)', winheight('.')-1)
+  let completions = luaeval('findr.display')
   if len(completions) > 0
     let s:first_line = completions[0]
   else
@@ -196,14 +196,14 @@ endfunction
 function! findr#change_dir()
   if split(findr#get_input()) == ['~']
     lcd ~
-    call luaeval('reset()')
+    call luaeval('findr.reset()')
   elseif isdirectory(s:cur_dir . '/' . findr#get_choice())
     execute 'lcd ' . s:cur_dir . '/' . findr#get_choice()
-    call luaeval('reset()')
+    call luaeval('findr.reset()')
   elseif split(findr#get_input()) != []
     if isdirectory(s:cur_dir . '/' . split(findr#get_input())[0])
       execute 'lcd ' . s:cur_dir . '/' . findr#get_input()
-      call luaeval('reset()')
+      call luaeval('findr.reset()')
     else 
       return
     endif
@@ -230,7 +230,7 @@ function! findr#bs()
   let curline = getline(s:start_loc)
   if curline !='' && split(curline,'\c')[-1] == '/'
     execute 'lcd ..'
-    call luaeval('reset()')
+    call luaeval('findr.reset()')
     let s:selected_loc = min([line('$'), s:start_loc+1])
     let s:cur_dir = getcwd()
     call setline(s:start_loc, s:short_path())
@@ -263,7 +263,7 @@ function! findr#edit()
 endfunction
 
 function! findr#quit()
-  call luaeval('reset()')
+  call luaeval('findr.reset()')
   execute s:winnum . 'windo echo ""'
   bw findr
 endfunction

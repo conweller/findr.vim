@@ -1,16 +1,8 @@
+-- Namespace
+findr = {}
 -- Helpers:
-function slice (tbl, s, e)
-    local pos, new = 1, {}
-    for i = s, e do
-        new[pos] = tbl[i]
-        pos = pos + 1
-    end
-
-    return new
-end
-
-function split(line)
-    t = {}
+findr.split = function(line)
+    local t = {}
     for str in string.gmatch(line, "[^%s]+") do
         table.insert(t, str)
     end
@@ -18,24 +10,24 @@ function split(line)
 end
 
 --- Check if a file or directory exists in this path
-function exists(file)
-    local ok, err, code = os.rename(file, file)
-    if not ok then
-        if code == 13 then
-            -- Permission denied, but it exists
-            return true
-        end
-    end
-    return ok, err
-end
 
 --- Check if a directory exists in this path
-function isdir(path)
+findr.isdir = function(path)
+    local function exists(file)
+        local ok, err, code = os.rename(file, file)
+        if not ok then
+            if code == 13 then
+                -- Permission denied, but it exists
+                return true
+            end
+        end
+        return ok, err
+    end
     -- "/" works on both Unix and Windows
     return exists(path.."/")
 end
 
-function escape_pattern(text)
+findr.escape_pattern = function(text)
     return text:gsub("([^%w])", "%%%1")
 end
 
@@ -48,34 +40,26 @@ end
 --  - data: node's data
 --  - next: next node
 
-function print_list(list)
-    iter = list.head
-    while iter ~= nil do
-        print(iter.data[1])
-        iter = iter.next
-    end
-end
-
-function push(list, item)
-    node = {}
+findr.push = function(list, item)
+    local node = {}
     node.data = item
     node.next = list.head
     list.head = node
 end
 
-function pop(list)
+findr.pop = function(list)
     assert(list.head ~= nil)
     assert(list.head.next ~= nil)
     list.head = list.head.next
     return list.head
 end
 
-function scandir(directory)
+findr.scandir = function(directory)
     local i, t, popen = 0, {}, io.popen
     local pfile = popen('ls -a '..directory..'')
     for filename in pfile:lines() do
         i = i + 1
-        if isdir(filename) or filename =='.' or filename == '..' then
+        if findr.isdir(filename) or filename =='.' or filename == '..' then
             t[i] = filename .. '/'
         else
             t[i] = filename
@@ -85,12 +69,12 @@ function scandir(directory)
     return t
 end
 
-function candidates(list, inputs)
+findr.candidates = function(list, inputs)
     local matches = {}
     for i, item in ipairs(list) do
         local match = true
         for i, input in ipairs(inputs) do
-            if not string.match(string.lower(item), string.lower(escape_pattern(input))) then
+            if not string.match(string.lower(item), string.lower(findr.escape_pattern(input))) then
                 match = false
                 break
             end
@@ -103,68 +87,64 @@ function candidates(list, inputs)
     return matches
 end
 
-function update(input, stack)
+findr.update = function(input, stack)
     while stack.head ~= nil and not is_input_subset(stack.head.data.input, input) do
-        pop(stack)
+        findr.pop(stack)
     end
+    local completions
     if stack.head == nil then
         input = ''
-        completions = scandir('.')
+        completions = findr.scandir('.')
     else
-        new_source = stack.head.data.completions
-        completions = candidates(new_source, split(input))
+        local new_source = stack.head.data.completions
+        completions = findr.candidates(new_source, findr.split(input))
     end
-    data = {}
+    local data = {}
     data.input = input
     data.completions = completions
-    push(stack, data)
+    findr.push(stack, data)
 end
 
-function display(stack, winheight)
-    -- comp_display = slice(stack.head.data.completions, 1, winheight)
-    comp_display = stack.head.data.completions
+findr.update_display = function(stack, winheight)
+    findr.display = stack.head.data.completions
 end
 
-function tablelength(T)
-    count = 0
+findr.tablelength = function(T)
+    local count = 0
     for i, item in ipairs(T) do
         count = count + 1
     end
     return count
 end
 
-function scroll_down()
-    len = tablelength(comp_display)
-    new_T = {}
-    for i, item in ipairs(comp_display) do
+findr.scroll_down = function()
+    local len = findr.tablelength(findr.display)
+    local new_T = {}
+    for i, item in ipairs(findr.display) do
         new_T[(i-2)%len+1] = item
     end
-    comp_display = new_T
+    findr.display = new_T
 end
 
-function scroll_up()
-    len = tablelength(comp_display)
-    new_T = {}
-    for i, item in ipairs(comp_display) do
+findr.scroll_up = function()
+    local len = findr.tablelength(findr.display)
+    local new_T = {}
+    for i, item in ipairs(findr.display) do
         new_T[(i)%len+1] = item
     end
-    comp_display = new_T
+    findr.display = new_T
 end
 
-function settable(old, new)
-    old.val= new
-end
+findr.comp_stack = {}
+findr.comp_stack.head = nil
+findr.display = {}
 
-comp_stack = {}
-comp_stack.head = nil
-comp_display = {}
-
-function reset()
-    comp_stack = {}
-    comp_stack.head = nil
-    comp_display = {}
+findr.reset = function()
+    findr.comp_stack = {}
+    findr.comp_stack.head = nil
+    findr.display = {}
 end
 
 function is_input_subset(old, new)
-    return string.match(escape_pattern(new),escape_pattern(old))
+    return string.match(findr.escape_pattern(new),findr.escape_pattern(old))
 end
