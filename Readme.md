@@ -4,6 +4,7 @@ An incremental file finder for neovim, inspired by [ivy](https://github.com/abo-
 
 ## Requirements
 * `nvim`: version > 0.4.0
+* macos/linux
 
 ## TODO
 * History
