@@ -88,7 +88,7 @@ findr.candidates = function(list, inputs)
 end
 
 findr.update = function(input, stack)
-    while stack.head ~= nil and not is_input_subset(stack.head.data.input, input) do
+    while stack.head ~= nil and not findr.is_input_subset(stack.head.data.input, input) do
         findr.pop(stack)
     end
     local completions
@@ -145,6 +145,6 @@ findr.reset = function()
     findr.display = {}
 end
 
-function is_input_subset(old, new)
-    return string.match(findr.escape_pattern(new),findr.escape_pattern(old))
+findr.is_input_subset = function(old, new)
+    return new == old or string.match(findr.escape_pattern(new),findr.escape_pattern(old))
 end
