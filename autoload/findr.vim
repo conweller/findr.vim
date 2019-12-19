@@ -21,7 +21,7 @@ let s:use_floating_win = v:true
 let s:old_input = -1
 let s:old_dir = -1
 let s:files = []
-let s:first_line = '..'
+let s:first_line = ''
 
 " TODO: make this more portable
 " let s:hist_file = 'Todo'
@@ -208,9 +208,6 @@ endfunction
 function! findr#change_dir()
   if split(findr#get_input()) == ['~']
     lcd ~
-    call luaeval('reset()')
-  elseif split(findr#get_input()) == ['..']
-    lcd ..
     call luaeval('reset()')
   elseif isdirectory(s:cur_dir . '/' . findr#get_choice())
     execute 'lcd ' . s:cur_dir . '/' . findr#get_choice()

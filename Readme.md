@@ -6,8 +6,5 @@ An incremental file finder for neovim, inspired by [ivy](https://github.com/abo-
 * `nvim`: version > 0.4.0
 
 ## TODO
-* Scrolling
 * History
 * Configuration
-* Vim compatibility
-* Improve performance
