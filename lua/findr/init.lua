@@ -83,7 +83,19 @@ function findr.candidates(list, inputs)
             table.insert(matches, item)
         end
     end
-    table.sort(matches, function(a,b) return string.len(a) < string.len(b) end)
+    table.sort(matches, function(a,b)
+        if a == './' then
+            return true
+        elseif b == './' then
+            return false
+        elseif a == '../' then
+            return true
+        elseif b == '../' then
+            return false
+        else
+            return string.len(a) < string.len(b)
+        end
+    end)
     return matches
 end
 
