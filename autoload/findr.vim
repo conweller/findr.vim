@@ -184,7 +184,11 @@ function! findr#redraw()
   call luaeval('update(_A, comp_stack)', findr#get_input())
   call luaeval('display(comp_stack, _A)', winheight('.')-1)
   let completions = luaeval('comp_display')
-  let s:first_line = completions[0]
+  if len(completions) > 0
+    let s:first_line = completions[0]
+  else
+    let s:first_line = ''
+  endif
   call deletebufline('%', s:start_loc + 1, line('$'))
   call setline(s:start_loc+1, completions)
   let s:selected_loc = min([s:start_loc+1, line('$')])
