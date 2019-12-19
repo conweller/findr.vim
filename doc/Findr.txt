@@ -11,9 +11,7 @@ current directory by entering the pattern in the first line.
 
 You can delimit multiple patterns you are searching for with a space.
 
-You can also enter `~/` to go to your home directory, or `../` to go to the
-parent directory of your current directory.
-
+You can also enter `~/` to go to your home directory
 ===========================================================================
 COMMANDS                                          *findr-commands*
 
