@@ -10,6 +10,7 @@
 "     - Store completions in memory not on the page
 "     - Write min(number of completions, win height) to page
 "     - Scroll by changing the index that completions to write starts at
+lua require("findr")
 " Variables: {{{
 let s:cur_dir = getcwd()
 let s:start_loc = 1
@@ -30,7 +31,7 @@ let s:files = []
 function! findr#get_input()
   let line = getline(s:start_loc)
   if line !='' && line[-1] != '/'
-    return split(line. ' ', '/')[-1]
+    return join(split(split(line. ' ', '/')[-1]))
   endif
   return ''
 endfunction
@@ -77,8 +78,26 @@ endfunction
 " }}}
 " UI: {{{
 " Selection: {{{
+
+function! findr#scroll_up()
+  call luaeval('scroll_up()')
+  let scrolled = luaeval('comp_display')
+  call deletebufline('%', s:start_loc + 1, line('$'))
+  call setline(s:start_loc+1, scrolled)
+endfunction
+
+function! findr#scroll_down()
+  call luaeval('scroll_down()')
+  let scrolled = luaeval('comp_display')
+  call deletebufline('%', s:start_loc + 1, line('$'))
+  call setline(s:start_loc+1, scrolled)
+endfunction
+
+
 function! findr#next_item()
-  if s:selected_loc < line('$')
+  if s:selected_loc > winheight('.')-1
+    call findr#scroll_down()
+  elseif s:selected_loc < line('$')
     let s:selected_loc += 1
   else
     let s:selected_loc = line('$')
@@ -95,6 +114,7 @@ function! findr#prev_item()
     let s:selected_loc -=  1
   else
     let s:selected_loc = s:start_loc
+    call findr#scroll_up()
   endif
   call findr#redraw_highlights()
 endfunction
@@ -153,20 +173,12 @@ function! findr#floating()
 endfunction
 
 function! findr#redraw()
-  if s:cur_dir != s:old_dir
-    let s:files = findr#list_files()
-  endif
-  if s:old_input ==  findr#get_input() && s:old_dir == s:cur_dir
-    let s:selected_loc = min([s:selected_loc, line('$')])
-  else
-    let completions = findr#gen_completion(split(findr#get_input()), s:files)
-    call deletebufline('%', s:start_loc + 1, line('$'))
-    call setline(s:start_loc-1, '')
-    call setline(s:start_loc+1, completions)
-    let s:selected_loc = min([s:start_loc+1, line('$')])
-  endif
-  let s:old_input = findr#get_input()
-  let s:old_dir = s:cur_dir
+  call luaeval('update(_A, comp_stack)', findr#get_input())
+  call luaeval('display(comp_stack, _A)', winheight('.')-1)
+  let completions = luaeval('comp_display')
+  call deletebufline('%', s:start_loc + 1, line('$'))
+  call setline(s:start_loc+1, completions)
+  let s:selected_loc = min([s:start_loc+1, line('$')])
   call findr#redraw_highlights()
 endfunction
 
@@ -183,13 +195,17 @@ endfunction
 function! findr#change_dir()
   if split(findr#get_input()) == ['~']
     lcd ~
+    call luaeval('reset()')
   elseif split(findr#get_input()) == ['..']
     lcd ..
+    call luaeval('reset()')
   elseif isdirectory(s:cur_dir . '/' . findr#get_choice())
     execute 'lcd ' . s:cur_dir . '/' . findr#get_choice()
+    call luaeval('reset()')
   elseif split(findr#get_input()) != []
     if isdirectory(s:cur_dir . '/' . split(findr#get_input())[0])
       execute 'lcd ' . s:cur_dir . '/' . findr#get_input()
+      call luaeval('reset()')
     else 
       return
     endif
@@ -216,6 +232,7 @@ function! findr#bs()
   let curline = getline(s:start_loc)
   if curline !='' && split(curline,'\c')[-1] == '/'
     execute 'lcd ..'
+    call luaeval('reset()')
     let s:selected_loc = min([line('$'), s:start_loc+1])
     let s:cur_dir = getcwd()
     call setline(s:start_loc, s:short_path())
@@ -223,7 +240,7 @@ function! findr#bs()
     startinsert!
     call findr#redraw()
   else
-    let [_b, line, _col, _o, col] = getcurpos()
+    let [_b, line, col, _col] = getpos('.')
     let curline=curline[0:col-3] . curline[col-1:]
     call setline(s:start_loc, curline)
     call cursor('.', col-1)
@@ -248,6 +265,7 @@ function! findr#edit()
 endfunction
 
 function! findr#quit()
+  call luaeval('reset()')
   execute s:winnum . 'windo echo ""'
   bw findr
 endfunction
