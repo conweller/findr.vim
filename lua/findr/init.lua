@@ -9,24 +9,6 @@ function findr.split(line)
     return t
 end
 
---- Check if a file or directory exists in this path
-
---- Check if a directory exists in this path
-function findr.isdir(path)
-    local function exists(file)
-        local ok, err, code = os.rename(file, file)
-        if not ok then
-            if code == 13 then
-                -- Permission denied, but it exists
-                return true
-            end
-        end
-        return ok, err
-    end
-    -- "/" works on both Unix and Windows
-    return exists(path.."/")
-end
-
 function findr.escape_pattern(text)
     return text:gsub("([^%w])", "%%%1")
 end
@@ -59,11 +41,7 @@ function findr.scandir(directory)
     local pfile = popen('ls -a '..directory..'')
     for filename in pfile:lines() do
         i = i + 1
-        if findr.isdir(filename) or filename =='.' or filename == '..' then
-            t[i] = filename .. '/'
-        else
-            t[i] = filename
-        end
+        t[i] = filename
     end
     pfile:close()
     return t

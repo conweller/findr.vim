@@ -36,14 +36,14 @@ function! findr#scroll_up()
   call luaeval('findr.scroll_up(1)')
   let scrolled = luaeval('findr.display')
   call deletebufline('%', s:start_loc + 1, line('$'))
-  call setline(s:start_loc+1, scrolled)
+  call s:setlines(scrolled)
 endfunction
 
 function! findr#scroll_down()
   call luaeval('findr.scroll_down(1)')
   let scrolled = luaeval('findr.display')
   call deletebufline('%', s:start_loc + 1, line('$'))
-  call setline(s:start_loc+1, scrolled)
+  call s:setlines(scrolled)
 endfunction
 
 function! findr#next_item()
@@ -73,6 +73,17 @@ function! findr#prev_item()
 endfunction
 " }}}
 " Display: {{{
+function! s:slashifdir(line)
+  if isdirectory(s:cur_dir . '/'. a:line)
+    return a:line . '/'
+  endif
+  return a:line
+endfunction
+
+function! s:setlines(array)
+  let lines = map(copy(a:array), 's:slashifdir(v:val)')
+  call setline(s:start_loc+1, lines)
+endfunction
 
 function! s:tabline_visible()
   let tabnum = tabpagenr()
@@ -135,7 +146,7 @@ function! findr#redraw()
     let s:first_line = ''
   endif
   call deletebufline('%', s:start_loc + 1, line('$'))
-  call setline(s:start_loc+1, completions)
+  call s:setlines(completions)
   let s:selected_loc = min([s:start_loc+1, line('$')])
   call findr#redraw_highlights()
 endfunction
