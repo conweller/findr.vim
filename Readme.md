@@ -6,6 +6,12 @@ An incremental file finder for neovim, inspired by [ivy](https://github.com/abo-
 * `nvim`: version > 0.4.0
 * macos/linux
 
+## Instalation
+Using [vim-plug](https://github.com/junegunn/vim-plug):
+```vim
+Plug 'conweller/findr.vim'
+```
+
 ## Usage
 Launch with the command `:Findr`
 
