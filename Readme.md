@@ -22,7 +22,7 @@ Use `<cr>` to edit a file
 Use `<tab>` or `/` to change to the selected directory
 
 ## Configuration
-Disable border around floating window
+Disable border around floating window (default 1):
 ```vim
 let g:findr_enable_border = 0
 ```
