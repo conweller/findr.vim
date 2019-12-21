@@ -23,3 +23,7 @@ endif
 if !highlight_exists('FindrBorder')
   hi! link FindrBorder Comment
 endif
+
+if !highlight_exists('FindrNormal')
+  hi! link FindrNormal Normal
+endif

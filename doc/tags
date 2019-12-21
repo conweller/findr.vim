@@ -1,6 +1,7 @@
 :Findr	Findr.txt	/*:Findr*
 findr	Findr.txt	/*findr*
 findr-commands	Findr.txt	/*findr-commands*
+findr-configuration	Findr.txt	/*findr-configuration*
 findr-highlights	Findr.txt	/*findr-highlights*
 findr-maps	Findr.txt	/*findr-maps*
 findr-usage	Findr.txt	/*findr-usage*
@@ -15,9 +16,11 @@ findr_<esc>	Findr.txt	/*findr_<esc>*
 findr_<tab>	Findr.txt	/*findr_<tab>*
 findr_down	Findr.txt	/*findr_down*
 findr_up	Findr.txt	/*findr_up*
+g:findr_enable_border	Findr.txt	/*g:findr_enable_border*
 hl-FindrBorder	Findr.txt	/*hl-FindrBorder*
 hl-FindrDir	Findr.txt	/*hl-FindrDir*
 hl-FindrDirPartial	Findr.txt	/*hl-FindrDirPartial*
+hl-FindrNormal	Findr.txt	/*hl-FindrNormal*
 hl-FindrSelected	Findr.txt	/*hl-FindrSelected*
 hl-FindrSelectedDir	Findr.txt	/*hl-FindrSelectedDir*
 hl-FindrSelectedDirPartial	Findr.txt	/*hl-FindrSelectedDirPartial*

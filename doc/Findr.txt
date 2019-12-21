@@ -61,6 +61,12 @@ local to findr buffers
 <c-c>
 
 ===========================================================================
+CONFIGURATION                                        *findr-configuration*
+
+                                                  *g:findr_enable_border*
+Enable border around floating window (default 1)
+
+===========================================================================
 HIGHLIGHTS                                        *findr-highlights*
 
                                                   *hl-FindrDir*
@@ -80,6 +86,9 @@ FindrSelectedDirPartial   Selected partial file path
 
                                                   *hl-FindrBorder*
 FindrBorder               Border for floating window
+
+                                                  *hl-FindrNormal*
+FindrNormal               Background/Foreground for floating window
 
 
 vim:tw=78:ts=2:sts=2:sw=2:ft=help:norl

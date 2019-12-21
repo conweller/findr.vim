@@ -1,5 +1,9 @@
 lua require("findr")
 " Variables: {{{
+if !exists('g:findr_enable_border')
+  let g:findr_enable_border = 1
+endif
+
 let s:cur_dir = getcwd()
 let s:start_loc = 1
 let s:selected_loc = s:start_loc+1
@@ -88,8 +92,6 @@ function! s:tabline_visible()
   return count > 1 && &showtabline
 endfunction
 
-let s:border = v:true
-
 function! findr#floating()
  let width = min([&columns - 4, max([80, &columns - 20])])
   let buf = nvim_create_buf(v:false, v:true)
@@ -108,7 +110,7 @@ function! findr#floating()
         \ 'height': height,
         \ 'style': 'minimal'
         \ }
-  if s:border == v:true
+  if g:findr_enable_border
     let top = "┌" . repeat("─", width - 2) . "┐"
     let mid = "│" . repeat(" ", width - 2) . "│"
     let bot = "└" . repeat("─", width - 2) . "┘"
@@ -128,7 +130,7 @@ function! findr#floating()
   endif
   file findr
   setlocal foldcolumn=1
-  setlocal winhighlight=FoldColumn:Normal,Normal:Normal
+  setlocal winhighlight=FoldColumn:Normal,Normal:FindrNormal,FoldColumn:FindrNormal
 endfunction
 
 function! findr#redraw()
