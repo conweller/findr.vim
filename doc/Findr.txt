@@ -11,7 +11,13 @@ current directory by entering the pattern in the first line.
 
 You can delimit multiple patterns you are searching for with a space.
 
-You can also enter `~/` to go to your home directory
+The first matching file is selected by default, you can select a different
+file using <c-p> for the previous file, or <c-n> for the next file
+
+Use <cr> to edit a file
+
+Use <tab> or / to change to the selected directory
+
 ===========================================================================
 COMMANDS                                          *findr-commands*
 
@@ -21,7 +27,7 @@ COMMANDS                                          *findr-commands*
 ===========================================================================
 MAPS                                              *findr-maps*
 
-While Findr buffers operate entirely in insert mode, so all mappings are imaps
+Findr buffers operate entirely in insert mode, so all mappings are imaps
 local to findr buffers
 
                                                   *findr_/*
