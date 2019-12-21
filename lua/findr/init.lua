@@ -140,8 +140,3 @@ end
 function findr.is_input_subset(old, new)
     return new == old or string.match(findr.escape_pattern(new),findr.escape_pattern(old))
 end
-
-a = {}
-a.head = nil
-findr.push(a, {1,2})
--- findr.pop(a)
