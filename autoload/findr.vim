@@ -159,8 +159,11 @@ endfunction
 " }}}
 " Actions {{{
 function! findr#change_dir()
-  if split(findr#get_input()) == ['~']
+  if findr#get_input() == '~'
     lcd ~
+    call luaeval('findr.reset()')
+  elseif findr#get_input() == '-' && s:old_dir != -1
+    execute 'lcd ' . s:old_dir
     call luaeval('findr.reset()')
   elseif isdirectory(s:cur_dir . '/' . findr#get_choice())
     execute 'lcd ' . s:cur_dir . '/' . findr#get_choice()
@@ -175,6 +178,7 @@ function! findr#change_dir()
   else
     return
   endif
+  let s:old_dir = s:cur_dir
   let s:cur_dir = getcwd()
   let s:selected_loc = min([line('$'), s:start_loc+1])
   call setline(s:start_loc, s:short_path())
@@ -197,6 +201,7 @@ function! findr#bs()
     execute 'lcd ..'
     call luaeval('findr.reset()')
     let s:selected_loc = min([line('$'), s:start_loc+1])
+  let s:old_dir = s:cur_dir
     let s:cur_dir = getcwd()
     call setline(s:start_loc, s:short_path())
     normal $
