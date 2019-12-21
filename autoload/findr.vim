@@ -29,6 +29,7 @@ endfunction
 function! findr#scroll_up()
   call luaeval('findr.scroll_up(1)')
   let scrolled = luaeval('findr.display')
+  call map(scrolled, 's:slashifdir(v:val)')
   call deletebufline('%', s:start_loc + 1, line('$'))
   call s:setlines(scrolled)
 endfunction
@@ -36,6 +37,7 @@ endfunction
 function! findr#scroll_down()
   call luaeval('findr.scroll_down(1)')
   let scrolled = luaeval('findr.display')
+  call map(scrolled, 's:slashifdir(v:val)')
   call deletebufline('%', s:start_loc + 1, line('$'))
   call s:setlines(scrolled)
 endfunction
@@ -75,8 +77,7 @@ function! s:slashifdir(line)
 endfunction
 
 function! s:setlines(array)
-  let lines = map(copy(a:array), 's:slashifdir(v:val)')
-  call setline(s:start_loc+1, lines)
+  call setline(s:start_loc+1, a:array)
 endfunction
 
 function! s:tabline_visible()
@@ -134,6 +135,7 @@ function! findr#redraw()
   call luaeval('findr.update(_A, findr.comp_stack)', findr#get_input())
   call luaeval('findr.update_display(findr.comp_stack, _A)', winheight('.')-1)
   let completions = luaeval('findr.display')
+  call map(completions, 's:slashifdir(v:val)')
   if len(completions) > 0
     let s:first_line = completions[0]
   else
