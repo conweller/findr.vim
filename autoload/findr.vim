@@ -129,8 +129,7 @@ function! findr#floating()
     call nvim_open_win(nvim_create_buf(v:true, v:false), v:true, opts)
   endif
   file findr
-  setlocal foldcolumn=1
-  setlocal winhighlight=FoldColumn:Normal,Normal:FindrNormal,FoldColumn:FindrNormal
+  setlocal winhighlight=FoldColumn:Normal,Normal:FindrNormal
 endfunction
 
 function! findr#redraw()
