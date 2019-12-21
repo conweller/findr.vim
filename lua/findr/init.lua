@@ -22,18 +22,20 @@ end
 --  - data: node's data
 --  - next: next node
 
-function findr.push(list, item)
+function findr.push(stack, item)
     local node = {}
     node.data = item
-    node.next = list.head
-    list.head = node
+    node.next = stack.head
+    stack.head = node
 end
 
-function findr.pop(list)
-    assert(list.head ~= nil)
-    assert(list.head.next ~= nil)
-    list.head = list.head.next
-    return list.head
+function findr.pop(stack)
+    if stack.head ~= nil then
+        tmp = stack.head.data
+        stack.head = stack.head.next
+        return tmp
+    end
+    return nil
 end
 
 function findr.scandir(directory)
@@ -138,3 +140,8 @@ end
 function findr.is_input_subset(old, new)
     return new == old or string.match(findr.escape_pattern(new),findr.escape_pattern(old))
 end
+
+a = {}
+a.head = nil
+findr.push(a, {1,2})
+-- findr.pop(a)

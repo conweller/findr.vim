@@ -10,11 +10,6 @@ let s:old_input = -1
 let s:old_dir = -1
 let s:files = []
 let s:first_line = ''
-
-" TODO: make this more portable
-" let s:hist_file = 'Todo'
-" let s:hist = readfile(s:hist_file)
-" let s:hist_loc = len(s:hist) - 1
 " }}}
 " Logic: {{{
 function! findr#get_input()
@@ -31,7 +26,6 @@ endfunction
 " }}}
 " UI: {{{
 " Selection: {{{
-
 function! findr#scroll_up()
   call luaeval('findr.scroll_up(1)')
   let scrolled = luaeval('findr.display')
