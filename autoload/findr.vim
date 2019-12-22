@@ -45,19 +45,15 @@ function! findr#prev_hist()
   if len(s:hist) > 0
     if s:hist_loc == 0
       let s:hist_loc = len(s:hist)
-    else
+    elseif s:hist_loc > 1
       let s:hist_loc = s:hist_loc - 1
     endif
     call findr#select_hist()
   endif
 endfunction
 
-function! findr#len_hist()
-  return len(s:hist)
-endfunction
-
 function! findr#next_hist()
-  if len(s:hist) > 0
+  if len(s:hist) > 0 && s:hist_loc > 0
     let s:hist_loc = (s:hist_loc + 1) % (len(s:hist)+1)
     call findr#select_hist()
   endif
