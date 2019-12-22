@@ -81,7 +81,12 @@ function! findr#select_hist()
       let file = ''
     endif
     if file[len(file)-1] == '/'
-      let file = file[:len(file)-2]
+      if isdirectory(dir.'/'.file)
+        let dir = dir . '/' . file
+        let file = ''
+      else
+        let file = file[:len(file)-2]
+      endif
     endif
   elseif s:hist_loc == 0
     let dir = s:hist_jump_from
