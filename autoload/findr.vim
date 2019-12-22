@@ -80,6 +80,9 @@ function! findr#select_hist()
       let dir = fnamemodify(dir, ':p:h:h')
       let file = ''
     endif
+    if file[len(file)-1] == '/'
+      let file = file[:len(file)-2]
+    endif
   elseif s:hist_loc == 0
     let dir = s:hist_jump_from
     let file = ''
