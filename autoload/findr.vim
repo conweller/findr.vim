@@ -85,7 +85,11 @@ endfunction
 
 function! findr#write_hist(selected)
   if s:histfile != -1
-    call add(s:hist, s:cur_dir . '	' . a:selected)
+    let selected = a:selected
+    if a:selected == ''
+      let selected = './'
+    endif
+    call add(s:hist, s:cur_dir . '	' . selected)
     call writefile(s:hist, s:histfile)
   endif
 endfunction
