@@ -6,7 +6,7 @@ An incremental file finder for neovim, inspired by [ivy](https://github.com/abo-
 * `nvim`: version > 0.4.0
 * macos/linux
 
-## Instalation
+## Installation
 Using [vim-plug](https://github.com/junegunn/vim-plug):
 ```vim
 Plug 'conweller/findr.vim'
@@ -32,9 +32,24 @@ Use `<c-h>` or use `<bs>` when the cursor is right of the prompt to got the
 parent directory
 
 ## Configuration
-Disable border around floating window (default 1):
+`g:findr_enable_border`: Disable border around floating window (default 1)
 ```vim
 let g:findr_enable_border = 0
+```
+
+`g:findr_max_hist`: Set maximum history file length (default 100)
+```vim
+let g:findr_max_hist = 100
+```
+
+`g:findr_border`: Set characters for window border:
+
+```vim
+let g:findr_border = {
+    \   'top':    ['┌', '─', '┐'],
+    \   'middle': ['│', ' ', '│'],
+    \   'bottom': ['└', '─', '┘'],
+    \ }
 ```
 
 For additional documentation see:
@@ -43,4 +58,7 @@ For additional documentation see:
 ```
 
 ## TODO
-* Configuration
+* `<c-w>` (delete word) functionality
+* Add ional commands (e.g. command for buffer narrowing)
+* User defined sources
+* Multicolumn support
