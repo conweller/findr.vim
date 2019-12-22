@@ -265,6 +265,7 @@ function! findr#cd(directory)
     call luaeval('findr.reset()')
     let s:old_dir = s:cur_dir
     let s:hist_jump_from = getcwd()
+    let s:hist_loc = 0
     let s:cur_dir = getcwd()
     let s:selected_loc = min([line('$'), s:start_loc+1])
     call setline(s:start_loc, s:short_path())
