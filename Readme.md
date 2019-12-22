@@ -21,11 +21,15 @@ pattern
 You can delimit multiple patterns you are searching for with a space.
 
 The first matching file is selected by default, you can select a different
-file using `<c-p>` for the previous file, or `<c-n>` for the next file
+file using `<c-p>` (or `<up>` or  `<c-k>`) for the previous file, or `<c-n>`
+(or `<down>` or  `<c-j>`) for the next file
 
 Use `<cr>` to edit a file
 
-Use `<tab>` or `/` to change to the selected directory
+Use `<tab>`, `/`, or `<c-l>` to change to the selected directory
+
+Use `<c-h>` or use `<bs>` when the cursor is right of the prompt to got the
+parent directory
 
 ## Configuration
 Disable border around floating window (default 1):

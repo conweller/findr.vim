@@ -10,11 +10,19 @@ setlocal nofoldenable
 
 imap <buffer> <tab> <Plug>findr_cd
 imap <buffer> / <plug>findr_cd
+imap <buffer> <c-l> <plug>findr_cd
+imap <buffer> <c-h> <plug>findr_parent_dir
+
 imap <buffer> <cr> <plug>findr_edit
+
 imap <buffer> <up>   <plug>findr_prev
 imap <buffer> <c-p>  <plug>findr_prev
+imap <buffer> <c-k>  <plug>findr_prev
+
 imap <buffer> <down> <plug>findr_next
 imap <buffer> <c-n>  <plug>findr_next
+imap <buffer> <c-j>  <plug>findr_next
+
 imap <buffer> <c-c> <plug>findr_quit
 imap <buffer> <esc> <plug>findr_quit
 imap <buffer> <backspace> <plug>findr_bs

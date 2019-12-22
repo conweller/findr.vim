@@ -8,6 +8,10 @@ findr-usage	Findr.txt	/*findr-usage*
 findr_/	Findr.txt	/*findr_\/*
 findr_<bs>	Findr.txt	/*findr_<bs>*
 findr_<c-c>	Findr.txt	/*findr_<c-c>*
+findr_<c-h>	Findr.txt	/*findr_<c-h>*
+findr_<c-j>	Findr.txt	/*findr_<c-j>*
+findr_<c-k>	Findr.txt	/*findr_<c-k>*
+findr_<c-l>	Findr.txt	/*findr_<c-l>*
 findr_<c-n>	Findr.txt	/*findr_<c-n>*
 findr_<c-p>	Findr.txt	/*findr_<c-p>*
 findr_<c-u>	Findr.txt	/*findr_<c-u>*

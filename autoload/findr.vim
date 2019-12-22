@@ -297,19 +297,23 @@ function! s:short_path()
   return shortpath
 endfunction
 
+function! findr#parent_dir()
+  execute 'lcd ..'
+  call luaeval('findr.reset()')
+  let s:selected_loc = min([line('$'), s:start_loc+1])
+  let s:old_dir = s:cur_dir
+  let s:hist_jump_from = getcwd()
+  let s:cur_dir = getcwd()
+  call setline(s:start_loc, s:short_path())
+  normal $
+  startinsert!
+  call findr#redraw()
+endfunction
+
 function! findr#bs()
   let curline = getline(s:start_loc)
   if curline !='' && split(curline,'\c')[-1] == '/'
-    execute 'lcd ..'
-    call luaeval('findr.reset()')
-    let s:selected_loc = min([line('$'), s:start_loc+1])
-    let s:old_dir = s:cur_dir
-    let s:hist_jump_from = getcwd()
-    let s:cur_dir = getcwd()
-    call setline(s:start_loc, s:short_path())
-    normal $
-    startinsert!
-    call findr#redraw()
+    call findr#parent_dir()
   else
     let [_b, line, col, _col] = getpos('.')
     let curline=curline[0:col-3] . curline[col-1:]
@@ -370,6 +374,7 @@ endfunction
 inoremap <silent> <plug>findr_cd <cmd>call findr#change_dir()<cr>
 inoremap <silent> <plug>findr_next <cmd>call findr#next_item()<cr>
 inoremap <silent> <plug>findr_prev <cmd>call findr#prev_item()<cr>
+inoremap <silent> <plug>findr_parent_dir <cmd>call findr#parent_dir()<cr>
 inoremap <silent> <plug>findr_bs <cmd>call findr#bs()<cr>
 inoremap <silent> <plug>findr_clear <cmd>call findr#clear()<cr>
 inoremap <silent> <plug>findr_edit <esc>:<c-u>call findr#edit()<cr>

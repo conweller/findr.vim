@@ -32,33 +32,41 @@ local to findr buffers
 
                                                   *findr_/*
                                                   *findr_<tab>*
-/                         Enter the selected directory
-<tab>
+                                                  *findr_<c-l>*
+/
+<tab>                     Enter the selected directory 
+<c-l>
 
                                                   *findr_<cr>*
 <cr>                      Edit the selected item
 
                                                   *findr_up*
                                                   *findr_<c-p>*
-<up>                      Select the previous item
-<c-p>
+                                                  *findr_<c-k>*
+<up>
+<c-p>                     Select the previous item 
+<c-k>
 
                                                   *findr_down*
                                                   *findr_<c-n>*
-<down>                    Select the next item
-<c-n>
+                                                  *findr_<c-j>*
+<down>
+<c-n>                     Select the next item
+<c-j>
 
-                                                  *findr_<m-p>*
-<c-p>                     Select the previous item in history
-
-
-                                                  *findr_<m-n>*
-<c-n>                     Select the next item in history
-
+                                                  *findr_<c-h>*
+<c-h>                      Go back to the parent directory of the current
+                          directory
 
                                                   *findr_<bs>*
 <bs>                      If previous char in line is '/', then go back one
                           directory, else delete previous char
+
+                                                  *findr_<m-p>*
+<c-p>                     Select the previous item in history
+
+                                                  *findr_<m-n>*
+<c-n>                     Select the next item in history
 
                                                   *findr_<c-u>*
 <c-u>                     Clears text in prompt up until the path
