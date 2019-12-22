@@ -79,13 +79,9 @@ function! findr#next_hist()
   endif
 endfunction
 
-function! findr#read_hist_line(line)
-  return split(a:line, '\t')
-endfunction
-
 function! findr#select_hist()
   if s:hist_loc !=0
-    let hist = findr#read_hist_line(s:hist[s:hist_loc-1])
+    let hist = split(s:hist[s:hist_loc-1],'\t')
     let dir = hist[0]
     let file = hist[1]
     if file == './' || '.'
@@ -354,6 +350,7 @@ function! findr#launch()
   let s:winnum = winnr()
   let s:selected_loc = s:start_loc+1
   let s:cur_dir = getcwd()
+  let s:hist_jump_from = getcwd()
   let s:old_input = -1
   let s:old_dir = -1
   if s:use_floating_win
