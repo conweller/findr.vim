@@ -4,6 +4,10 @@ if !exists('g:findr_enable_border')
   let g:findr_enable_border = 1
 endif
 
+if !exists('g:findr_max_hist')
+  let g:findr_max_hist = 100
+endif
+
 let s:cur_dir = getcwd()
 let s:start_loc = 1
 let s:hist_loc = 0
@@ -38,6 +42,7 @@ function! findr#source_hist(histfile)
     if s:hist == ['']
       let s:hist = []
     endif
+    call filter(s:hist, 'isdirectory(split(v:val)[0])')
     let s:histfile = a:histfile
 endfunction
 
@@ -68,7 +73,13 @@ function! findr#select_hist()
     let hist = findr#read_hist_line(s:hist[s:hist_loc-1])
     let dir = hist[0]
     let file = hist[1]
-  else
+    if file == './' || '.'
+      let file = ''
+    elseif file == '../' || '..'
+      let dir = fnamemodify(dir, ':p:h:h')
+      let file = ''
+    endif
+  elseif s:hist_loc == 0
     let dir = s:hist_jump_from
     let file = ''
   endif
@@ -89,8 +100,11 @@ function! findr#write_hist(selected)
     if a:selected == ''
       let selected = './'
     endif
-    call add(s:hist, s:cur_dir . '	' . selected)
-    call writefile(s:hist, s:histfile)
+    if s:hist[-1] != s:cur_dir . '	' . selected
+      call add(s:hist, s:cur_dir . '	' . selected)
+    endif
+    let start = max([len(s:hist) - g:findr_max_hist, 0])
+    call writefile(s:hist[start:], s:histfile)
   endif
 endfunction
 " }}}
@@ -245,7 +259,7 @@ function! findr#change_dir()
     return
   endif
   let s:old_dir = s:cur_dir
-  let s:hist_jump_from = s:cur_dir
+  let s:hist_jump_from = getcwd()
   let s:cur_dir = getcwd()
   let s:selected_loc = min([line('$'), s:start_loc+1])
   call setline(s:start_loc, s:short_path())
@@ -269,7 +283,7 @@ function! findr#bs()
     call luaeval('findr.reset()')
     let s:selected_loc = min([line('$'), s:start_loc+1])
     let s:old_dir = s:cur_dir
-    let s:hist_jump_from = s:cur_dir
+    let s:hist_jump_from = getcwd()
     let s:cur_dir = getcwd()
     call setline(s:start_loc, s:short_path())
     normal $
