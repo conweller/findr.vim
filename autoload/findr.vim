@@ -4,6 +4,14 @@ if !exists('g:findr_enable_border')
   let g:findr_enable_border = 1
 endif
 
+if !exists('g:findr_border')
+  let g:findr_border = {
+        \   'top':    ['┌', '─', '┐'],
+        \   'middle': ['│', ' ', '│'],
+        \   'bottom': ['└', '─', '┘'],
+        \ }
+endif
+
 if !exists('g:findr_max_hist')
   let g:findr_max_hist = 100
 endif
@@ -191,9 +199,9 @@ function! findr#floating()
         \ 'style': 'minimal'
         \ }
   if g:findr_enable_border
-    let top = "┌" . repeat("─", width - 2) . "┐"
-    let mid = "│" . repeat(" ", width - 2) . "│"
-    let bot = "└" . repeat("─", width - 2) . "┘"
+    let top = g:findr_border.top[0] .    repeat(g:findr_border.top[1], width - 2) . g:findr_border.top[2]
+    let mid = g:findr_border.middle[0] . repeat(g:findr_border.middle[1], width - 2) . g:findr_border.middle[2]
+    let bot = g:findr_border.bottom[0] . repeat(g:findr_border.bottom[1], width - 2) . g:findr_border.bottom[2]
     let lines = [top] + repeat([mid], height - 2) + [bot]
     let s:buf = nvim_create_buf(v:false, v:true)
     call nvim_buf_set_lines(s:buf, 0, -1, v:true, lines)

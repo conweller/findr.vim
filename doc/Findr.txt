@@ -73,7 +73,16 @@ CONFIGURATION                                        *findr-configuration*
 
                                                   *g:findr_enable_border*
 Enable border around floating window (default 1)
-
+                                                  *g:findr_border*
+Set characters to use for the 3 sections of the top middle and bottom border.
+Example:
+>
+  let g:findr_border = {
+        \   'top':    ['┌', '─', '┐'],
+        \   'middle': ['│', ' ', '│'],
+        \   'bottom': ['└', '─', '┘'],
+        \ }
+<
                                                   *g:findr_max_hist*
 Maximum number of files stored in history (default 100)
 
