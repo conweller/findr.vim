@@ -1,3 +1,7 @@
+let s:histfile =  expand('<sfile>:h:h:h:r') . '/findr.vim/histfile'
+
+call findr#source_hist(s:histfile)
+
 command! Findr call findr#launch()
 
 if !highlight_exists('FindrSelected')

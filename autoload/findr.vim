@@ -6,6 +6,9 @@ endif
 
 let s:cur_dir = getcwd()
 let s:start_loc = 1
+let s:hist_loc = 0
+let s:hist = []
+let s:hist_jump_from = getcwd()
 let s:selected_loc = s:start_loc+1
 let s:winnum = 1
 " let s:use_virtual = v:true
@@ -14,6 +17,7 @@ let s:old_input = -1
 let s:old_dir = -1
 let s:files = []
 let s:first_line = ''
+let s:histfile = -1
 " }}}
 " Logic: {{{
 function! findr#get_input()
@@ -26,6 +30,68 @@ endfunction
 
 function! findr#get_choice()
   return getline(s:selected_loc)
+endfunction
+
+function! findr#source_hist(histfile)
+    call writefile([], a:histfile, 'a')
+    let s:hist = readfile(a:histfile)
+    if s:hist == ['']
+      let s:hist = []
+    endif
+    let s:histfile = a:histfile
+endfunction
+
+function! findr#prev_hist()
+  if len(s:hist) > 0
+    if s:hist_loc == 0
+      let s:hist_loc = len(s:hist)
+    else
+      let s:hist_loc = s:hist_loc - 1
+    endif
+    call findr#select_hist()
+  endif
+endfunction
+
+function! findr#len_hist()
+  return len(s:hist)
+endfunction
+
+function! findr#next_hist()
+  if len(s:hist) > 0
+    let s:hist_loc = (s:hist_loc + 1) % (len(s:hist)+1)
+    call findr#select_hist()
+  endif
+endfunction
+
+function! findr#read_hist_line(line)
+  return split(a:line, '\t')
+endfunction
+
+function! findr#select_hist()
+  if s:hist_loc !=0
+    let hist = findr#read_hist_line(s:hist[s:hist_loc-1])
+    let dir = hist[0]
+    let file = hist[1]
+  else
+    let dir = s:hist_jump_from
+    let file = ''
+  endif
+  execute 'lcd ' dir
+  call luaeval('findr.reset()')
+  let s:old_dir = s:cur_dir
+  let s:cur_dir = getcwd()
+  let s:selected_loc = min([line('$'), s:start_loc+1])
+  call setline(s:start_loc, s:short_path() . file)
+  call findr#redraw()
+  normal $
+  startinsert!
+endfunction
+
+function! findr#write_hist(selected)
+  if s:histfile != -1
+    call add(s:hist, s:cur_dir . '	' . a:selected)
+    call writefile(s:hist, s:histfile)
+  endif
 endfunction
 " }}}
 " UI: {{{
@@ -179,6 +245,7 @@ function! findr#change_dir()
     return
   endif
   let s:old_dir = s:cur_dir
+  let s:hist_jump_from = s:cur_dir
   let s:cur_dir = getcwd()
   let s:selected_loc = min([line('$'), s:start_loc+1])
   call setline(s:start_loc, s:short_path())
@@ -201,7 +268,8 @@ function! findr#bs()
     execute 'lcd ..'
     call luaeval('findr.reset()')
     let s:selected_loc = min([line('$'), s:start_loc+1])
-  let s:old_dir = s:cur_dir
+    let s:old_dir = s:cur_dir
+    let s:hist_jump_from = s:cur_dir
     let s:cur_dir = getcwd()
     call setline(s:start_loc, s:short_path())
     normal $
@@ -228,6 +296,7 @@ function! findr#edit()
   if s:selected_loc == s:start_loc
     let choice = findr#get_input()
   endif
+  call findr#write_hist(choice)
   execute s:winnum . "windo edit " . s:cur_dir . '/' . choice
   call findr#quit()
 endfunction
@@ -239,6 +308,10 @@ function! findr#quit()
 endfunction
 
 function! findr#launch()
+  let s:hist_loc = 0
+  if s:histfile != -1
+    call findr#source_hist(s:histfile)
+  endif
   let s:winnum = winnr()
   let s:selected_loc = s:start_loc+1
   let s:cur_dir = getcwd()
@@ -266,5 +339,7 @@ inoremap <silent> <plug>findr_bs <cmd>call findr#bs()<cr>
 inoremap <silent> <plug>findr_clear <cmd>call findr#clear()<cr>
 inoremap <silent> <plug>findr_edit <esc>:<c-u>call findr#edit()<cr>
 inoremap <silent> <plug>findr_quit <esc>:<c-u>call findr#quit()<cr>
+inoremap <silent> <plug>findr_hist_next <cmd>call findr#next_hist()<cr>
+inoremap <silent> <plug>findr_hist_prev <cmd>call findr#prev_hist()<cr>
 " }}}
 " vim: set sw=2 ts=2 sts=2 et tw=80 ft=vim fdm=marker:
