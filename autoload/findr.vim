@@ -194,22 +194,20 @@ function! findr#floating()
     let top = "┌" . repeat("─", width - 2) . "┐"
     let mid = "│" . repeat(" ", width - 2) . "│"
     let bot = "└" . repeat("─", width - 2) . "┘"
+    let lines = [top] + repeat([mid], height - 2) + [bot]
+    let s:buf = nvim_create_buf(v:false, v:true)
+    call nvim_buf_set_lines(s:buf, 0, -1, v:true, lines)
+    call nvim_open_win(s:buf, v:true, opts)
+    let opts.row += 1
+    let opts.height -= 2
+    let opts.col += 2
+    let opts.width -= 4
+    set winhl=Normal:FindrBorder
+    call nvim_open_win(nvim_create_buf(v:true, v:false), v:true, opts)
+    au BufWipeout <buffer> exe 'bw! '.s:buf
   else
-    let top = " " . repeat(" ", width - 2) . " "
-    let mid = " " . repeat(" ", width - 2) . " "
-    let bot = " " . repeat(" ", width - 2) . " "
+    call nvim_open_win(nvim_create_buf(v:true, v:false), v:true, opts)
   endif
-  let lines = [top] + repeat([mid], height - 2) + [bot]
-  let s:buf = nvim_create_buf(v:false, v:true)
-  call nvim_buf_set_lines(s:buf, 0, -1, v:true, lines)
-  call nvim_open_win(s:buf, v:true, opts)
-  let opts.row += 1
-  let opts.height -= 2
-  let opts.col += 2
-  let opts.width -= 4
-  set winhl=Normal:FindrBorder
-  call nvim_open_win(nvim_create_buf(v:true, v:false), v:true, opts)
-  au BufWipeout <buffer> exe 'bw! '.s:buf
   file findr
   setlocal winhighlight=FoldColumn:Normal,Normal:FindrNormal
 endfunction
