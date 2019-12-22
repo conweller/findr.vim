@@ -72,6 +72,8 @@ function findr.candidates(list, inputs)
             return true
         elseif b == '../' then
             return false
+        elseif string.len(a) == string.len(b) then
+            return a < b
         else
             return string.len(a) < string.len(b)
         end
