@@ -74,6 +74,9 @@ CONFIGURATION                                        *findr-configuration*
                                                   *g:findr_enable_border*
 Enable border around floating window (default 1)
 
+                                                  *g:findr_max_hist*
+Maximum number of files stored in history (default 100)
+
 ===========================================================================
 HIGHLIGHTS                                        *findr-highlights*
 
