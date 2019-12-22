@@ -290,11 +290,13 @@ function! findr#parent_dir()
 endfunction
 
 function! findr#bs()
+  let [_b, line, col, _col] = getpos('.')
   let curline = getline(s:start_loc)
-  if curline !='' && split(curline,'\c')[-1] == '/'
+  if curline !='' && split(curline,'\c')[col-2] == '/'
+    let text=curline[col-1:]
     call findr#parent_dir()
+    call setline(s:start_loc, getline(s:start_loc) . text)
   else
-    let [_b, line, col, _col] = getpos('.')
     let curline=curline[0:col-3] . curline[col-1:]
     call setline(s:start_loc, curline)
     call cursor('.', col-1)
