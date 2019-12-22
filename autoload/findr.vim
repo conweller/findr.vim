@@ -303,6 +303,14 @@ function! findr#bs()
   endif
 endfunction
 
+function! findr#delete()
+  let [_b, line, col, _col] = getpos('.')
+  let curline = getline(s:start_loc)
+  let curline=curline[0:col-2] . curline[col:]
+  call setline(s:start_loc, curline)
+  call cursor('.', col)
+endfunction
+
 function! findr#clear()
   let [_b, line, col, _col] = getpos('.')
   let curline = getline(s:start_loc)
@@ -357,6 +365,7 @@ inoremap <silent> <plug>findr_next <cmd>call findr#next_item()<cr>
 inoremap <silent> <plug>findr_prev <cmd>call findr#prev_item()<cr>
 inoremap <silent> <plug>findr_parent_dir <cmd>call findr#parent_dir()<cr>
 inoremap <silent> <plug>findr_bs <cmd>call findr#bs()<cr>
+inoremap <silent> <plug>findr_delete <cmd>call findr#delete()<cr>
 inoremap <silent> <plug>findr_clear <cmd>call findr#clear()<cr>
 inoremap <silent> <plug>findr_edit <esc>:<c-u>call findr#edit()<cr>
 inoremap <silent> <plug>findr_quit <esc>:<c-u>call findr#quit()<cr>

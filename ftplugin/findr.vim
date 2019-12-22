@@ -33,6 +33,7 @@ imap <buffer> <c-c> <plug>findr_quit
 imap <buffer> <esc> <plug>findr_quit
 
 imap <buffer> <backspace> <plug>findr_bs
+imap <buffer> <delete> <plug>findr_delete
 imap <buffer> <c-u> <plug>findr_clear
 
 imap <buffer> <m-p>  <plug>findr_hist_prev
