@@ -242,9 +242,13 @@ function! findr#change_dir()
   if findr#get_input() == '~'
     lcd ~
     call luaeval('findr.reset()')
-  elseif findr#get_input() == '-' && s:old_dir != -1
-    execute 'lcd ' . s:old_dir
-    call luaeval('findr.reset()')
+  elseif findr#get_input() == '-'
+    if s:old_dir != -1
+      execute 'lcd ' . s:old_dir
+      call luaeval('findr.reset()')
+    else
+      call setline(s:start_loc, s:short_path())
+    endif
   elseif isdirectory(s:cur_dir . '/' . findr#get_choice())
     execute 'lcd ' . s:cur_dir . '/' . findr#get_choice()
     call luaeval('findr.reset()')
