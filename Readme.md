@@ -32,17 +32,17 @@ Use `<c-h>` or use `<bs>` when the cursor is right of the prompt to got the
 parent directory
 
 ## Configuration
-`g:findr_enable_border`: Disable border around floating window (default 1)
+`g:findr_enable_border` Disable border around floating window (default 1)
 ```vim
 let g:findr_enable_border = 0
 ```
 
-`g:findr_max_hist`: Set maximum history file length (default 100)
+`g:findr_max_hist` Set maximum history file length (default 100)
 ```vim
 let g:findr_max_hist = 100
 ```
 
-`g:findr_border`: Set characters for window border:
+`g:findr_border` Set characters for window border:
 
 ```vim
 let g:findr_border = {
