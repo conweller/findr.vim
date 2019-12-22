@@ -1,5 +1,6 @@
 lua require("findr")
 " Variables: {{{
+" Global: {{{
 if !exists('g:findr_enable_border')
   let g:findr_enable_border = 1
 endif
@@ -15,7 +16,7 @@ endif
 if !exists('g:findr_max_hist')
   let g:findr_max_hist = 100
 endif
-
+" }}}
 let s:cur_dir = getcwd()
 let s:start_loc = 1
 let s:hist_loc = 0
@@ -30,18 +31,7 @@ let s:first_line = ''
 let s:histfile = -1
 " }}}
 " Logic: {{{
-function! findr#get_input()
-  let line = getline(s:start_loc)
-  if line !='' && line[-1] != '/'
-    return join(split(split(line. ' ', '/')[-1]))
-  endif
-  return ''
-endfunction
-
-function! findr#get_choice()
-  return getline(s:selected_loc)
-endfunction
-
+" History: {{{
 function! s:valid_source(line)
   let dir_file_pair =split(a:line, "\t")
   if len(dir_file_pair) == 2
@@ -121,27 +111,43 @@ function! findr#write_hist(selected)
   endif
 endfunction
 " }}}
+" }}}
 " UI: {{{
 " Selection: {{{
+function! s:update_candidates(candidates)
+  let lines = a:candidates
+  call map(lines, 's:slashifdir(v:val)')
+  call deletebufline('%', s:start_loc + 1, line('$'))
+  call setline(s:start_loc+1, lines)
+endfunction
+
+function! findr#get_input()
+  let line = getline(s:start_loc)
+  if line !='' && line[-1] != '/'
+    return join(split(split(line. ' ', '/')[-1]))
+  endif
+  return ''
+endfunction
+
+function! findr#get_choice()
+  return getline(s:selected_loc)
+endfunction
+
 function! findr#scroll_up()
   call luaeval('findr.scroll_up(1)')
   let scrolled = luaeval('findr.display')
-  call map(scrolled, 's:slashifdir(v:val)')
-  call deletebufline('%', s:start_loc + 1, line('$'))
-  call s:setlines(scrolled)
+  call s:update_candidates(scrolled)
 endfunction
 
 function! findr#scroll_down()
   call luaeval('findr.scroll_down(1)')
   let scrolled = luaeval('findr.display')
-  call map(scrolled, 's:slashifdir(v:val)')
-  call deletebufline('%', s:start_loc + 1, line('$'))
-  call s:setlines(scrolled)
+  call s:update_candidates(scrolled)
 endfunction
 
 function! findr#next_item()
   if s:selected_loc > winheight('.')-1
-    if  getline(winheight('.')+1) != s:first_line
+    if getline(winheight('.')+1) != s:first_line
       call findr#scroll_down()
     endif
   elseif s:selected_loc < line('$')
@@ -171,10 +177,6 @@ function! s:slashifdir(line)
     return a:line . '/'
   endif
   return a:line
-endfunction
-
-function! s:setlines(array)
-  call setline(s:start_loc+1, a:array)
 endfunction
 
 function! s:tabline_visible()
@@ -229,14 +231,12 @@ function! findr#redraw()
   call luaeval('findr.update(_A, findr.comp_stack)', findr#get_input())
   call luaeval('findr.update_display(findr.comp_stack, _A)', winheight('.')-1)
   let completions = luaeval('findr.display')
-  call map(completions, 's:slashifdir(v:val)')
+  call s:update_candidates(completions)
   if len(completions) > 0
     let s:first_line = completions[0]
   else
     let s:first_line = ''
   endif
-  call deletebufline('%', s:start_loc + 1, line('$'))
-  call s:setlines(completions)
   let s:selected_loc = min([s:start_loc+1, line('$')])
   call findr#redraw_highlights()
 endfunction
@@ -251,40 +251,6 @@ function! findr#redraw_highlights()
 endfunction
 " }}}
 " Actions {{{
-function! findr#change_dir()
-  if findr#get_input() == '~'
-    lcd ~
-    call luaeval('findr.reset()')
-  elseif findr#get_input() == '-'
-    if s:old_dir != -1
-      execute 'lcd ' . s:old_dir
-      call luaeval('findr.reset()')
-    else
-      call setline(s:start_loc, s:short_path())
-    endif
-  elseif isdirectory(s:cur_dir . '/' . findr#get_choice())
-    execute 'lcd ' . s:cur_dir . '/' . findr#get_choice()
-    call luaeval('findr.reset()')
-  elseif split(findr#get_input()) != []
-    if isdirectory(s:cur_dir . '/' . split(findr#get_input())[0])
-      execute 'lcd ' . s:cur_dir . '/' . findr#get_input()
-      call luaeval('findr.reset()')
-    else 
-      return
-    endif
-  else
-    return
-  endif
-  let s:old_dir = s:cur_dir
-  let s:hist_jump_from = getcwd()
-  let s:cur_dir = getcwd()
-  let s:selected_loc = min([line('$'), s:start_loc+1])
-  call setline(s:start_loc, s:short_path())
-  call findr#redraw()
-  normal $
-  startinsert!
-endfunction
-
 function! s:short_path()
   let shortpath = pathshorten(s:cur_dir). '/'
   if shortpath == '//'
@@ -293,17 +259,33 @@ function! s:short_path()
   return shortpath
 endfunction
 
+function! findr#cd(directory)
+  if isdirectory(a:directory)
+    execute 'lcd ' . a:directory
+    call luaeval('findr.reset()')
+    let s:old_dir = s:cur_dir
+    let s:hist_jump_from = getcwd()
+    let s:cur_dir = getcwd()
+    let s:selected_loc = min([line('$'), s:start_loc+1])
+    call setline(s:start_loc, s:short_path())
+    call findr#redraw()
+    normal $
+    startinsert!
+  endif
+endfunction
+
+function! findr#select_dir()
+  if findr#get_input() == '~'
+    call findr#cd(expand('~'))
+  elseif findr#get_input() == '-' && s:old_dir != -1
+    call findr#cd(s:old_dir)
+  else
+    call findr#cd(s:cur_dir . '/' . findr#get_choice())
+  endif
+endfunction
+
 function! findr#parent_dir()
-  execute 'lcd ..'
-  call luaeval('findr.reset()')
-  let s:selected_loc = min([line('$'), s:start_loc+1])
-  let s:old_dir = s:cur_dir
-  let s:hist_jump_from = getcwd()
-  let s:cur_dir = getcwd()
-  call setline(s:start_loc, s:short_path())
-  normal $
-  startinsert!
-  call findr#redraw()
+  call findr#cd('..')
 endfunction
 
 function! findr#bs()
@@ -367,7 +349,7 @@ endfunction
 " }}}
 " }}}
 " Mappings: {{{
-inoremap <silent> <plug>findr_cd <cmd>call findr#change_dir()<cr>
+inoremap <silent> <plug>findr_cd <cmd>call findr#select_dir()<cr>
 inoremap <silent> <plug>findr_next <cmd>call findr#next_item()<cr>
 inoremap <silent> <plug>findr_prev <cmd>call findr#prev_item()<cr>
 inoremap <silent> <plug>findr_parent_dir <cmd>call findr#parent_dir()<cr>
