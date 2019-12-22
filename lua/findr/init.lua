@@ -64,13 +64,13 @@ function findr.candidates(list, inputs)
         end
     end
     table.sort(matches, function(a,b)
-        if a == './' then
+        if a == '.' then
             return true
-        elseif b == './' then
+        elseif b == '.' then
             return false
-        elseif a == '../' then
+        elseif a == '..' then
             return true
-        elseif b == '../' then
+        elseif b == '..' then
             return false
         elseif string.len(a) == string.len(b) then
             return a < b
