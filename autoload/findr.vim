@@ -42,7 +42,7 @@ function! findr#source_hist(histfile)
     if s:hist == ['']
       let s:hist = []
     endif
-    call filter(s:hist, 'isdirectory(split(v:val)[0])')
+    call filter(s:hist, 'isdirectory(split(v:val, "\t")[0])')
     let s:histfile = a:histfile
 endfunction
 
