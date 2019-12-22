@@ -48,6 +48,14 @@ local to findr buffers
 <down>                    Select the next item
 <c-n>
 
+                                                  *findr_<m-p>*
+<c-p>                     Select the previous item in history
+
+
+                                                  *findr_<m-n>*
+<c-n>                     Select the next item in history
+
+
                                                   *findr_<bs>*
 <bs>                      If previous char in line is '/', then go back one
                           directory, else delete previous char

@@ -33,6 +33,10 @@ Disable border around floating window (default 1):
 let g:findr_enable_border = 0
 ```
 
+For additional documentation see:
+```vim
+:h findr
+```
+
 ## TODO
-* History
 * Configuration
