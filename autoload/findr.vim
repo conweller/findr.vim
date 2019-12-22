@@ -23,11 +23,9 @@ let s:hist = []
 let s:hist_jump_from = getcwd()
 let s:selected_loc = s:start_loc+1
 let s:winnum = 1
-" let s:use_virtual = v:true
 let s:use_floating_win = v:true
 let s:old_input = -1
 let s:old_dir = -1
-let s:files = []
 let s:first_line = ''
 let s:histfile = -1
 " }}}
@@ -45,10 +43,12 @@ function! findr#get_choice()
 endfunction
 
 function! s:valid_source(line)
-  dir_file_pair =split(a:line, "\t")
+  let dir_file_pair =split(a:line, "\t")
   if len(dir_file_pair) == 2
-    return !empty(glob(dir_file_pair[0] .'/'. dir_file_pair[1]))
+    return isdirectory(dir_file_pair[0])
   endif
+  let g:a = len(dir_file_pair)
+  return v:false
 endfunction
 
 function! findr#source_hist(histfile)
@@ -57,7 +57,7 @@ function! findr#source_hist(histfile)
     if s:hist == ['']
       let s:hist = []
     endif
-    call filter(s:hist, 'isdirectory(split(v:val, "\t")[0])')
+    call filter(s:hist, 's:valid_source(v:val)')
     let s:histfile = a:histfile
 endfunction
 
@@ -356,7 +356,6 @@ function! findr#launch()
   let s:cur_dir = getcwd()
   let s:old_input = -1
   let s:old_dir = -1
-  let s:files = []
   if s:use_floating_win
     call findr#floating()
   else
