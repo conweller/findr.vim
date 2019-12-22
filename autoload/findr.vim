@@ -44,6 +44,13 @@ function! findr#get_choice()
   return getline(s:selected_loc)
 endfunction
 
+function! s:valid_source(line)
+  dir_file_pair =split(a:line, "\t")
+  if len(dir_file_pair) == 2
+    return !empty(glob(dir_file_pair[0] .'/'. dir_file_pair[1]))
+  endif
+endfunction
+
 function! findr#source_hist(histfile)
     call writefile([], a:histfile, 'a')
     let s:hist = readfile(a:histfile)
@@ -108,7 +115,9 @@ function! findr#write_hist(selected)
     if a:selected == ''
       let selected = './'
     endif
-    if s:hist[-1] != s:cur_dir . '	' . selected
+    if len(s:hist) == 0
+      call add(s:hist, s:cur_dir . '	' . selected)
+    elseif s:hist[-1] != s:cur_dir . '	' . selected
       call add(s:hist, s:cur_dir . '	' . selected)
     endif
     let start = max([len(s:hist) - g:findr_max_hist, 0])
