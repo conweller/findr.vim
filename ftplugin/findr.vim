@@ -12,6 +12,7 @@ setlocal nofoldenable
 imap <buffer> <c-t> <nop>
 imap <buffer> <c-d> <nop>
 imap <buffer> <Insert> <nop>
+imap <buffer> <c-w> <nop>
 " }}}
 
 imap <buffer> <tab> <Plug>findr_cd
