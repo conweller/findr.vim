@@ -19,6 +19,8 @@ findr_<cr>	Findr.txt	/*findr_<cr>*
 findr_<esc>	Findr.txt	/*findr_<esc>*
 findr_<m-n>	Findr.txt	/*findr_<m-n>*
 findr_<m-p>	Findr.txt	/*findr_<m-p>*
+findr_<s-down>	Findr.txt	/*findr_<s-down>*
+findr_<s-up>	Findr.txt	/*findr_<s-up>*
 findr_<tab>	Findr.txt	/*findr_<tab>*
 findr_down	Findr.txt	/*findr_down*
 findr_up	Findr.txt	/*findr_up*

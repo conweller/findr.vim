@@ -31,6 +31,9 @@ Use `<tab>`, `/`, or `<c-l>` to change to the selected directory
 Use `<c-h>` or use `<bs>` when the cursor is right of the prompt to got the
 parent directory
 
+Use `<m-p>` and `<m-n>` (or `<s-up>` and `<s-down>`) to go through your history
+of recent files/directories
+
 ## Configuration
 `g:findr_enable_border` Disable border around floating window (default 1)
 ```vim

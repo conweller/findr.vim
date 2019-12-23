@@ -62,11 +62,15 @@ local to findr buffers
 <bs>                      If previous char in line is '/', then go back one
                           directory, else delete previous char
 
+                                                  *findr_<s-up>*
                                                   *findr_<m-p>*
 <c-p>                     Select the previous item in history
+<s-up>
 
+                                                  *findr_<s-down>*
                                                   *findr_<m-n>*
 <c-n>                     Select the next item in history
+<s-down>
 
                                                   *findr_<c-u>*
 <c-u>                     Clears text in prompt up until the path

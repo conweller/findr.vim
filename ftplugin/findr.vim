@@ -39,3 +39,5 @@ imap <buffer> <c-u> <plug>findr_clear
 
 imap <buffer> <m-p>  <plug>findr_hist_prev
 imap <buffer> <m-n>  <plug>findr_hist_next
+imap <buffer> <s-up>  <plug>findr_hist_prev
+imap <buffer> <s-down>  <plug>findr_hist_next
