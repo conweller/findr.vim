@@ -1,12 +1,7 @@
 autocmd! CursorMovedI <buffer> call findr#redraw()
-setlocal nonumber
-setlocal norelativenumber
-setlocal nocursorline
-setlocal statusline=findr
 setlocal bufhidden=delete
 setlocal buftype=nofile
 setlocal noswapfile
-setlocal nofoldenable 
 
 " Unmap: {{{
 imap <buffer> <c-t> <nop>
