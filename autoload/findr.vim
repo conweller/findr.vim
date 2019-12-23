@@ -44,19 +44,19 @@ endfunction
 function! findr#source_hist(histfile)
   try
     call writefile([], a:histfile, 'a')
-  catch /E482/
-
-  endtry
-  if filewritable(a:histfile) && filereadable(a:histfile)
-    let s:hist = readfile(a:histfile)
-    if s:hist == ['']
-      let s:hist = []
-    endif
-    call filter(s:hist, 's:valid_source(v:val)')
-    let s:histfile = a:histfile
+    if filewritable(a:histfile) && filereadable(a:histfile)
+      let s:hist = readfile(a:histfile)
+      if s:hist == ['']
+        let s:hist = []
+      endif
+      call filter(s:hist, 's:valid_source(v:val)')
+      let s:histfile = a:histfile
   else
       let s:hist = []
   endif
+  catch /E482/
+
+  endtry
 endfunction
 
 function! findr#prev_hist()
@@ -123,7 +123,10 @@ function! findr#write_hist(selected)
       call add(s:hist, s:cur_dir . '	' . selected)
     endif
     let start = max([len(s:hist) - g:findr_max_hist, 0])
-    call writefile(s:hist[start:], s:histfile)
+    try
+      call writefile(s:hist[start:], s:histfile)
+    catch
+    endtr
   endif
 endfunction
 " }}}
