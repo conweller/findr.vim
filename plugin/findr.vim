@@ -1,4 +1,4 @@
-let s:histfile =  expand('<sfile>:h:h:h:r') . '/findr.vim/histfile'
+let s:histfile =  expand('<sfile>:h:r') . '/histfile'
 
 call findr#source_hist(s:histfile)
 

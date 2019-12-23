@@ -42,13 +42,21 @@ function! s:valid_source(line)
 endfunction
 
 function! findr#source_hist(histfile)
+  try
     call writefile([], a:histfile, 'a')
+  catch /E482/
+
+  endtry
+  if filewritable(a:histfile) && filereadable(a:histfile)
     let s:hist = readfile(a:histfile)
     if s:hist == ['']
       let s:hist = []
     endif
     call filter(s:hist, 's:valid_source(v:val)')
     let s:histfile = a:histfile
+  else
+      let s:hist = []
+  endif
 endfunction
 
 function! findr#prev_hist()
@@ -104,7 +112,7 @@ function! findr#select_hist()
 endfunction
 
 function! findr#write_hist(selected)
-  if s:histfile != -1
+  if filewritable(s:histfile) && filereadable(s:histfile)
     let selected = a:selected
     if a:selected == ''
       let selected = './'
