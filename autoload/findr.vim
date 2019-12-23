@@ -125,7 +125,7 @@ function! findr#write_hist(selected)
     let start = max([len(s:hist) - g:findr_max_hist, 0])
     try
       call writefile(s:hist[start:], s:histfile)
-    catch
+    catch /E482/
     endtr
   endif
 endfunction
