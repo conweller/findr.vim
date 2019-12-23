@@ -1,4 +1,4 @@
-let s:histfile =  expand('<sfile>:h:r') . '/.findr_history'
+let s:histfile =  expand('<sfile>:h:r') . '/../.findr_history'
 
 call findr#source_hist(s:histfile)
 
