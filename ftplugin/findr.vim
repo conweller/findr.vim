@@ -1,5 +1,6 @@
 autocmd! CursorMovedI <buffer> call findr#redraw()
 setlocal bufhidden=delete
+setlocal signcolumn=no
 setlocal buftype=nofile
 setlocal noswapfile
 

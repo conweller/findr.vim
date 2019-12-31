@@ -1,4 +1,5 @@
 let s:histfile =  expand('<sfile>:h:r') . '/../.findr_history'
+sign define findrselected linehl=FindrSelected
 
 call findr#source_hist(s:histfile)
 
