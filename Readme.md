@@ -35,7 +35,12 @@ Use `<m-p>` and `<m-n>` (or `<s-up>` and `<s-down>`) to go through your history
 of recent files/directories
 
 ## Configuration
-`g:findr_enable_border` Disable border around floating window (default 1)
+`g:findr_floating_window` Enable/disable floating window (default 1)
+```vim
+let g:findr_floating_window = 1
+```
+
+`g:findr_enable_border` Enable/disable border around floating window (default 1)
 ```vim
 let g:findr_enable_border = 0
 ```

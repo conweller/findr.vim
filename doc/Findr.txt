@@ -83,8 +83,11 @@ local to findr buffers
 ===========================================================================
 CONFIGURATION                                        *findr-configuration*
 
+                                                  *g:findr_floating_window*
+Enable/disable floating window (default 1)
+
                                                   *g:findr_enable_border*
-Enable border around floating window (default 1)
+Enable/disable border around floating window (default 1)
                                                   *g:findr_border*
 Set characters to use for the 3 sections of the top middle and bottom border.
 Example:

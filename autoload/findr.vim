@@ -5,6 +5,10 @@ if !exists('g:findr_enable_border')
   let g:findr_enable_border = 1
 endif
 
+if !exists('g:findr_floating_window')
+  let g:findr_floating_window = 1
+endif
+
 if !exists('g:findr_border')
   let g:findr_border = {
         \   'top':    ['┌', '─', '┐'],
@@ -24,7 +28,6 @@ let s:hist = []
 let s:hist_jump_from = getcwd()
 let s:selected_loc = s:start_loc+1
 let s:winnum = 1
-let s:use_floating_win = v:true
 let s:old_input = -1
 let s:old_dir = -1
 let s:first_line = ''
@@ -362,10 +365,15 @@ function! findr#launch()
   let s:hist_jump_from = getcwd()
   let s:old_input = -1
   let s:old_dir = -1
-  if s:use_floating_win
+  if g:findr_floating_window
     call findr#floating()
   else
-    execute "botright 10split findr"
+    botright new
+    file findr
+    setlocal winhighlight=FoldColumn:Normal,Normal:FindrNormal
+    setlocal nocursorline
+    setlocal norelativenumber
+    setlocal nonumber
   endif
   call setline(s:start_loc, s:short_path())
   set ft=findr
