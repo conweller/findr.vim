@@ -49,7 +49,7 @@ function findr.scandir(directory)
     return t
 end
 
-function findr.candidates(list, inputs)
+function findr.candidates(list, inputs, sort)
     local matches = {}
     for _, item in ipairs(list) do
         local match = true
@@ -63,17 +63,19 @@ function findr.candidates(list, inputs)
             table.insert(matches, item)
         end
     end
-    table.sort(matches, function(a,b)
-        if a == '.' then
-            return true
-        elseif a ~= '.' and b == '..' then
-            return false
-        elseif string.len(a) == string.len(b) then
-            return a < b
-        else
-            return string.len(a) < string.len(b)
-        end
-    end)
+    if sort then
+        table.sort(matches, function(a,b)
+            if a == '.' then
+                return true
+            elseif a ~= '.' and b == '..' then
+                return false
+            elseif string.len(a) == string.len(b) then
+                return a < b
+            else
+                return string.len(a) < string.len(b)
+            end
+        end)
+    end
     return matches
 end
 
@@ -84,10 +86,10 @@ function findr.update(input, stack)
     local completions
     if stack.head == nil then
         input = ''
-        completions = findr.scandir('.')
+        completions = findr.candidates(findr.scandir('.'), findr.split(input), true)
     else
         local new_source = stack.head.data.completions
-        completions = findr.candidates(new_source, findr.split(input))
+        completions = findr.candidates(new_source, findr.split(input), false)
     end
     local data = {}
     data.input = input
