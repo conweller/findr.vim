@@ -374,6 +374,9 @@ function! findr#launch()
     setlocal nocursorline
     setlocal norelativenumber
     setlocal nonumber
+    let s:last_status = &laststatus
+    set laststatus=0
+    autocmd WinLeave <buffer> exe 'set laststatus='.s:last_status
   endif
   call setline(s:start_loc, s:short_path())
   set ft=findr
