@@ -31,7 +31,7 @@ end
 
 function findr.pop(stack)
     if stack.head ~= nil then
-        tmp = stack.head.data
+        local tmp = stack.head.data
         stack.head = stack.head.next
         return tmp
     end
@@ -51,9 +51,9 @@ end
 
 function findr.candidates(list, inputs)
     local matches = {}
-    for i, item in ipairs(list) do
+    for _, item in ipairs(list) do
         local match = true
-        for i, input in ipairs(inputs) do
+        for _, input in ipairs(inputs) do
             if not string.match(string.lower(item), string.lower(findr.escape_pattern(input))) then
                 match = false
                 break
@@ -66,11 +66,7 @@ function findr.candidates(list, inputs)
     table.sort(matches, function(a,b)
         if a == '.' then
             return true
-        elseif b == '.' then
-            return false
-        elseif a == '..' then
-            return true
-        elseif b == '..' then
+        elseif a ~= '.' and b == '..' then
             return false
         elseif string.len(a) == string.len(b) then
             return a < b
@@ -105,7 +101,7 @@ end
 
 function findr.tablelength(T)
     local count = 0
-    for i, item in ipairs(T) do
+    for _, _ in ipairs(T) do
         count = count + 1
     end
     return count

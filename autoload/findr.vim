@@ -30,7 +30,6 @@ let s:old_dir = -1
 let s:first_line = ''
 let s:histfile = -1
 " }}}
-" Logic: {{{
 " History: {{{
 function! s:valid_source(line)
   let dir_file_pair =split(a:line, "\t")
@@ -130,8 +129,6 @@ function! findr#write_hist(selected)
   endif
 endfunction
 " }}}
-" }}}
-" UI: {{{
 " Selection: {{{
 function! s:update_candidates(candidates)
   let lines = a:candidates
@@ -376,7 +373,6 @@ function! findr#launch()
   normal $
   startinsert!
 endfunction
-" }}}
 " }}}
 " Mappings: {{{
 inoremap <silent> <plug>findr_cd <cmd>call findr#select_dir()<cr>
