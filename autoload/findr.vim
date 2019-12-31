@@ -269,8 +269,8 @@ endfunction
 function! findr#redraw_highlights()
   call clearmatches()
   sign unplace 1
-  call matchadd('FindrSelected','\%'.s:selected_loc.'l.*')
-  " exe "sign place 1 name=findrselected line=".s:selected_loc." file=". expand("%:p")
+  " call matchadd('FindrSelected','\%'.s:selected_loc.'l.*')
+  exe "sign place 1 name=findrselected line=".s:selected_loc
   if g:findr_highlight_matches
     for str in split(findr#get_input())
       call matchadd('FindrMatch','\%>'.s:start_loc.'l\c'.escape(str, '*?,.\{}[]~'))
