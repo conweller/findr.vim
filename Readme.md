@@ -35,6 +35,11 @@ Use `<m-p>` and `<m-n>` (or `<s-up>` and `<s-down>`) to go through your history
 of recent files/directories
 
 ## Configuration
+`g:findr_highlight_matches` Enable/disable highlights for matches (default 1)
+```vim
+let g:findr_highlight_matches = 0
+```
+
 `g:findr_floating_window` Enable/disable floating window (default 1)
 ```vim
 let g:findr_floating_window = 1

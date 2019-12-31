@@ -4,16 +4,12 @@ call findr#source_hist(s:histfile)
 
 command! Findr call findr#launch()
 
+if !highlight_exists('FindrMatch')
+  hi! link FindrMatch CursorLine
+endif
+
 if !highlight_exists('FindrSelected')
   hi! link FindrSelected search
-endif
-
-if !highlight_exists('FindrSelectedDir')
-  hi! link FindrSelectedDir search
-endif
-
-if !highlight_exists('FindrSelectedDirPartial')
-  hi! link FindrSelectedDirPartial search
 endif
 
 if !highlight_exists('FindrDirPartial')

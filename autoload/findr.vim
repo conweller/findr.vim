@@ -9,6 +9,10 @@ if !exists('g:findr_floating_window')
   let g:findr_floating_window = 1
 endif
 
+if !exists('g:findr_highlight_matches')
+  let g:findr_highlight_matches = 1
+endif
+
 if !exists('g:findr_border')
   let g:findr_border = {
         \   'top':    ['┌', '─', '┐'],
@@ -260,13 +264,16 @@ function! findr#redraw()
   call findr#redraw_highlights()
 endfunction
 
+
+
 function! findr#redraw_highlights()
   call clearmatches()
-  call matchadd('FindrDirPartial','^.*/')
-  call matchadd('FindrDir','^.*/$')
   call matchadd('FindrSelected','\%'.s:selected_loc.'l.*')
-  call matchadd('FindrSelectedDirPartial','^\%'.s:selected_loc.'l.*/')
-  call matchadd('FindrSelectedDir','^\%'.s:selected_loc.'l.*/$')
+  if g:findr_highlight_matches
+    for str in split(findr#get_input())
+      call matchadd('FindrMatch','\%>'.s:start_loc.'l\c'.escape(str, '*?,.\{}[]~'))
+    endfor
+  endif
 endfunction
 " }}}
 " Actions {{{

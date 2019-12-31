@@ -88,6 +88,10 @@ Enable/disable floating window (default 1)
 
                                                   *g:findr_enable_border*
 Enable/disable border around floating window (default 1)
+
+                                                  *g:findr_highlight_matches*
+Enable/disable highlights for matches (default 1)
+
                                                   *g:findr_border*
 Set characters to use for the 3 sections of the top middle and bottom border.
 Example:
@@ -113,11 +117,8 @@ FindrDirPartial           Partial file path
                                                   *hl-FindrSelected*
 FindrSelected             Selected item
 
-                                                  *hl-FindrSelectedDir*
-FindrSelectedDirPartial   Selected file path
-
-                                                  *hl-FindrSelectedDirPartial*
-FindrSelectedDirPartial   Selected partial file path
+                                                  *hl-FindrMatch*
+FindrMatch                Matches for current pattern
 
                                                   *hl-FindrBorder*
 FindrBorder               Border for floating window
