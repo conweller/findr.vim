@@ -1,16 +1,15 @@
 let s:histfile =  expand('<sfile>:h:r') . '/../.findr_history'
-sign define findrselected linehl=FindrSelected
 
 call findr#source_hist(s:histfile)
 
 command! Findr call findr#launch()
 
 if !highlight_exists('FindrMatch')
-  hi! link FindrMatch CursorLine
+  hi! link FindrMatch search
 endif
 
 if !highlight_exists('FindrSelected')
-  hi! link FindrSelected search
+  hi! link FindrSelected CursorLine
 endif
 
 if !highlight_exists('FindrDirPartial')
@@ -28,3 +27,4 @@ endif
 if !highlight_exists('FindrNormal')
   hi! link FindrNormal Normal
 endif
+sign define findrselected linehl=FindrSelected
