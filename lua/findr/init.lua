@@ -1,7 +1,7 @@
 -- Namespace
-findr = {}
+M = {}
 -- Helpers:
-function findr.split(line)
+function M.split(line)
     local t = {}
     for str in string.gmatch(line, "[^%s]+") do
         table.insert(t, str)
@@ -9,7 +9,7 @@ function findr.split(line)
     return t
 end
 
-function findr.escape_pattern(text)
+function M.escape_pattern(text)
     return text:gsub("([^%w])", "%%%1")
 end
 
@@ -22,14 +22,14 @@ end
 --  - data: node's data
 --  - next: next node
 
-function findr.push(stack, item)
+function M.push(stack, item)
     local node = {}
     node.data = item
     node.next = stack.head
     stack.head = node
 end
 
-function findr.pop(stack)
+function M.pop(stack)
     if stack.head ~= nil then
         local tmp = stack.head.data
         stack.head = stack.head.next
@@ -38,7 +38,7 @@ function findr.pop(stack)
     return nil
 end
 
-function findr.scandir(directory)
+function M.scandir(directory)
     local i, t, popen = 0, {}, io.popen
     local pfile = popen('ls -a '..directory..'')
     for filename in pfile:lines() do
@@ -49,12 +49,12 @@ function findr.scandir(directory)
     return t
 end
 
-function findr.candidates(list, inputs, sort)
+function M.candidates(list, inputs, sort)
     local matches = {}
     for _, item in ipairs(list) do
         local match = true
         for _, input in ipairs(inputs) do
-            if not string.match(string.lower(item), string.lower(findr.escape_pattern(input))) then
+            if not string.match(string.lower(item), string.lower(M.escape_pattern(input))) then
                 match = false
                 break
             end
@@ -79,29 +79,29 @@ function findr.candidates(list, inputs, sort)
     return matches
 end
 
-function findr.update(input, stack)
-    while stack.head ~= nil and not findr.is_input_subset(stack.head.data.input, input) do
-        findr.pop(stack)
+function M.update(input, stack)
+    while stack.head ~= nil and not M.is_input_subset(stack.head.data.input, input) do
+        M.pop(stack)
     end
     local completions
     if stack.head == nil then
         input = ''
-        completions = findr.candidates(findr.scandir('.'), findr.split(input), true)
+        completions = M.candidates(M.scandir('.'), M.split(input), true)
     else
         local new_source = stack.head.data.completions
-        completions = findr.candidates(new_source, findr.split(input), false)
+        completions = M.candidates(new_source, M.split(input), false)
     end
     local data = {}
     data.input = input
     data.completions = completions
-    findr.push(stack, data)
+    M.push(stack, data)
 end
 
-function findr.update_display(stack, winheight)
-    findr.display = stack.head.data.completions
+function M.update_display(stack, winheight)
+    M.display = stack.head.data.completions
 end
 
-function findr.tablelength(T)
+function M.tablelength(T)
     local count = 0
     for _, _ in ipairs(T) do
         count = count + 1
@@ -109,34 +109,36 @@ function findr.tablelength(T)
     return count
 end
 
-function findr.scroll_down(count)
-    local len = findr.tablelength(findr.display)
+function M.scroll_down(count)
+    local len = M.tablelength(M.display)
     local new_T = {}
-    for i, item in ipairs(findr.display) do
+    for i, item in ipairs(M.display) do
         new_T[(i-(1+count))%len+1] = item
     end
-    findr.display = new_T
+    M.display = new_T
 end
 
-function findr.scroll_up(count)
-    local len = findr.tablelength(findr.display)
+function M.scroll_up(count)
+    local len = M.tablelength(M.display)
     local new_T = {}
-    for i, item in ipairs(findr.display) do
+    for i, item in ipairs(M.display) do
         new_T[(i+(count-1))%len+1] = item
     end
-    findr.display = new_T
+    M.display = new_T
 end
 
-findr.comp_stack = {}
-findr.comp_stack.head = nil
-findr.display = {}
+M.comp_stack = {}
+M.comp_stack.head = nil
+M.display = {}
 
-function findr.reset()
-    findr.comp_stack = {}
-    findr.comp_stack.head = nil
-    findr.display = {}
+function M.reset()
+    M.comp_stack = {}
+    M.comp_stack.head = nil
+    M.display = {}
 end
 
-function findr.is_input_subset(old, new)
-    return new == old or string.match(findr.escape_pattern(new),findr.escape_pattern(old))
+function M.is_input_subset(old, new)
+    return new == old or string.match(M.escape_pattern(new),M.escape_pattern(old))
 end
+
+return M

@@ -1,4 +1,4 @@
-lua require("findr")
+lua findr = require("findr")
 " Variables: {{{
 " Global: {{{
 if !exists('g:findr_enable_border')
@@ -377,7 +377,7 @@ function! findr#launch()
   if g:findr_floating_window
     call findr#floating()
   else
-    botright new
+    botright 10new
     file findr
     setlocal winhighlight=FoldColumn:Normal,Normal:FindrNormal
     setlocal nocursorline
