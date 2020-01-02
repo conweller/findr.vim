@@ -254,7 +254,7 @@ endfunction
 
 function! findr#redraw()
   call luaeval('findr.update(_A, findr.comp_stack)', findr#get_input())
-  call luaeval('findr.update_display(findr.comp_stack, _A)', winheight('.')-1)
+  call luaeval('findr.update_display(findr.comp_stack, _A)')
   let completions = luaeval('findr.display')
   call s:update_candidates(completions)
   if len(completions) > 0

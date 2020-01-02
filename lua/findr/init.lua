@@ -95,7 +95,7 @@ function M.update(input, stack)
     M.push(stack, data)
 end
 
-function M.update_display(stack, winheight)
+function M.update_display(stack)
     M.display = stack.head.data.completions
 end
 
