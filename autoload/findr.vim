@@ -171,7 +171,7 @@ endfunction
 function! findr#next_item()
   let old_selected = s:selected_loc
   if s:selected_loc > winheight('.')-1
-    if getline(winheight('.')+1) != s:first_line
+    if getline(s:selected_loc+1)  != s:first_line && len(luaeval('findr.display')) != winheight('$')-1
       call findr#scroll_down()
     endif
   elseif s:selected_loc < line('$')

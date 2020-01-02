@@ -75,3 +75,4 @@ For additional documentation see:
 * Additional commands (e.g. command for buffer narrowing)
 * User defined sources
 * Multicolumn support
+* More efficient scrolling
