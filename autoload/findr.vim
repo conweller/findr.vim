@@ -139,7 +139,6 @@ endfunction
 " Selection: {{{
 function! s:update_candidates(candidates)
   let lines = a:candidates
-  call map(lines, 's:slashifdir(v:val)')
   call deletebufline('%', s:start_loc + 1, line('$'))
   call setline(s:start_loc+1, lines[:winheight('.')-1])
 endfunction
@@ -197,13 +196,6 @@ function! findr#prev_item()
 endfunction
 " }}}
 " Display: {{{
-function! s:slashifdir(line)
-  if isdirectory(s:cur_dir . '/'. a:line)
-    return a:line . '/'
-  endif
-  return a:line
-endfunction
-
 function! s:tabline_visible()
   let tabnum = tabpagenr()
   let count = 0
