@@ -46,10 +46,21 @@ function M.scandir(directory)
         t[i] = filename
     end
     pfile:close()
+    table.sort(t, function(a,b)
+        if a == '.' then
+            return true
+        elseif a ~= '.' and b == '..' then
+            return false
+        elseif string.len(a) == string.len(b) then
+            return a < b
+        else
+            return string.len(a) < string.len(b)
+        end
+    end)
     return t
 end
 
-function M.candidates(list, inputs, sort)
+function M.candidates(list, inputs)
     local matches = {}
     for _, item in ipairs(list) do
         local match = true
@@ -63,19 +74,6 @@ function M.candidates(list, inputs, sort)
             table.insert(matches, item)
         end
     end
-    if sort then
-        table.sort(matches, function(a,b)
-            if a == '.' then
-                return true
-            elseif a ~= '.' and b == '..' then
-                return false
-            elseif string.len(a) == string.len(b) then
-                return a < b
-            else
-                return string.len(a) < string.len(b)
-            end
-        end)
-    end
     return matches
 end
 
@@ -86,10 +84,10 @@ function M.update(input, stack)
     local completions
     if stack.head == nil then
         input = ''
-        completions = M.candidates(M.scandir('.'), M.split(input), true)
+        completions = M.candidates(M.scandir('.'), M.split(input))
     else
         local new_source = stack.head.data.completions
-        completions = M.candidates(new_source, M.split(input), false)
+        completions = M.candidates(new_source, M.split(input))
     end
     local data = {}
     data.input = input
