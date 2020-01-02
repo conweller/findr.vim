@@ -141,7 +141,7 @@ function! s:update_candidates(candidates)
   let lines = a:candidates
   call map(lines, 's:slashifdir(v:val)')
   call deletebufline('%', s:start_loc + 1, line('$'))
-  call setline(s:start_loc+1, lines)
+  call setline(s:start_loc+1, lines[:winheight('.')-1])
 endfunction
 
 function! findr#get_input()
