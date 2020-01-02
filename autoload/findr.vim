@@ -169,6 +169,7 @@ function! findr#scroll_down()
 endfunction
 
 function! findr#next_item()
+  let old_selected = s:selected_loc
   if s:selected_loc > winheight('.')-1
     if getline(winheight('.')+1) != s:first_line
       call findr#scroll_down()
@@ -178,10 +179,11 @@ function! findr#next_item()
   else
     let s:selected_loc = line('$')
   endif
-  call findr#redraw_highlights()
+  call findr#redraw_highlights(old_selected)
 endfunction
 
 function! findr#prev_item()
+  let old_selected = s:selected_loc
   if s:selected_loc > s:start_loc
     if s:selected_loc == s:start_loc + 1 && getline(s:selected_loc) != s:first_line
       call findr#scroll_up()
@@ -191,7 +193,7 @@ function! findr#prev_item()
   else
     let s:selected_loc = s:start_loc
   endif
-  call findr#redraw_highlights()
+  call findr#redraw_highlights(old_selected)
 endfunction
 " }}}
 " Display: {{{
@@ -260,17 +262,16 @@ function! findr#redraw()
   else
     let s:first_line = ''
   endif
+  let old_sel = s:selected_loc
   let s:selected_loc = min([s:start_loc+1, line('$')])
-  call findr#redraw_highlights()
+  call findr#redraw_highlights(old_sel)
 endfunction
 
 
 
-function! findr#redraw_highlights()
+function! findr#redraw_highlights(old_selected)
   call clearmatches()
-  sign unplace 1
-  " call matchadd('FindrSelected','\%'.s:selected_loc.'l.*')
-  exe "sign place 1 name=findrselected line=".s:selected_loc
+  call matchadd('FindrSelected','\%'.s:selected_loc.'l.*')
   if g:findr_highlight_matches
     for str in split(findr#get_input())
       call matchadd('FindrMatch','\%>'.s:start_loc.'l\c'.escape(str, '*?,.\{}[]~'))

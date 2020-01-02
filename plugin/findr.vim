@@ -27,4 +27,3 @@ endif
 if !highlight_exists('FindrNormal')
   hi! link FindrNormal Normal
 endif
-sign define findrselected linehl=FindrSelected
