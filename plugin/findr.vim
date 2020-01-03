@@ -1,8 +1,9 @@
 let s:histfile =  expand('<sfile>:h:r') . '/../.findr_history'
+lua findr = require('findr')
 
-call findr#source_hist(s:histfile)
+" call findr#source_hist(s:histfile)
 
-command! Findr call findr#launch()
+" command! Findr call findr#launch()
 
 if !highlight_exists('FindrMatch')
   hi! link FindrMatch search

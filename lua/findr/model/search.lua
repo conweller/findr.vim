@@ -1,5 +1,5 @@
 -- Namespace
-M = {}
+local M = {}
 -- Helpers:
 local function split(line)
     local t = {}
@@ -38,28 +38,6 @@ local function pop(stack)
     return nil
 end
 
-local function scandir(directory)
-    local i, t, popen = 0, {}, io.popen
-    local pfile = popen('ls -ap '..directory..'')
-    for filename in pfile:lines() do
-        i = i + 1
-        t[i] = filename
-    end
-    pfile:close()
-    table.sort(t, function(a,b)
-        if a == '.' then
-            return true
-        elseif a ~= '.' and b == '..' then
-            return false
-        elseif string.len(a) == string.len(b) then
-            return a < b
-        else
-            return string.len(a) < string.len(b)
-        end
-    end)
-    return t
-end
-
 function M.candidates(list, inputs)
     local matches = {}
     for _, item in ipairs(list) do
@@ -81,14 +59,14 @@ local function is_input_subset(old, new)
     return new == old or string.match(escape_pattern(new),escape_pattern(old))
 end
 
-function M.update(input, stack)
+function M.update(input, stack, source)
     while stack.head ~= nil and not is_input_subset(stack.head.data.input, input) do
         pop(stack)
     end
     local completions
     if stack.head == nil then
         input = ''
-        completions = M.candidates(scandir('.'), split(input))
+        completions = M.candidates(source(), split(input))
     else
         local new_source = stack.head.data.completions
         completions = M.candidates(new_source, split(input))
@@ -99,44 +77,14 @@ function M.update(input, stack)
     push(stack, data)
 end
 
-function M.update_display(stack)
-    M.display = stack.head.data.completions
-end
-
-local function tablelength(T)
-    local count = 0
-    for _, _ in ipairs(T) do
-        count = count + 1
-    end
-    return count
-end
-
-function M.scroll_down(count)
-    local len = tablelength(M.display)
-    local new_T = {}
-    for i, item in ipairs(M.display) do
-        new_T[(i-(1+count))%len+1] = item
-    end
-    M.display = new_T
-end
-
-function M.scroll_up(count)
-    local len = tablelength(M.display)
-    local new_T = {}
-    for i, item in ipairs(M.display) do
-        new_T[(i+(count-1))%len+1] = item
-    end
-    M.display = new_T
-end
-
-M.comp_stack = {}
-M.comp_stack.head = nil
-M.display = {}
 
 function M.reset()
     M.comp_stack = {}
     M.comp_stack.head = nil
-    M.display = {}
 end
+
+M.comp_stack = {}
+M.comp_stack.head = nil
+
 
 return M
