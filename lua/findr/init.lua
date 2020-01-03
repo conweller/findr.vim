@@ -1,7 +1,7 @@
 -- Namespace
 M = {}
 -- Helpers:
-function M.split(line)
+local function split(line)
     local t = {}
     for str in string.gmatch(line, "[^%s]+") do
         table.insert(t, str)
@@ -9,7 +9,7 @@ function M.split(line)
     return t
 end
 
-function M.escape_pattern(text)
+local function escape_pattern(text)
     return text:gsub("([^%w])", "%%%1")
 end
 
@@ -22,14 +22,14 @@ end
 --  - data: node's data
 --  - next: next node
 
-function M.push(stack, item)
+local function push(stack, item)
     local node = {}
     node.data = item
     node.next = stack.head
     stack.head = node
 end
 
-function M.pop(stack)
+local function pop(stack)
     if stack.head ~= nil then
         local tmp = stack.head.data
         stack.head = stack.head.next
@@ -38,7 +38,7 @@ function M.pop(stack)
     return nil
 end
 
-function M.scandir(directory)
+local function scandir(directory)
     local i, t, popen = 0, {}, io.popen
     local pfile = popen('ls -ap '..directory..'')
     for filename in pfile:lines() do
@@ -65,7 +65,7 @@ function M.candidates(list, inputs)
     for _, item in ipairs(list) do
         local match = true
         for _, input in ipairs(inputs) do
-            if not string.match(string.lower(item), string.lower(M.escape_pattern(input))) then
+            if not string.match(string.lower(item), string.lower(escape_pattern(input))) then
                 match = false
                 break
             end
@@ -77,29 +77,33 @@ function M.candidates(list, inputs)
     return matches
 end
 
+local function is_input_subset(old, new)
+    return new == old or string.match(escape_pattern(new),escape_pattern(old))
+end
+
 function M.update(input, stack)
-    while stack.head ~= nil and not M.is_input_subset(stack.head.data.input, input) do
-        M.pop(stack)
+    while stack.head ~= nil and not is_input_subset(stack.head.data.input, input) do
+        pop(stack)
     end
     local completions
     if stack.head == nil then
         input = ''
-        completions = M.candidates(M.scandir('.'), M.split(input))
+        completions = M.candidates(scandir('.'), split(input))
     else
         local new_source = stack.head.data.completions
-        completions = M.candidates(new_source, M.split(input))
+        completions = M.candidates(new_source, split(input))
     end
     local data = {}
     data.input = input
     data.completions = completions
-    M.push(stack, data)
+    push(stack, data)
 end
 
 function M.update_display(stack)
     M.display = stack.head.data.completions
 end
 
-function M.tablelength(T)
+local function tablelength(T)
     local count = 0
     for _, _ in ipairs(T) do
         count = count + 1
@@ -108,7 +112,7 @@ function M.tablelength(T)
 end
 
 function M.scroll_down(count)
-    local len = M.tablelength(M.display)
+    local len = tablelength(M.display)
     local new_T = {}
     for i, item in ipairs(M.display) do
         new_T[(i-(1+count))%len+1] = item
@@ -117,7 +121,7 @@ function M.scroll_down(count)
 end
 
 function M.scroll_up(count)
-    local len = M.tablelength(M.display)
+    local len = tablelength(M.display)
     local new_T = {}
     for i, item in ipairs(M.display) do
         new_T[(i+(count-1))%len+1] = item
@@ -133,10 +137,6 @@ function M.reset()
     M.comp_stack = {}
     M.comp_stack.head = nil
     M.display = {}
-end
-
-function M.is_input_subset(old, new)
-    return new == old or string.match(M.escape_pattern(new),M.escape_pattern(old))
 end
 
 return M
