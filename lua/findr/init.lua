@@ -1,5 +1,5 @@
 -- Namespace
-M = {}
+local M = {}
 -- Helpers:
 local function split(line)
     local t = {}
