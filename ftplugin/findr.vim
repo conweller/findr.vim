@@ -37,6 +37,8 @@ imap <buffer> <delete> <plug>findr_delete
 imap <buffer> <c-u> <plug>findr_clear
 imap <buffer> <c-w> <plug>findr_word_delete
 
+imap <buffer> <left> <plug>findr_left
+
 " imap <buffer> <m-p>  <plug>findr_hist_prev
 " imap <buffer> <m-n>  <plug>findr_hist_next
 " imap <buffer> <s-up>  <plug>findr_hist_prev
