@@ -25,6 +25,9 @@ end
 local function add_highlights(input, selected_loc)
     vim.fn.clearmatches()
     vim.fn.matchadd('FindrSelected', '\\%' .. selected_loc .. 'l.*')
+    for _, str in ipairs(utils.split(input)) do
+        vim.fn.matchadd('FindrMatch','\\%>'..INPUT_LOC..'l\\c'..vim.fn.escape(str, '*?,.\\{}[]~'))
+    end
 end
 
 function M.redraw(display_table, input, selected_loc)
