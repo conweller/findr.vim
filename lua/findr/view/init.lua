@@ -7,7 +7,7 @@ local window = require('findr.view.window')
 local INPUT_LOC = 1
 
 function M.init()
-    window.new_split()
+    window.new_float()
 end
 
 function M.setinput(input)

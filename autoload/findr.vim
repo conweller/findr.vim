@@ -196,53 +196,52 @@ lua findr = require("findr")
 " endfunction
 " " }}}
 " " Display: {{{
-" function! s:tabline_visible()
-"   let tabnum = tabpagenr()
-"   let count = 0
-"   tabdo let count+=1
-"   execute tabnum.'tabnext'
-"   return count > 1 && &showtabline
-" endfunction
+function! s:tabline_visible()
+  let tabnum = tabpagenr()
+  let count = 0
+  tabdo let count+=1
+  execute tabnum.'tabnext'
+  return count > 1 && &showtabline
+endfunction
 
-" function! findr#floating()
-"  let width = min([&columns - 4, max([80, &columns - 20])])
-"   let buf = nvim_create_buf(v:false, v:true)
-"   call setbufvar(buf, '&signcolumn', 'no')
+function! findr#floating()
+ let width = min([&columns - 4, max([80, &columns - 20])])
+  let buf = nvim_create_buf(v:false, v:true)
+  call setbufvar(buf, '&signcolumn', 'no')
 
-"   " let height = float2nr(15)
-"   let height= &lines-(4+s:tabline_visible())
-"   let width = float2nr(80)
-"   let horizontal = float2nr((&columns - width) / 2)
-"   let vertical = 1 + s:tabline_visible()
-"   let opts = {
-"         \ 'relative': 'editor',
-"         \ 'row': vertical,
-"         \ 'col': horizontal,
-"         \ 'width': width,
-"         \ 'height': height,
-"         \ 'style': 'minimal'
-"         \ }
-"   if g:findr_enable_border
-"     let top = g:findr_border.top[0] .    repeat(g:findr_border.top[1], width - 2) . g:findr_border.top[2]
-"     let mid = g:findr_border.middle[0] . repeat(g:findr_border.middle[1], width - 2) . g:findr_border.middle[2]
-"     let bot = g:findr_border.bottom[0] . repeat(g:findr_border.bottom[1], width - 2) . g:findr_border.bottom[2]
-"     let lines = [top] + repeat([mid], height - 2) + [bot]
-"     let s:buf = nvim_create_buf(v:false, v:true)
-"     call nvim_buf_set_lines(s:buf, 0, -1, v:true, lines)
-"     call nvim_open_win(s:buf, v:true, opts)
-"     let opts.row += 1
-"     let opts.height -= 2
-"     let opts.col += 2
-"     let opts.width -= 4
-"     set winhl=Normal:FindrBorder
-"     call nvim_open_win(nvim_create_buf(v:true, v:false), v:true, opts)
-"     au BufWipeout <buffer> exe 'bw! '.s:buf
-"   else
-"     call nvim_open_win(nvim_create_buf(v:true, v:false), v:true, opts)
-"   endif
-"   file findr
-"   setlocal winhighlight=FoldColumn:Normal,Normal:FindrNormal
-" endfunction
+  " let height = float2nr(15)
+  let height= &lines-(4+s:tabline_visible())
+  let horizontal = float2nr((&columns - width) / 2)
+  let vertical = 1 + s:tabline_visible()
+  let opts = {
+        \ 'relative': 'editor',
+        \ 'row': vertical,
+        \ 'col': horizontal,
+        \ 'width': width,
+        \ 'height': height,
+        \ 'style': 'minimal'
+        \ }
+  if g:findr_enable_border
+    let top = g:findr_border.top[0] .    repeat(g:findr_border.top[1], width - 2) . g:findr_border.top[2]
+    let mid = g:findr_border.middle[0] . repeat(g:findr_border.middle[1], width - 2) . g:findr_border.middle[2]
+    let bot = g:findr_border.bottom[0] . repeat(g:findr_border.bottom[1], width - 2) . g:findr_border.bottom[2]
+    let lines = [top] + repeat([mid], height - 2) + [bot]
+    let s:buf = nvim_create_buf(v:false, v:true)
+    call nvim_buf_set_lines(s:buf, 0, -1, v:true, lines)
+    call nvim_open_win(s:buf, v:true, opts)
+    let opts.row += 1
+    let opts.height -= 2
+    let opts.col += 2
+    let opts.width -= 4
+    set winhl=Normal:FindrBorder
+    call nvim_open_win(nvim_create_buf(v:true, v:false), v:true, opts)
+    au BufWipeout <buffer> exe 'bw! '.s:buf
+  else
+    call nvim_open_win(nvim_create_buf(v:true, v:false), v:true, opts)
+  endif
+  file findr
+  setlocal winhighlight=FoldColumn:Normal,Normal:FindrNormal
+endfunction
 
 " function! findr#redraw()
 "   call luaeval('findr.update(_A, findr.comp_stack)', findr#get_input())

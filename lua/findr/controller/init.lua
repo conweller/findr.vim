@@ -2,6 +2,7 @@ local M = {}
 
 local vim = vim
 
+local utils = require('findr.utils')
 local view = require('findr.view')
 local model = require('findr.model')
 local sources = require('findr.sources')
@@ -30,8 +31,8 @@ end
 
 function M.update()
     local input = user_io.getinput()
-    selected_loc = 2
     model.update(input, sources.files.table)
+    selected_loc = math.min(utils.tablelength(model.display)+1, 2)
     view.redraw(model.display, input, selected_loc)
 end
 
@@ -67,8 +68,10 @@ function M.reset()
 end
 
 function M.change_dir(dir)
-    vim.api.nvim_command('lcd '..dir)
-    M.reset()
+    if dir == '~' or vim.fn.isdirectory(dir) == 1 then
+        vim.api.nvim_command('lcd '..dir)
+        M.reset()
+    end
 end
 
 function M.parent_dir()
