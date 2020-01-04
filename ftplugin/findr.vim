@@ -12,13 +12,12 @@ setlocal nonumber
 imap <buffer> <c-t> <nop>
 imap <buffer> <c-d> <nop>
 imap <buffer> <Insert> <nop>
-imap <buffer> <c-w> <nop>
 " }}}
 
 imap <buffer> / <plug>findr_cd
 imap <buffer> <tab> <plug>findr_cd
 imap <buffer> <c-l> <plug>findr_cd
-" imap <buffer> <c-h> <plug>findr_parent_dir
+imap <buffer> <c-h> <plug>findr_parent_dir
 
 imap <buffer> <cr> <plug>findr_edit
 
@@ -33,9 +32,10 @@ imap <buffer> <down> <plug>findr_next
 " imap <buffer> <c-c> <plug>findr_quit
 imap <buffer> <esc> <plug>findr_quit
 
-" imap <buffer> <backspace> <plug>findr_bs
-" imap <buffer> <delete> <plug>findr_delete
-" imap <buffer> <c-u> <plug>findr_clear
+imap <buffer> <backspace> <plug>findr_bs
+imap <buffer> <delete> <plug>findr_delete
+imap <buffer> <c-u> <plug>findr_clear
+imap <buffer> <c-w> <plug>findr_word_delete
 
 " imap <buffer> <m-p>  <plug>findr_hist_prev
 " imap <buffer> <m-n>  <plug>findr_hist_next

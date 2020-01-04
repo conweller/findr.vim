@@ -22,5 +22,4 @@ function M.get_filename()
     return M.getpath() .. model.get_selected()
 end
 
-
 return M
