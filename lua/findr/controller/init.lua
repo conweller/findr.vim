@@ -5,28 +5,28 @@ local vim = vim
 local view = require('findr.view')
 local model = require('findr.model')
 local sources = require('findr.sources')
+local user_io = require('findr.controller.user_io')
+local maps  = require('findr.controller.maps')
+
+
 
 local startloc = 1
 local selected_loc = 2
+local winnum = -1
 
-local function getinput()
-    local line = vim.fn.getline(startloc)
-    local input = string.match('/'..line, '^.+/(.+)$')
-    if not input or string.find(input, '/$') then
-        return ''
-    end
-    return input
+function M.init()
+    winnum = vim.fn.winnr()
+    view.init()
+    M.reset()
 end
 
-local function setinput(input)
-    local line = vim.fn.getcwd()
-    line = line == '/' and '/' or line .. '/'
-    line = line .. input
-    vim.fn.setline(startloc, line)
+function M.quit()
+    vim.api.nvim_command(winnum..'windo echo ""')
+    vim.api.nvim_command('bw findr')
 end
 
 function M.update()
-    local input = getinput()
+    local input = user_io.getinput()
     selected_loc = 2
     model.update(input, sources.files.table)
     view.redraw(model.display, input, selected_loc)
@@ -38,7 +38,7 @@ function M.select_next()
         selected_loc = selected_loc - 1
         model.scroll_down()
     end
-    view.redraw(model.display, getinput(), selected_loc)
+    view.redraw(model.display, user_io.getinput(), selected_loc)
 end
 
 function M.select_prev()
@@ -50,29 +50,42 @@ function M.select_prev()
     elseif not success then
         selected_loc = 1
     end
-    view.redraw(model.display, getinput(), selected_loc)
-end
-
-function M.get_selected()
-    return model.get_selected()
+    view.redraw(model.display, user_io.getinput(), selected_loc)
 end
 
 function M.reset()
     model.reset()
     startloc = 1
     selected_loc = 2
-    setinput('')
-end
-
-function M.change_dir()
-    vim.api.nvim_command('lcd '..M.get_selected())
-    M.reset()
-    M.update()
+    view.setinput('')
+    model.update('', sources.files.table)
+    view.redraw(model.display, '', selected_loc)
     vim.api.nvim_command('startinsert!')
 end
 
-function scandir()
-    return sources.files.table()
+function M.change_dir()
+    local input = user_io.getinput()
+    if input == '~' then
+        vim.api.nvim_command('lcd ~')
+    elseif selected_loc == 1 then
+        vim.api.nvim_command('lcd ' .. user_io.get_filename())
+    else
+        vim.api.nvim_command('lcd '..model.get_selected())
+    end
+    M.reset()
 end
+
+function M.quit()
+    vim.api.nvim_command(winnum..'windo echo ""')
+    vim.api.nvim_command('bw findr')
+end
+
+function M.edit()
+    local fname = user_io.get_filename()
+    vim.api.nvim_command(winnum..'windo edit ' .. fname)
+    M.quit()
+end
+
+maps.set()
 
 return M

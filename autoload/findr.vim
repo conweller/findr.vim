@@ -400,4 +400,5 @@ lua findr = require("findr")
 " inoremap <silent> <plug>findr_hist_next <cmd>call findr#next_hist()<cr>
 " inoremap <silent> <plug>findr_hist_prev <cmd>call findr#prev_hist()<cr>
 " " }}}
-" " vim: set sw=2 ts=2 sts=2 et tw=80 ft=vim fdm=marker:
+"
+" vim: set sw=2 ts=2 sts=2 et tw=80 ft=vim fdm=marker:

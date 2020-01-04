@@ -1,0 +1,13 @@
+local M = {}
+local vim = vim
+
+
+function M.set()
+    local opts = { noremap = true }
+    vim.api.nvim_set_keymap('i', '<plug>findr_cd', '<cmd>lua findr.controller.change_dir()<cr>', opts)
+    vim.api.nvim_set_keymap('i', '<plug>findr_next', '<cmd>lua findr.controller.select_next()<cr>', opts)
+    vim.api.nvim_set_keymap('i', '<plug>findr_prev', '<cmd>lua findr.controller.select_prev()<cr>', opts)
+    vim.api.nvim_set_keymap('i', '<plug>findr_edit', '<esc>:lua findr.controller.edit()<cr>', opts)
+    vim.api.nvim_set_keymap('i', '<plug>findr_quit', '<esc>:lua findr.controller.quit()<cr>', opts)
+end
+return M

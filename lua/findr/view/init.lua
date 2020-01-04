@@ -2,9 +2,20 @@ local M = {}
 
 local vim = vim
 local utils = require('findr.utils')
+local window = require('findr.view.window')
 
 local INPUT_LOC = 1
 
+function M.init()
+    window.new_split()
+end
+
+function M.setinput(input)
+    local line = vim.fn.getcwd()
+    line = line == '/' and '/' or line .. '/'
+    line = line .. input
+    vim.fn.setline(INPUT_LOC, line)
+end
 
 local function draw_candidates(display_table, winheight)
     local display = utils.slice(display_table, INPUT_LOC , winheight-1, 1)

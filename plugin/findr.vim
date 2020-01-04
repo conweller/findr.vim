@@ -4,6 +4,7 @@ lua findr = require('findr')
 " call findr#source_hist(s:histfile)
 
 " command! Findr call findr#launch()
+command! Findr lua findr.controller.init()
 
 if !highlight_exists('FindrMatch')
   hi! link FindrMatch search
