@@ -75,8 +75,8 @@ function M.change_dir(dir)
 end
 
 function M.parent_dir()
-    M.change_dir('../')
     local input = user_io.getinput()
+    M.change_dir('../')
     view.setinput(input)
 end
 
