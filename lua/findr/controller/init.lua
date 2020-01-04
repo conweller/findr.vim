@@ -128,8 +128,6 @@ function M.expand()
     local input = user_io.getinput()
     if input == '~' then
         M.change_dir('~')
-    elseif selected_loc == 1 then
-        M.change_dir(user_io.getpath() .. user_io.getinput())
     else
         M.change_dir(user_io.get_filename())
     end

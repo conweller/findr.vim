@@ -19,7 +19,12 @@ function M.getinput()
 end
 
 function M.get_filename()
-    return M.getpath() .. model.get_selected()
+    local selected = model.get_selected()
+    if selected ~= nil then
+        return M.getpath() .. model.get_selected()
+    else
+        return M.getpath() .. M.getinput()
+    end
 end
 
 return M
