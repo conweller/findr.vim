@@ -4,9 +4,7 @@ local model = require('findr.model')
 local startloc = 1
 
 function M.getpath()
-    local line = vim.fn.getline(startloc)
-    local path = string.match( line, '.*/')
-    return path
+    return vim.fn.getcwd() .. '/'
 end
 
 function M.getinput()

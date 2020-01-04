@@ -6,6 +6,7 @@ setlocal buftype=nofile
 setlocal noswapfile
 setlocal nocursorline
 setlocal norelativenumber
+setlocal signcolumn=no
 setlocal nonumber
 
 " Unmap: {{{
