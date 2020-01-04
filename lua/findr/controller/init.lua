@@ -129,10 +129,9 @@ function M.expand()
     if input == '~' then
         M.change_dir('~')
     elseif selected_loc == 1 then
-        M.change_dir(user_io.get_filename())
-        vim.api.nvim_command('lcd ' .. user_io.get_filename())
+        M.change_dir(user_io.getpath() .. user_io.getinput())
     else
-        M.change_dir(model.get_selected())
+        M.change_dir(user_io.get_filename())
     end
 end
 
