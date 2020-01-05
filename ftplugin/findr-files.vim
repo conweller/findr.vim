@@ -13,6 +13,7 @@ setlocal nonumber
 " Unmap: {{{
 imap <buffer> <c-t> <nop>
 imap <buffer> <c-d> <nop>
+imap <buffer> <c-w> <nop>
 imap <buffer> <Insert> <nop>
 " }}}
 
@@ -37,7 +38,7 @@ imap <buffer> <esc> <plug>findr_quit
 imap <buffer> <backspace> <plug>findr_bs
 imap <buffer> <delete> <plug>findr_delete
 imap <buffer> <c-u> <plug>findr_clear
-imap <buffer> <c-w> <plug>findr_word_delete
+" imap <buffer> <c-w> <plug>findr_word_delete
 
 imap <buffer> <left> <plug>findr_left
 

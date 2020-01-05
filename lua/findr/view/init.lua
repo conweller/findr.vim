@@ -3,22 +3,24 @@ local M = {}
 local vim = vim
 local utils = require('findr/utils')
 local window = require('findr/view.window')
+local namespace = vim.api.nvim_create_namespace('')
+local virtual_text = ' '
 
 local INPUT_LOC = 1
 
-function M.init()
+function M.init(filetype)
     local use_floating = vim.api.nvim_get_var('findr_floating_window')==1
     if use_floating then
-        window.new_floating()
+        window.new_floating(filetype)
     else
-        window.new_split()
+        window.new_split(filetype)
     end
+    virtual_text = string.rep(' ', vim.api.nvim_call_function('winwidth', {'.'}))
 end
 
-function M.setinput(cwd, input)
-    local line = cwd
-    line = line == '/' and '/' or line .. '/'
-    line = line .. input
+-- TODO: Generalize
+function M.setinput(prompt, input)
+    local line = prompt .. input
     vim.api.nvim_call_function('setline', {INPUT_LOC, line})
 end
 
@@ -29,6 +31,9 @@ end
 
 local function add_highlights(input, selected_loc)
     local highlight_matches = vim.api.nvim_get_var('findr_highlight_matches') == 1
+    vim.api.nvim_buf_clear_namespace(0 , namespace, 0, 1)
+    vim.api.nvim_buf_add_highlight(0, namespace, 'FindrSelected', selected_loc-1, 0, -1)
+    vim.api.nvim_buf_set_virtual_text(0, namespace, selected_loc-1, {{virtual_text,'FindrSelected'}}, {})
     vim.api.nvim_call_function('clearmatches', {})
     vim.api.nvim_call_function('matchadd', {'FindrSelected', '\\%' .. selected_loc .. 'l.*'})
     if highlight_matches then

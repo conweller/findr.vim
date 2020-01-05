@@ -35,14 +35,17 @@ function M.table()
     return scandir('.')
 end
 
-function M.sink()
--- TODO
+function M.sink(selected)
+    return 'edit '.. selected
 end
 
-M.actions = {
-    parent_dir = 0, -- TODO
-}
+function M.prompt()
+    local cwd = vim.api.nvim_call_function('getcwd', {})
+    cwd = vim.api.nvim_call_function('pathshorten', {cwd})
+    cwd = cwd == '/' and '/' or cwd .. '/'
+    return cwd
+end
 
-M.filetype = 'findr'
+M.filetype = 'findr-files'
 
 return M

@@ -9,29 +9,25 @@ local sources = require('findr/sources')
 local user_io = require('findr/controller/user_io')
 local maps  = require('findr/controller/maps')
 
-
-
 local startloc = 1
 local selected_loc = 2
 local winnum = -1
 local bufnum = -1
+local filetype = 'findr-files'
+local source = sources.files
 
+-- TODO: source history if source containts history
 function M.init()
     winnum = vim.api.nvim_call_function('winnr', {})
-    view.init()
+    view.init(filetype)
     M.reset()
     model.history.source()
     bufnum = vim.api.nvim_call_function('bufnr',{})
 end
 
-function M.quit()
-    vim.api.nvim_command(winnum..'windo echo ""')
-    vim.api.nvim_command('bw findr')
-end
-
 function M.update()
     local input = user_io.getinput()
-    model.update(input, sources.files.table)
+    model.update(input, source.table)
     selected_loc = math.min(utils.tablelength(model.display)+1, 2)
     view.redraw(model.display, input, selected_loc)
 end
@@ -63,7 +59,7 @@ function M.history_next()
     local idx, jump_point = model.history.get_jumpoint()
     M.change_dir(dir)
     model.history.set_jumpoint(idx, jump_point)
-    view.setinput(vim.api.nvim_call_function('getcwd', {}), input)
+    view.setinput(source.prompt(), input)
     vim.api.nvim_command('startinsert!')
 end
 
@@ -73,22 +69,24 @@ function M.history_prev()
     local idx, jump_point = model.history.get_jumpoint()
     M.change_dir(dir)
     model.history.set_jumpoint(idx, jump_point)
-    view.setinput(vim.api.nvim_call_function('getcwd',{}), input)
+    view.setinput(source.prompt(), input)
     vim.api.nvim_command('startinsert!')
 end
 
+-- TODO: generalize
 function M.reset()
     model.reset()
     startloc = 1
     selected_loc = 2
     local cwd = vim.api.nvim_call_function('getcwd',{})
     model.history.reset(cwd, '')
-    view.setinput(cwd, '')
-    model.update('', sources.files.table)
+    view.setinput(source.prompt(), '')
+    model.update('', source.table)
     view.redraw(model.display, '', selected_loc)
     vim.api.nvim_command('startinsert!')
 end
 
+-- TODO: move to source
 function M.change_dir(dir)
     if dir == '~' or vim.api.nvim_call_function('isdirectory', {dir}) == 1 then
         vim.api.nvim_command('lcd '..dir)
@@ -96,13 +94,15 @@ function M.change_dir(dir)
     end
 end
 
+-- TODO: move to source
 function M.parent_dir()
     local input = user_io.getinput()
     M.change_dir('../')
     local cwd = vim.api.nvim_call_function('getcwd',{})
-    view.setinput(cwd, input)
+    view.setinput(source.prompt(), input)
 end
 
+-- TODO: generalize
 function M.backspace()
     local pos = vim.api.nvim_win_get_cursor(0)[2]
     local line = vim.api.nvim_call_function('getline',{startloc})
@@ -113,17 +113,19 @@ function M.backspace()
     end
 end
 
+-- TODO: generalize
 function M.clear()
     local pos = vim.api.nvim_win_get_cursor(0)[2]
     local line = vim.api.nvim_call_function('getline', {startloc})
     if string.sub(line, pos, pos) ~= '/' then
         local input = string.sub(line,pos+1,string.len(line))
         local dir = vim.api.nvim_call_function('getcwd',{})
-        view.setinput(dir, input)
+        view.setinput(source.prompt(), input)
         vim.api.nvim_win_set_cursor(0, {1, string.len(dir)+1})
     end
 end
 
+-- TODO: Fix
 function M.delete_word()
     local pos = vim.api.nvim_win_get_cursor(0)[2]
     local line = vim.api.nvim_call_function('getline', {startloc})
@@ -133,6 +135,8 @@ function M.delete_word()
         vim.api.nvim_command('call nvim_feedkeys("\\<c-w>", "n", v:true)')
     end
 end
+
+-- TODO: generalize
 function M.left()
     local pos = vim.api.nvim_win_get_cursor(0)[2]
     local line = vim.api.nvim_call_function('getline',{startloc})
@@ -141,6 +145,7 @@ function M.left()
     end
 end
 
+-- TODO: generalize
 function M.delete()
     local pos = vim.api.nvim_win_get_cursor(0)[2]
     local line = vim.api.nvim_call_function('getline', {startloc})
@@ -149,6 +154,7 @@ function M.delete()
     end
 end
 
+-- TODO: generalize
 function M.expand()
     local input = user_io.getinput()
     if input == '~' then
@@ -163,12 +169,19 @@ function M.quit()
     vim.api.nvim_command('bw '..bufnum)
 end
 
+-- TODO: generalize
 function M.edit()
-    local fname = user_io.get_filename()
+    local fname
+    if filetype == 'findr-files' then
+        fname = user_io.get_filename()
+    else
+        fname = user_io.get_selected()
+    end
+    local command = source.sink(fname)
     model.history.update(user_io.get_dir_file_pair())
     model.history.write()
     M.quit()
-    vim.api.nvim_command(winnum..'windo edit ' .. fname)
+    vim.api.nvim_command(winnum..'windo '..command)
 end
 
 

@@ -27,6 +27,15 @@ function M.get_filename()
     end
 end
 
+function M.get_selected()
+    local selected = model.get_selected()
+    if selected ~= nil then
+        return model.get_selected()
+    else
+        return M.getinput()
+    end
+end
+
 function M.get_dir_file_pair()
     local selected = model.get_selected()
     if selected ~= nil then

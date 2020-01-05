@@ -9,7 +9,7 @@ local function tabline_visible()
     return 0
 end
 
-function M.new_floating()
+function M.new_floating(filetype)
     local use_border = vim.api.nvim_get_var('findr_enable_border') == 1
     local border = vim.api.nvim_get_var('findr_border')
     local columns = vim.api.nvim_get_option('columns')
@@ -55,14 +55,14 @@ function M.new_floating()
 
 
     vim.api.nvim_command('file findr')
-    vim.api.nvim_command('set ft=findr')
+    vim.api.nvim_command('set ft='..filetype)
     vim.api.nvim_command('setlocal winhighlight=FoldColumn:Normal,Normal:FindrNormal')
 end
 
-function M.new_split()
+function M.new_split(filetype)
     vim.api.nvim_command('botright 10new')
     vim.api.nvim_command('file findr')
-    vim.api.nvim_command('set ft=findr')
+    vim.api.nvim_command('set ft='..filetype)
     vim.api.nvim_command('setlocal winhighlight=FoldColumn:Normal,Normal:FindrNormal')
 end
 
