@@ -59,6 +59,7 @@ local function is_input_subset(old, new)
     return new == old or string.match(escape_pattern(new),escape_pattern(old))
 end
 
+A = 0
 function M.update(input, stack, source)
     while stack.head ~= nil and not is_input_subset(stack.head.data.input, input) do
         pop(stack)
@@ -66,7 +67,7 @@ function M.update(input, stack, source)
     local completions
     if stack.head == nil then
         input = ''
-        completions = M.candidates(source(), split(input))
+        completions = M.candidates(source(), {})
     else
         local new_source = stack.head.data.completions
         completions = M.candidates(new_source, split(input))

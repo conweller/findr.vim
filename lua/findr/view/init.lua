@@ -32,7 +32,6 @@ end
 local function add_highlights(input, selected_loc)
     local highlight_matches = vim.api.nvim_get_var('findr_highlight_matches') == 1
     vim.api.nvim_buf_clear_namespace(0 , namespace, 0, 1)
-    vim.api.nvim_buf_add_highlight(0, namespace, 'FindrSelected', selected_loc-1, 0, -1)
     vim.api.nvim_buf_set_virtual_text(0, namespace, selected_loc-1, {{virtual_text,'FindrSelected'}}, {})
     vim.api.nvim_call_function('clearmatches', {})
     vim.api.nvim_call_function('matchadd', {'FindrSelected', '\\%' .. selected_loc .. 'l.*'})
