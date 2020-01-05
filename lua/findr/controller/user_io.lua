@@ -6,11 +6,11 @@ local model = require('findr/model')
 local startloc = 1
 
 function M.getpath()
-    return vim.fn.getcwd() .. '/'
+    return vim.api.nvim_call_function('getcwd', {}) .. '/'
 end
 
 function M.getinput()
-    local line = vim.fn.getline(startloc)
+    local line = vim.api.nvim_call_function('getline', {startloc})
     local input = string.match('/'..line, '^.+/(.+)$')
     if not input or string.find(input, '/$') then
         return ''

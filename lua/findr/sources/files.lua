@@ -6,7 +6,7 @@ local function scandir(directory)
     local pfile = popen('ls -a '..directory..'')
     for filename in pfile:lines() do
         i = i + 1
-        if vim.fn.isdirectory(filename) == 1 then
+        if vim.api.nvim_call_function('isdirectory', {filename}) == 1 then
             t[i] = filename .. '/'
         else
             t[i] = filename

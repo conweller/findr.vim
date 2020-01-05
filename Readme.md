@@ -3,7 +3,7 @@ An incremental file finder for neovim, inspired by [ivy](https://github.com/abo-
 ![Screenshot](screenshots/findr.gif)
 
 ## Requirements
-* `nvim`: version > 0.4.0
+* `nvim`: version > 0.4.3
 * macos/linux
 
 ## Installation

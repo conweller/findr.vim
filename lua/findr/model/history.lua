@@ -11,7 +11,7 @@ local len = 0
 
 local function valid_line(dir_file_pair)
     if utils.tablelength(dir_file_pair) >= 1 then
-        return vim.fn.isdirectory(dir_file_pair[1]) == 1
+        return vim.api.nvim_call_function('isdirectory', {dir_file_pair[1]}) == 1
     end
     return false
 end
@@ -37,13 +37,13 @@ function M.source()
     local file = io.open(vim.api.nvim_get_var('findr_history') ,'r')
     if file then
         for line in file:lines() do
-            local dir_file_pair = vim.fn.split(line, '\\t' )
+            local dir_file_pair = vim.api.nvim_call_function('split', {line, '\\t'})
             if valid_line(dir_file_pair) then
                 local dir = dir_file_pair[1]
                 local input = dir_file_pair[2]
                 if input == nil then
                     input = ''
-                elseif vim.fn.isdirectory(dir..input) == 1 then
+                elseif vim.api.nvim_call_function('isdirectory', {dir..input}) == 1 then
                     dir = dir..input
                     input = ''
                 end

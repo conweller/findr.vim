@@ -17,11 +17,11 @@ local winnum = -1
 local bufnum = -1
 
 function M.init()
-    winnum = vim.fn.winnr()
+    winnum = vim.api.nvim_call_function('winnr', {})
     view.init()
     M.reset()
     model.history.source()
-    bufnum = vim.fn.bufnr()
+    bufnum = vim.api.nvim_call_function('bufnr',{})
 end
 
 function M.quit()
@@ -38,7 +38,7 @@ end
 
 function M.select_next()
     selected_loc = selected_loc + ( model.select_next() and 1 or 0 )
-    if selected_loc == vim.fn.winheight('.')+1 then
+    if selected_loc == vim.api.nvim_call_function('winheight',{'.'})+1 then
         selected_loc = selected_loc - 1
         model.scroll_down()
     end
@@ -63,7 +63,7 @@ function M.history_next()
     local idx, jump_point = model.history.get_jumpoint()
     M.change_dir(dir)
     model.history.set_jumpoint(idx, jump_point)
-    view.setinput(vim.fn.getcwd(), input)
+    view.setinput(vim.api.nvim_call_function('getcwd', {}), input)
     vim.api.nvim_command('startinsert!')
 end
 
@@ -73,7 +73,7 @@ function M.history_prev()
     local idx, jump_point = model.history.get_jumpoint()
     M.change_dir(dir)
     model.history.set_jumpoint(idx, jump_point)
-    view.setinput(vim.fn.getcwd(), input)
+    view.setinput(vim.api.nvim_call_function('getcwd',{}), input)
     vim.api.nvim_command('startinsert!')
 end
 
@@ -81,7 +81,7 @@ function M.reset()
     model.reset()
     startloc = 1
     selected_loc = 2
-    local cwd = vim.fn.getcwd()
+    local cwd = vim.api.nvim_call_function('getcwd',{})
     model.history.reset(cwd, '')
     view.setinput(cwd, '')
     model.update('', sources.files.table)
@@ -90,7 +90,7 @@ function M.reset()
 end
 
 function M.change_dir(dir)
-    if dir == '~' or vim.fn.isdirectory(dir) == 1 then
+    if dir == '~' or vim.api.nvim_call_function('isdirectory', {dir}) == 1 then
         vim.api.nvim_command('lcd '..dir)
         M.reset()
     end
@@ -99,13 +99,13 @@ end
 function M.parent_dir()
     local input = user_io.getinput()
     M.change_dir('../')
-    local cwd = vim.fn.getcwd()
+    local cwd = vim.api.nvim_call_function('getcwd',{})
     view.setinput(cwd, input)
 end
 
 function M.backspace()
     local pos = vim.api.nvim_win_get_cursor(0)[2]
-    local line = vim.fn.getline(startloc)
+    local line = vim.api.nvim_call_function('getline',{startloc})
     if string.sub(line, pos, pos) == '/' then
         M.parent_dir()
     else
@@ -115,10 +115,10 @@ end
 
 function M.clear()
     local pos = vim.api.nvim_win_get_cursor(0)[2]
-    local line = vim.fn.getline(startloc)
+    local line = vim.api.nvim_call_function('getline', {startloc})
     if string.sub(line, pos, pos) ~= '/' then
         local input = string.sub(line,pos+1,string.len(line))
-        local dir = vim.fn.getcwd()
+        local dir = vim.api.nvim_call_function('getcwd',{})
         view.setinput(dir, input)
         vim.api.nvim_win_set_cursor(0, {1, string.len(dir)+1})
     end
@@ -126,7 +126,7 @@ end
 
 function M.delete_word()
     local pos = vim.api.nvim_win_get_cursor(0)[2]
-    local line = vim.fn.getline(startloc)
+    local line = vim.api.nvim_call_function('getline', {startloc})
     if string.sub(line, pos, pos) == '/' then
         M.parent_dir()
     else
@@ -135,7 +135,7 @@ function M.delete_word()
 end
 function M.left()
     local pos = vim.api.nvim_win_get_cursor(0)[2]
-    local line = vim.fn.getline(startloc)
+    local line = vim.api.nvim_call_function('getline',{startloc})
     if string.sub(line, pos, pos) ~= '/' then
         vim.api.nvim_command('call nvim_feedkeys("\\<left>", "n", v:true)')
     end
@@ -143,7 +143,7 @@ end
 
 function M.delete()
     local pos = vim.api.nvim_win_get_cursor(0)[2]
-    local line = vim.fn.getline(startloc)
+    local line = vim.api.nvim_call_function('getline', {startloc})
     if pos ~= string.len(line) then
         vim.api.nvim_command('call nvim_feedkeys("\\<delete>", "n", v:true)')
     end
