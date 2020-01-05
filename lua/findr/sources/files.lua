@@ -14,9 +14,13 @@ local function scandir(directory)
     end
     pfile:close()
     table.sort(t, function(a,b)
-        if a == '.' then
+        if a == './' then
             return true
-        elseif a ~= '.' and b == '..' then
+        elseif b == './' then
+            return false
+        elseif a == '../' then
+            return true
+        elseif b == '../' then
             return false
         elseif string.len(a) == string.len(b) then
             return a < b

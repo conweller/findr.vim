@@ -41,7 +41,7 @@ imap <buffer> <c-w> <plug>findr_word_delete
 
 imap <buffer> <left> <plug>findr_left
 
-" imap <buffer> <m-p>  <plug>findr_hist_prev
-" imap <buffer> <m-n>  <plug>findr_hist_next
-" imap <buffer> <s-up>  <plug>findr_hist_prev
-" imap <buffer> <s-down>  <plug>findr_hist_next
+imap <buffer> <m-p>  <plug>findr_hist_prev
+imap <buffer> <m-n>  <plug>findr_hist_next
+imap <buffer> <s-up>  <plug>findr_hist_prev
+imap <buffer> <s-down>  <plug>findr_hist_next

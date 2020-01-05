@@ -15,15 +15,12 @@ local startloc = 1
 local selected_loc = 2
 local winnum = -1
 local bufnum = -1
-local history = {}
-local history_loc = 0
-local history_jump_point = -1
 
 function M.init()
     winnum = vim.fn.winnr()
     view.init()
     M.reset()
-    history = model.history.source()
+    model.history.source()
     bufnum = vim.fn.bufnr()
 end
 
@@ -36,8 +33,6 @@ function M.update()
     local input = user_io.getinput()
     model.update(input, sources.files.table)
     selected_loc = math.min(utils.tablelength(model.display)+1, 2)
-    history_loc = 0
-    history_jump_point = {vim.fn.getcwd(), './'}
     view.redraw(model.display, input, selected_loc)
 end
 
@@ -62,11 +57,33 @@ function M.select_prev()
     view.redraw(model.display, user_io.getinput(), selected_loc)
 end
 
+function M.history_next()
+    model.history.next()
+    local dir, input = model.history.get()
+    local idx, jump_point = model.history.get_jumpoint()
+    M.change_dir(dir)
+    model.history.set_jumpoint(idx, jump_point)
+    view.setinput(vim.fn.getcwd(), input)
+    vim.api.nvim_command('startinsert!')
+end
+
+function M.history_prev()
+    model.history.prev()
+    local dir, input = model.history.get()
+    local idx, jump_point = model.history.get_jumpoint()
+    M.change_dir(dir)
+    model.history.set_jumpoint(idx, jump_point)
+    view.setinput(vim.fn.getcwd(), input)
+    vim.api.nvim_command('startinsert!')
+end
+
 function M.reset()
     model.reset()
     startloc = 1
     selected_loc = 2
-    view.setinput('')
+    local cwd = vim.fn.getcwd()
+    model.history.reset(cwd)
+    view.setinput(cwd, '')
     model.update('', sources.files.table)
     view.redraw(model.display, '', selected_loc)
     vim.api.nvim_command('startinsert!')
@@ -82,7 +99,8 @@ end
 function M.parent_dir()
     local input = user_io.getinput()
     M.change_dir('../')
-    view.setinput(input)
+    local cwd = vim.fn.getcwd()
+    view.setinput(cwd, input)
 end
 
 function M.backspace()
@@ -95,6 +113,7 @@ function M.backspace()
     end
 end
 
+-- TODO: doesn't work
 function M.clear()
     local pos = vim.api.nvim_win_get_cursor(0)[2]
     local line = vim.fn.getline(startloc)
@@ -112,7 +131,6 @@ function M.delete_word()
         vim.api.nvim_command('call nvim_feedkeys("\\<c-w>", "n", v:true)')
     end
 end
-
 function M.left()
     local pos = vim.api.nvim_win_get_cursor(0)[2]
     local line = vim.fn.getline(startloc)
@@ -143,11 +161,10 @@ function M.quit()
     vim.api.nvim_command('bw '..bufnum)
 end
 
--- TODO: catch error when opening
 function M.edit()
     local fname = user_io.get_filename()
-    history = model.history.update(history, user_io.get_dir_file_pair())
-    model.history.write(history)
+    model.history.update(user_io.get_dir_file_pair())
+    model.history.write()
     M.quit()
     vim.api.nvim_command(winnum..'windo edit ' .. fname)
 end

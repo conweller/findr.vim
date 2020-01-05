@@ -33,7 +33,7 @@ function M.get_dir_file_pair()
         if M.getinput() ~= '' then
             return { M.getpath(),  M.getinput() }
         else
-            return { M.getpath(),  './' }
+            return { M.getpath(),  '' }
         end
     end
 end
