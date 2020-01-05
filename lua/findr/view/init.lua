@@ -24,9 +24,9 @@ end
 
 local function add_highlights(input, selected_loc)
     vim.fn.clearmatches()
-    -- vim.fn.matchadd('FindrSelected', '\\%' .. selected_loc .. 'l.*')
-    vim.api.nvim_command('sign unplace 1')
-    vim.api.nvim_command("sign place 1 name=findrselected line="..selected_loc)
+    vim.fn.matchadd('FindrSelected', '\\%' .. selected_loc .. 'l.*')
+    -- vim.api.nvim_command('sign unplace 1')
+    -- vim.api.nvim_command("sign place 1 name=findrselected line="..selected_loc)
     for _, str in ipairs(utils.split(input)) do
         vim.fn.matchadd('FindrMatch','\\%>'..INPUT_LOC..'l\\c'..vim.fn.escape(str, '*?,.\\{}[]~'))
     end
