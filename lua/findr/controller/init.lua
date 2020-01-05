@@ -113,12 +113,14 @@ function M.backspace()
     end
 end
 
--- TODO: doesn't work
 function M.clear()
     local pos = vim.api.nvim_win_get_cursor(0)[2]
     local line = vim.fn.getline(startloc)
     if string.sub(line, pos, pos) ~= '/' then
-        vim.api.nvim_command('call nvim_feedkeys("\\<c-u>", "n", v:true)')
+        local input = string.sub(line,pos+1,string.len(line))
+        local dir = vim.fn.getcwd()
+        view.setinput(dir, input)
+        vim.api.nvim_win_set_cursor(0, {1, string.len(dir)+1})
     end
 end
 
