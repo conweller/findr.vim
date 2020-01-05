@@ -1,5 +1,7 @@
 local M = {}
 
+local vim = vim
+
 local model = require('findr/model')
 local startloc = 1
 

@@ -82,7 +82,7 @@ function M.reset()
     startloc = 1
     selected_loc = 2
     local cwd = vim.fn.getcwd()
-    model.history.reset(cwd)
+    model.history.reset(cwd, '')
     view.setinput(cwd, '')
     model.update('', sources.files.table)
     view.redraw(model.display, '', selected_loc)

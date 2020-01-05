@@ -16,10 +16,10 @@ local function valid_line(dir_file_pair)
     return false
 end
 
-function M.reset(cwd)
+function M.reset(cwd, input)
     max_len = vim.api.nvim_get_var('findr_max_hist')
     index = 0
-    jump_point = {cwd, ''}
+    jump_point = {cwd, input}
 end
 
 function M.get_jumpoint()
