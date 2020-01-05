@@ -1,5 +1,6 @@
 " autocmd! CursorMovedI <buffer> call findr#redraw()
 autocmd! CursorMovedI <buffer> lua findr.controller.update()
+
 setlocal bufhidden=delete
 setlocal signcolumn=no
 setlocal buftype=nofile

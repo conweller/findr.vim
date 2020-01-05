@@ -2,12 +2,12 @@ local M = {}
 
 local vim = vim
 
-local utils = require('findr.utils')
-local view = require('findr.view')
-local model = require('findr.model')
-local sources = require('findr.sources')
-local user_io = require('findr.controller.user_io')
-local maps  = require('findr.controller.maps')
+local utils = require('findr/utils')
+local view = require('findr/view')
+local model = require('findr/model')
+local sources = require('findr/sources')
+local user_io = require('findr/controller/user_io')
+local maps  = require('findr/controller/maps')
 
 
 
@@ -15,16 +15,19 @@ local startloc = 1
 local selected_loc = 2
 local winnum = -1
 local bufnum = -1
+local history = {}
+local history_loc = 0
+local history_jump_point = -1
 
 function M.init()
     winnum = vim.fn.winnr()
     view.init()
     M.reset()
+    history = model.history.source()
     bufnum = vim.fn.bufnr()
 end
 
 function M.quit()
-
     vim.api.nvim_command(winnum..'windo echo ""')
     vim.api.nvim_command('bw findr')
 end
@@ -33,6 +36,8 @@ function M.update()
     local input = user_io.getinput()
     model.update(input, sources.files.table)
     selected_loc = math.min(utils.tablelength(model.display)+1, 2)
+    history_loc = 0
+    history_jump_point = {vim.fn.getcwd(), './'}
     view.redraw(model.display, input, selected_loc)
 end
 
@@ -138,11 +143,15 @@ function M.quit()
     vim.api.nvim_command('bw '..bufnum)
 end
 
+-- TODO: catch error when opening
 function M.edit()
     local fname = user_io.get_filename()
-    vim.api.nvim_command(winnum..'windo edit ' .. fname)
+    history = model.history.update(history, user_io.get_dir_file_pair())
+    model.history.write(history)
     M.quit()
+    vim.api.nvim_command(winnum..'windo edit ' .. fname)
 end
+
 
 maps.set()
 

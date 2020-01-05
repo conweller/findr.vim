@@ -1,8 +1,8 @@
 local M = {}
 
 local vim = vim
-local utils = require('findr.utils')
-local window = require('findr.view.window')
+local utils = require('findr/utils')
+local window = require('findr/view.window')
 
 local INPUT_LOC = 1
 

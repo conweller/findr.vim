@@ -71,8 +71,6 @@ For additional documentation see:
 ```
 
 ## TODO
-* `<c-w>` (delete word) functionality
 * Additional commands (e.g. command for buffer narrowing)
 * User defined sources
 * Multicolumn support
-* More efficient scrolling

@@ -1,4 +1,4 @@
-let s:histfile =  expand('<sfile>:h:r') . '/../.findr_history'
+let g:findr_history =  expand('<sfile>:h:r') . '/../.findr_history'
 lua findr = require('findr')
 
 " call findr#source_hist(s:histfile)

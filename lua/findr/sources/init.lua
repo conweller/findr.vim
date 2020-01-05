@@ -1,3 +1,3 @@
 local M = {}
-M.files = require('findr.sources.files')
+M.files = require('findr/sources/files')
 return M

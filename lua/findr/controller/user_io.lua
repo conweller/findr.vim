@@ -1,6 +1,6 @@
 local M = {}
 
-local model = require('findr.model')
+local model = require('findr/model')
 local startloc = 1
 
 function M.getpath()
@@ -22,6 +22,19 @@ function M.get_filename()
         return M.getpath() .. model.get_selected()
     else
         return M.getpath() .. M.getinput()
+    end
+end
+
+function M.get_dir_file_pair()
+    local selected = model.get_selected()
+    if selected ~= nil then
+        return { M.getpath(), model.get_selected() }
+    else
+        if M.getinput() ~= '' then
+            return { M.getpath(),  M.getinput() }
+        else
+            return { M.getpath(),  './' }
+        end
     end
 end
 

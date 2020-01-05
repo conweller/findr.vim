@@ -1,10 +1,12 @@
 local M = {}
 M.display = {}
 
-local search = require('findr.model.search')
-local utils = require('findr.utils')
-local scroll = require('findr.model.scroll')
+local search = require('findr/model/search')
+local utils = require('findr/utils')
+local scroll = require('findr/model/scroll')
 local selected_loc = 1
+
+M.history = require('findr/model/history')
 
 function M.reset()
     search.reset()

@@ -43,7 +43,6 @@ lua findr = require("findr")
 "   if len(dir_file_pair) == 2
 "     return isdirectory(dir_file_pair[0])
 "   endif
-"   let g:a = len(dir_file_pair)
 "   return v:false
 " endfunction
 
