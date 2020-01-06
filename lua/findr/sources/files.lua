@@ -47,5 +47,6 @@ function M.prompt()
 end
 
 M.filetype = 'findr-files'
+M.history = true
 
 return M

@@ -1,11 +1,21 @@
 local M = {}
 local vim = vim
 
-function list_buffers()
+local function buf_valid(buf)
+    if buf == vim.api.nvim_call_function('bufnr',{}) then
+        return false
+    elseif vim.api.nvim_call_function('buflisted', {buf}) == 1 then
+        local name = vim.api.nvim_buf_get_name(buf)
+        return name ~= ''
+    end
+    return false
+end
+
+local function list_buffers()
     local buffers = vim.api.nvim_list_bufs()
     local t = {}
     for _, buffer in ipairs(buffers) do
-        if vim.api.nvim_buf_is_loaded(buffer) then
+        if vim.api.nvim_buf_is_loaded(buffer) and buf_valid(buffer) then
             table.insert(t,vim.api.nvim_buf_get_name(buffer))
         end
     end
@@ -20,6 +30,11 @@ function M.sink(selected)
     return 'buffer '..selected
 end
 
+function M.prompt()
+    return '> '
+end
+
 M.filetype = 'findr'
+M.history = false
 
 return M

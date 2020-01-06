@@ -24,9 +24,10 @@ if !exists('g:findr_max_hist')
 endif
 
 lua findr = require('findr')
+lua sources = require('findr/sources')
 
-
-command! Findr lua findr.controller.init()
+command! Findr lua findr.controller.init(sources.files)
+command! FindrBuffers lua findr.controller.init(sources.buffers)
 
 if !highlight_exists('FindrMatch')
   hi! link FindrMatch search
