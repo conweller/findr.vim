@@ -71,6 +71,4 @@ For additional documentation see:
 ```
 
 ## TODO
-* Additional commands (e.g. command for buffer narrowing)
-* User defined sources
-* Multicolumn support
+* User defined commands documentation

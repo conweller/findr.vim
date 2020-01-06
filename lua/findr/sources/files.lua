@@ -46,6 +46,10 @@ function M.prompt()
     return cwd
 end
 
+function M.display(line)
+    return line
+end
+
 M.filetype = 'findr-files'
 M.history = true
 

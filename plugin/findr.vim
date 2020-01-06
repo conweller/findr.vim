@@ -26,8 +26,8 @@ endif
 lua findr = require('findr')
 lua sources = require('findr/sources')
 
-command! Findr lua findr.controller.init(sources.files)
-command! FindrBuffers lua findr.controller.init(sources.buffers)
+command! Findr lua findr.init(sources.files)
+command! FindrBuffers lua findr.init(sources.buffers)
 
 if !highlight_exists('FindrMatch')
   hi! link FindrMatch search

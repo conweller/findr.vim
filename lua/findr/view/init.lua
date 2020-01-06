@@ -24,9 +24,13 @@ function M.setinput(prompt, input)
     vim.api.nvim_call_function('setline', {INPUT_LOC, line})
 end
 
-local function draw_candidates(display_table, winheight)
+local function draw_candidates(display_table, winheight, display_fun)
     local display = utils.slice(display_table, INPUT_LOC , winheight-1, 1)
-    vim.api.nvim_buf_set_lines(0,INPUT_LOC, -1, true, display)
+    local t={}
+    for _, line in ipairs(display) do
+        table.insert(t, display_fun(line))
+    end
+    vim.api.nvim_buf_set_lines(0,INPUT_LOC, -1, true, t)
 end
 
 local function add_highlights(input, selected_loc)
@@ -42,9 +46,9 @@ local function add_highlights(input, selected_loc)
     end
 end
 
-function M.redraw(display_table, input, selected_loc)
+function M.redraw(display_table, input, selected_loc, display_fun)
     local winheight = vim.api.nvim_call_function('winheight',{'.'})
-    draw_candidates(display_table, winheight)
+    draw_candidates(display_table, winheight, display_fun)
     add_highlights(input, selected_loc)
 end
 return M

@@ -3,7 +3,7 @@ local vim = vim
 
 
 function M.set()
-    local opts = { noremap = true }
+    local opts = { noremap = true, silent=true }
     vim.api.nvim_set_keymap('i', '<plug>findr_cd', '<cmd>lua findr.controller.expand()<cr>', opts)
     vim.api.nvim_set_keymap('i', '<plug>findr_next', '<cmd>lua findr.controller.select_next()<cr>', opts)
     vim.api.nvim_set_keymap('i', '<plug>findr_prev', '<cmd>lua findr.controller.select_prev()<cr>', opts)

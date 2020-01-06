@@ -35,7 +35,7 @@ function M.update()
     local input = user_io.getinput(prompt)
     model.update(input, source.table)
     selected_loc = math.min(utils.tablelength(model.display)+1, 2)
-    view.redraw(model.display, input, selected_loc)
+    view.redraw(model.display, input, selected_loc, source.display)
 end
 
 function M.select_next()
@@ -44,7 +44,7 @@ function M.select_next()
         selected_loc = selected_loc - 1
         model.scroll_down()
     end
-    view.redraw(model.display, user_io.getinput(prompt), selected_loc)
+    view.redraw(model.display, user_io.getinput(prompt), selected_loc, source.display)
 end
 
 function M.select_prev()
@@ -56,7 +56,7 @@ function M.select_prev()
     elseif not success then
         selected_loc = 1
     end
-    view.redraw(model.display, user_io.getinput(prompt), selected_loc)
+    view.redraw(model.display, user_io.getinput(prompt), selected_loc, source.display)
 end
 
 function M.history_next()
@@ -90,7 +90,7 @@ function M.reset()
     prompt = source.prompt()
     view.setinput(prompt, '')
     model.update('', source.table)
-    view.redraw(model.display, '', selected_loc)
+    view.redraw(model.display, '', selected_loc, source.display)
     vim.api.nvim_command('startinsert!')
 end
 

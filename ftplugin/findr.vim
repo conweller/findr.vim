@@ -22,6 +22,8 @@ imap <buffer> <Insert> <nop>
 " }}}
 
 imap <buffer> <cr> <plug>findr_edit
+imap <buffer> <c-l> <plug>findr_edit
+imap <buffer> <tab> <plug>findr_edit
 
 imap <buffer> <up>   <plug>findr_prev
 imap <buffer> <c-p>  <plug>findr_prev

@@ -27,11 +27,17 @@ function M.table()
 end
 
 function M.sink(selected)
-    return 'buffer '..selected
+    return 'e '..selected
 end
 
 function M.prompt()
     return '> '
+end
+
+function M.display(line)
+    dir = vim.api.nvim_call_function('fnamemodify', {line, ':h'})
+    file = vim.api.nvim_call_function('fnamemodify', {line, ':t'})
+    return vim.api.nvim_call_function('pathshorten', {dir})..'/'..file
 end
 
 M.filetype = 'findr'
