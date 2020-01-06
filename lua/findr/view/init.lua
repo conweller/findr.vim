@@ -25,10 +25,13 @@ function M.setinput(prompt, input)
 end
 
 local function draw_candidates(display_table, winheight, display_fun)
-    local display = utils.slice(display_table, INPUT_LOC , winheight-1, 1)
     local t={}
-    for _, line in ipairs(display) do
-        table.insert(t, display_fun(line))
+    for idx, line in ipairs(display_table) do
+        if idx < winheight then
+            table.insert(t, display_fun(line))
+        else
+            break
+        end
     end
     vim.api.nvim_buf_set_lines(0,INPUT_LOC, -1, true, t)
 end

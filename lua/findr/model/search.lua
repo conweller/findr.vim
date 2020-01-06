@@ -59,7 +59,6 @@ local function is_input_subset(old, new)
     return new == old or string.match(escape_pattern(new),escape_pattern(old))
 end
 
-A = 0
 function M.update(input, stack, source)
     while stack.head ~= nil and not is_input_subset(stack.head.data.input, input) do
         pop(stack)
