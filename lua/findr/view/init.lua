@@ -18,17 +18,18 @@ function M.init(filetype)
     virtual_text = string.rep(' ', vim.api.nvim_call_function('winwidth', {'.'}))
 end
 
--- TODO: Generalize
 function M.setinput(prompt, input)
     local line = prompt .. input
     vim.api.nvim_call_function('setline', {INPUT_LOC, line})
 end
 
-local function draw_candidates(display_table, winheight, display_fun)
+local function draw_candidates(display_table, winheight)
     local t={}
     for idx, line in ipairs(display_table) do
+        A = line
         if idx < winheight then
-            table.insert(t, display_fun(line))
+            line = line.display
+            table.insert(t,line)
         else
             break
         end
@@ -49,9 +50,9 @@ local function add_highlights(input, selected_loc)
     end
 end
 
-function M.redraw(display_table, input, selected_loc, display_fun)
+function M.redraw(display_table, input, selected_loc)
     local winheight = vim.api.nvim_call_function('winheight',{'.'})
-    draw_candidates(display_table, winheight, display_fun)
+    draw_candidates(display_table, winheight)
     add_highlights(input, selected_loc)
 end
 return M

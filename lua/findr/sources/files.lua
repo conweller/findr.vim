@@ -6,14 +6,18 @@ local function scandir(directory)
     local pfile = popen('ls -a '..directory..'')
     for filename in pfile:lines() do
         i = i + 1
+        t[i] = {}
         if vim.api.nvim_call_function('isdirectory', {filename}) == 1 then
-            t[i] = filename .. '/'
+            t[i]['display'] = filename .. '/'
         else
-            t[i] = filename
+            t[i]['display'] = filename
         end
+        t[i]['value'] = filename
     end
     pfile:close()
     table.sort(t, function(a,b)
+        a = a['display']
+        b = b['display']
         if a == './' then
             return true
         elseif b == './' then
@@ -44,10 +48,6 @@ function M.prompt()
     cwd = vim.api.nvim_call_function('pathshorten', {cwd})
     cwd = cwd == '/' and '/' or cwd .. '/'
     return cwd
-end
-
-function M.display(line)
-    return line
 end
 
 M.filetype = 'findr-files'

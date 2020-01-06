@@ -1,4 +1,3 @@
--- TODO: Search by display name
 -- Namespace
 local M = {}
 -- Helpers:
@@ -41,7 +40,9 @@ end
 
 function M.candidates(list, inputs)
     local matches = {}
-    for _, item in ipairs(list) do
+    for _, line in ipairs(list) do
+        local item = line.display
+        local val = line.value
         local match = true
         for _, input in ipairs(inputs) do
             if not string.match(string.lower(item), string.lower(escape_pattern(input))) then
@@ -50,7 +51,10 @@ function M.candidates(list, inputs)
             end
         end
         if match then
-            table.insert(matches, item)
+            local t = {}
+            t.display = item
+            t.value = val
+            table.insert(matches, t)
         end
     end
     return matches

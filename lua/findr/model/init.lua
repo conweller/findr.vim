@@ -46,7 +46,7 @@ function M.scroll_up()
 end
 
 function M.get_selected()
-    return search.comp_stack.head.data.completions[selected_loc]
+    return search.comp_stack.head.data.completions[selected_loc]['value']
 end
 
 return M

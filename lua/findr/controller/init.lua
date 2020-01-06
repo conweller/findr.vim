@@ -36,7 +36,7 @@ function M.update()
     local input = user_io.getinput(prompt)
     model.update(input, source.table)
     selected_loc = math.min(utils.tablelength(model.display)+1, 2)
-    view.redraw(model.display, input, selected_loc, source.display)
+    view.redraw(model.display, input, selected_loc)
 end
 
 function M.select_next()
@@ -45,7 +45,7 @@ function M.select_next()
         selected_loc = selected_loc - 1
         model.scroll_down()
     end
-    view.redraw(model.display, user_io.getinput(prompt), selected_loc, source.display)
+    view.redraw(model.display, user_io.getinput(prompt), selected_loc)
 end
 
 function M.select_prev()
@@ -57,7 +57,7 @@ function M.select_prev()
     elseif not success then
         selected_loc = 1
     end
-    view.redraw(model.display, user_io.getinput(prompt), selected_loc, source.display)
+    view.redraw(model.display, user_io.getinput(prompt), selected_loc)
 end
 
 function M.history_next()
@@ -91,11 +91,10 @@ function M.reset()
     prompt = source.prompt()
     view.setinput(prompt, '')
     model.update('', source.table)
-    view.redraw(model.display, '', selected_loc, source.display)
+    view.redraw(model.display, '', selected_loc)
     vim.api.nvim_command('startinsert!')
 end
 
--- TODO: move to source
 function M.change_dir(dir)
     if dir == '~' or vim.api.nvim_call_function('isdirectory', {dir}) == 1 then
         vim.api.nvim_command('lcd '..dir)
@@ -135,7 +134,6 @@ function M.clear()
     end
 end
 
--- TODO: Fix
 function M.delete_word()
     if on_prompt() then
         if filetype == 'findr-files' then
@@ -160,7 +158,6 @@ function M.delete()
     end
 end
 
--- TODO: generalize
 function M.expand()
     local input = user_io.getinput(prompt)
     if input == '~' then
@@ -175,7 +172,6 @@ function M.quit()
     vim.api.nvim_command('bw '..bufnum)
 end
 
--- TODO: generalize
 function M.edit()
     local fname
     if filetype == 'findr-files' then
