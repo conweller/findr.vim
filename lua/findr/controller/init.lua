@@ -40,7 +40,8 @@ function M.update()
 end
 
 function M.select_next()
-    selected_loc = selected_loc + ( model.select_next() and 1 or 0 )
+    local success = model.select_next()
+    selected_loc = selected_loc + ( success and 1 or 0 )
     if selected_loc == vim.api.nvim_call_function('winheight',{'.'})+1 then
         selected_loc = selected_loc - 1
         model.scroll_down()

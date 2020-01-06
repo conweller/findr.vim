@@ -2,6 +2,7 @@
 autocmd! CursorMovedI <buffer> lua findr.controller.update()
 
 setlocal bufhidden=delete
+setlocal noshowmode
 setlocal signcolumn=no
 setlocal buftype=nofile
 setlocal noswapfile
