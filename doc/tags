@@ -1,4 +1,5 @@
 :Findr	Findr.txt	/*:Findr*
+:FindrBuffers	Findr.txt	/*:FindrBuffers*
 findr	Findr.txt	/*findr*
 findr-commands	Findr.txt	/*findr-commands*
 findr-configuration	Findr.txt	/*findr-configuration*

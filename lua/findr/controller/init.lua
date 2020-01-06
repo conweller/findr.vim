@@ -18,11 +18,12 @@ local filetype = source.filetype
 local prompt = source.prompt()
 local use_history = source.history
 
-function M.init(new_source)
+function M.init(new_source, directory)
     source = new_source
     filetype = source.filetype
     winnum = vim.api.nvim_call_function('winnr', {})
     view.init(filetype)
+    vim.api.nvim_command('lcd '..directory)
     M.reset()
     use_history = source.history
     if use_history then

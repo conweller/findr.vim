@@ -22,7 +22,10 @@ Use <tab> or / to change to the selected directory
 COMMANDS                                          *findr-commands*
 
                                                   *:Findr*
-:Findr                    launches a findr buffer in the current directory
+:Findr                    launches a file finder buffer in the current directory
+
+                                                  *:FindrBuffers*
+:FindrBuffers                    launches a findr buffer in the current directory
 
 ===========================================================================
 MAPS                                              *findr-maps*

@@ -26,8 +26,16 @@ endif
 lua findr = require('findr')
 lua sources = require('findr/sources')
 
-command! Findr lua findr.init(sources.files)
-command! FindrBuffers lua findr.init(sources.buffers)
+function! FindrLaunch(source, ...)
+    if a:0
+        exe 'lua findr.init('.a:source.', "'. a:000[0] .'")'
+    else
+        exe 'lua findr.init('.a:source.', "./")'
+    endif
+endfunction
+
+command! -complete=dir -nargs=? Findr call FindrLaunch('sources.files', <f-args>)
+command! FindrBuffers call FindrLaunch('sources.buffers', './')
 
 if !highlight_exists('FindrMatch')
   hi! link FindrMatch search
