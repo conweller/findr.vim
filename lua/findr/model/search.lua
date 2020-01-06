@@ -1,3 +1,4 @@
+-- TODO: Search by display name
 -- Namespace
 local M = {}
 -- Helpers:

@@ -6,6 +6,7 @@ setlocal signcolumn=no
 setlocal buftype=nofile
 setlocal noswapfile
 setlocal nocursorline
+setlocal nowrap
 setlocal norelativenumber
 setlocal signcolumn=no
 setlocal nonumber
