@@ -1,4 +1,6 @@
-let g:findr_history =  expand('<sfile>:h:r') . '/../.findr_history'
+if !exists('g:findr_history')
+    let g:findr_history =  expand('<sfile>:h:r') . '/../.findr_history'
+end
 if !exists('g:findr_enable_border')
   let g:findr_enable_border = 1
 endif
@@ -36,8 +38,8 @@ endfunction
 
 command! -complete=dir -nargs=? Findr call FindrLaunch('sources.files', <f-args>)
 command! FindrBuffers call FindrLaunch('sources.buffers', './')
-command! FindrLoc call FindrLaunch('sources.loclist', './')
-command! FindrQF call FindrLaunch('sources.qflist', './')
+command! FindrLocList call FindrLaunch('sources.loclist', './')
+command! FindrQFList call FindrLaunch('sources.qflist', './')
 
 if !highlight_exists('FindrMatch')
   hi! link FindrMatch search
