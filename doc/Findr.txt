@@ -39,8 +39,10 @@ Findr buffers operate entirely in insert mode, so all mappings are imaps
 local to findr buffers
 
 General maps ~
+                                                  *findr_<tab>*
                                                   *findr_<cr>*
 <cr>                      Choose selected item
+<tab>
 
                                                   *findr_up*
                                                   *findr_<c-p>*
