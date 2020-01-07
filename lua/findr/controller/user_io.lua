@@ -12,7 +12,7 @@ end
 function M.getinput(prompt)
     local line = vim.api.nvim_call_function('getline', {startloc})
     local input = string.sub(line, string.len(prompt)+1, string.len(line))
-    if not input or string.find(input, '/$') then
+    if not input then
         return ''
     end
     return input

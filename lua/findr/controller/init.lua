@@ -20,6 +20,9 @@ local use_history = source.history
 
 function M.init(new_source, directory)
     source = new_source
+    if source.init then
+        source.init()
+    end
     filetype = source.filetype
     winnum = vim.api.nvim_call_function('winnr', {})
     view.init(filetype)
@@ -170,7 +173,7 @@ end
 
 function M.quit()
     vim.api.nvim_command(winnum..'windo echo ""')
-    vim.api.nvim_command('bw '..bufnum)
+    vim.api.nvim_command('silent bw '..bufnum)
 end
 
 function M.edit()

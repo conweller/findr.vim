@@ -1,4 +1,4 @@
-M = {}
+local M = {}
 
 function M.tablelength(T)
     local count = 0

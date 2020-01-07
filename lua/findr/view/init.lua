@@ -26,7 +26,6 @@ end
 local function draw_candidates(display_table, winheight)
     local t={}
     for idx, line in ipairs(display_table) do
-        A = line
         if idx < winheight then
             line = line.display
             table.insert(t,line)

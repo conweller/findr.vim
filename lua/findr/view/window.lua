@@ -47,7 +47,7 @@ function M.new_floating(filetype)
         options.width = options.width - 4
         local buf = vim.api.nvim_create_buf(true, false)
         vim.api.nvim_open_win(buf, true, options)
-        vim.api.nvim_command('au BufWipeout <buffer> exe "bw! "'..border_buf)
+        vim.api.nvim_command('au BufWipeout <buffer> exe "silent bw! "'..border_buf)
     else
         local buf = vim.api.nvim_create_buf(true, false)
         vim.api.nvim_open_win(buf, true, options)

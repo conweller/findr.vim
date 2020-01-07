@@ -36,6 +36,8 @@ endfunction
 
 command! -complete=dir -nargs=? Findr call FindrLaunch('sources.files', <f-args>)
 command! FindrBuffers call FindrLaunch('sources.buffers', './')
+command! FindrLoc call FindrLaunch('sources.loclist', './')
+command! FindrQF call FindrLaunch('sources.qflist', './')
 
 if !highlight_exists('FindrMatch')
   hi! link FindrMatch search
