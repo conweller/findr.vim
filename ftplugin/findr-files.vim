@@ -1,4 +1,3 @@
-" autocmd! CursorMovedI <buffer> call findr#redraw()
 setlocal ft=findr
 
 
