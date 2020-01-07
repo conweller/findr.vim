@@ -236,7 +236,7 @@ function! findr#floating()
     let opts.width -= 4
     set winhl=Normal:FindrBorder
     call nvim_open_win(nvim_create_buf(v:true, v:false), v:true, opts)
-    au BufWipeout <buffer> exe 'bw! '.s:buf
+    au BufWipeout <buffer> exe 'silent bw! '.s:buf
   else
     call nvim_open_win(nvim_create_buf(v:true, v:false), v:true, opts)
   endif
