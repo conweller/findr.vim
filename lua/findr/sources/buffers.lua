@@ -20,7 +20,7 @@ local function list_buffers()
     local buffers = vim.api.nvim_list_bufs()
     local t = {}
     for _, buffer in ipairs(buffers) do
-        if vim.api.nvim_buf_is_loaded(buffer) and buf_valid(buffer) then
+        if buf_valid(buffer) then
             local buf_name = vim.api.nvim_buf_get_name(buffer)
             local buf = {}
             buf.display = display(buf_name)
