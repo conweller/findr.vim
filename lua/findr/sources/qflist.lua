@@ -19,11 +19,6 @@ function M.sink(selected)
     return selected..'cc'
 end
 
-function M.prompt()
-    return '> '
-end
-
 M.filetype = 'findr-qf'
-M.history = false
 
 return M

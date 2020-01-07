@@ -20,12 +20,7 @@ function M.sink(selected)
     return selected..'ll'
 end
 
-function M.prompt()
-    return '> '
-end
-
 M.filetype = 'findr-qf'
-M.history = false
 
 function M.init()
     winnum = vim.api.nvim_call_function('winnr', {})

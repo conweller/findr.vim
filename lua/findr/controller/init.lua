@@ -15,7 +15,7 @@ local winnum = -1
 local bufnum = -1
 local source = sources.files
 local filetype = source.filetype
-local prompt = source.prompt()
+local prompt = '> '
 local use_history = source.history
 
 function M.init(new_source, directory)
@@ -23,12 +23,20 @@ function M.init(new_source, directory)
     if source.init then
         source.init()
     end
-    filetype = source.filetype
+    if source.filetype then
+        filetype = source.filetype
+    else
+        filetype = 'findr'
+    end
     winnum = vim.api.nvim_call_function('winnr', {})
     view.init(filetype)
     vim.api.nvim_command('lcd '..directory)
     M.reset()
-    use_history = source.history
+    if source.history then
+        use_history = source.history
+    else
+        use_history = false
+    end
     if use_history then
         model.history.source()
     end
@@ -92,7 +100,11 @@ function M.reset()
         local cwd = vim.api.nvim_call_function('getcwd',{})
         model.history.reset(cwd, '')
     end
-    prompt = source.prompt()
+    if not source.prompt then
+        prompt = '> '
+    else
+        prompt = source.prompt()
+    end
     view.setinput(prompt, '')
     model.update('', source.table)
     view.redraw(model.display, '', selected_loc)

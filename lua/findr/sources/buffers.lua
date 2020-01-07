@@ -40,11 +40,4 @@ function M.sink(selected)
     return 'e '..selected
 end
 
-function M.prompt()
-    return '> '
-end
-
-M.filetype = 'findr'
-M.history = false
-
 return M
