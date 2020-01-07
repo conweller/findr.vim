@@ -2,16 +2,13 @@ local M = {}
 local vim = vim
 
 local function buf_valid(buf)
-    if buf == vim.api.nvim_call_function('bufnr',{}) then
-        return false
-    -- elseif vim.api.nvim_call_function('buflisted', {buf}) == 1 then
-    --     local name = vim.api.nvim_buf_get_name(buf)
-    --     return name ~= ''
-    -- end
+    -- if buf == vim.api.nvim_call_function('bufnr',{}) then
+    --     return false
+    if vim.api.nvim_call_function('buflisted', {buf}) == 1 then
+        local name = vim.api.nvim_buf_get_name(buf)
+        return name ~= ''
     end
-    local name = vim.api.nvim_buf_get_name(buf)
-    return name ~= ''
-    -- return false
+    return false
 end
 
 local function display(line)
