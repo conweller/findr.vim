@@ -15,23 +15,23 @@ local function scandir(directory)
         t[i]['value'] = filename
     end
     pfile:close()
-    table.sort(t, function(a,b)
-        a = a['display']
-        b = b['display']
-        if a == './' then
-            return true
-        elseif b == './' then
-            return false
-        elseif a == '../' then
-            return true
-        elseif b == '../' then
-            return false
-        elseif string.len(a) == string.len(b) then
-            return a < b
-        else
-            return string.len(a) < string.len(b)
-        end
-    end)
+    -- table.sort(t, function(a,b)
+    --     a = a['display']
+    --     b = b['display']
+    --     if a == './' then
+    --         return true
+    --     elseif b == './' then
+    --         return false
+    --     elseif a == '../' then
+    --         return true
+    --     elseif b == '../' then
+    --         return false
+    --     elseif string.len(a) == string.len(b) then
+    --         return a < b
+    --     else
+    --         return string.len(a) < string.len(b)
+    --     end
+    -- end)
     return t
 end
 
