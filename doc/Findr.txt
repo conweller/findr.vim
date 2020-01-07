@@ -23,7 +23,7 @@ COMMANDS                                          *findr_commands*
                                 directory
 
                                                   *:FindrBuffers*
-:FindrBuffers                   launches a buffer finder
+:FindrBuffers                   launches a buffer selector
 
                                                   *:FindrLocList*
 :FindrLocList                   launches a location list finder for the
