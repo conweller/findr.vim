@@ -1,44 +1,46 @@
-Findr, incremental file finding                   *findr*
+Findr, incremental narrowing engine for noevim    *findr*
 
 ===========================================================================
-USAGE                                             *findr-usage*
+USAGE                                             *findr_usage*
 
-Open Findr with the command `:Findr`. This will launch a findr buffer (in a
-floating window by default).
+Open A Findr buffer with one of the commands provided (see |findr_commands|)
 
-Once you are in a findr buffer, you can find files and subdirectories in your
-current directory by entering the pattern in the first line.
+Once you are in a findr buffer, you can narrow items by entering the pattern
+in the first line (as of right now regex expressions are not supported)
 
 You can delimit multiple patterns you are searching for with a space.
 
-The first matching file is selected by default, you can select a different
-file using <c-p> for the previous file, or <c-n> for the next file
+The first matching item is selected by default, you can select a different
+item using <c-p> for the previous item, or <c-n> for the next item
 
-Use <cr> to edit a file
-
-Use <tab> or / to change to the selected directory
+Use <cr> to Choose the selected item
 
 ===========================================================================
-COMMANDS                                          *findr-commands*
+COMMANDS                                          *findr_commands*
 
                                                   *:Findr*
-:Findr                    launches a findr buffer in the current directory
+:Findr                          launches a file finder buffer in the current
+                                directory
+
+                                                  *:FindrBuffers*
+:FindrBuffers                   launches a buffer selector
+
+                                                  *:FindrLocList*
+:FindrLocList                   launches a location list finder for the
+                                current file
+
+                                                  *:FindrQFList*
+:FindrQFList                    launches a location list finder for the
+                                current file
 
 ===========================================================================
-MAPS                                              *findr-maps*
-
+MAPS                                              *findr_maps*
 Findr buffers operate entirely in insert mode, so all mappings are imaps
 local to findr buffers
 
-                                                  *findr_/*
-                                                  *findr_<tab>*
-                                                  *findr_<c-l>*
-/
-<tab>                     Enter the selected directory 
-<c-l>
-
+General maps ~
                                                   *findr_<cr>*
-<cr>                      Edit the selected item
+<cr>                      Choose selected item
 
                                                   *findr_up*
                                                   *findr_<c-p>*
@@ -54,34 +56,52 @@ local to findr buffers
 <c-n>                     Select the next item
 <c-j>
 
-                                                  *findr_<c-h>*
-<c-h>                      Go back to the parent directory of the current
-                          directory
-
-                                                  *findr_<bs>*
-<bs>                      If previous char in line is '/', then go back one
-                          directory, else delete previous char
-
-                                                  *findr_<s-up>*
-                                                  *findr_<m-p>*
-<c-p>                     Select the previous item in history
-<s-up>
-
-                                                  *findr_<s-down>*
-                                                  *findr_<m-n>*
-<c-n>                     Select the next item in history
-<s-down>
-
                                                   *findr_<c-u>*
-<c-u>                     Clears text in prompt up until the path
+<c-u>                     Clears text in prompt up until the prompt-string
 
                                                   *findr_<esc>*
                                                   *findr_<c-c>*
 <esc>                     Quit findr, return to previous buffer
 <c-c>
 
+
+File finder specific maps ~
+                                                  *file_findr_/*
+                                                  *file_findr_<tab>*
+                                                  *file_findr_<c-l>*
+/
+<tab>                     Enter the selected directory 
+<c-l>
+
+                                                  *file_findr_<c-h>*
+<c-h>                      Go back to the parent directory of the current
+                          directory
+
+                                                  *file_findr_<bs>*
+<bs>                      If previous char in line is part of the
+                          prompt-string, then go back one directory, else
+                          delete previous char
+
+                                                  *file_findr_<s-up>*
+                                                  *file_findr_<m-p>*
+<c-p>                     Select the previous item in history
+<s-up>
+
+                                                  *file_findr_<s-down>*
+                                                  *file_findr_<m-n>*
+<c-n>                     Select the next item in history
+<s-down>
+
+                                                  *file_findr_<c-u>*
+<c-u>                     Clears text in prompt up until the path
+
+                                                  *file_findr_<esc>*
+                                                  *file_findr_<c-c>*
+<esc>                     Quit findr, return to previous buffer
+<c-c>
+
 ===========================================================================
-CONFIGURATION                                        *findr-configuration*
+CONFIGURATION                                        *findr_configuration*
 
                                                   *g:findr_floating_window*
 Enable/disable floating window (default 1)
@@ -102,11 +122,15 @@ Example:
         \   'bottom': ['└', '─', '┘'],
         \ }
 <
+
+                                                  *g:findr_history*
+File to read and write history of previous files chosen from the file finder
+
                                                   *g:findr_max_hist*
 Maximum number of files stored in history (default 100)
 
 ===========================================================================
-HIGHLIGHTS                                        *findr-highlights*
+HIGHLIGHTS                                        *findr_highlights*
 
                                                   *hl-FindrDir*
 FindrDir                  File path

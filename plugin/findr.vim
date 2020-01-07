@@ -1,8 +1,45 @@
-let s:histfile =  expand('<sfile>:h:r') . '/../.findr_history'
+if !exists('g:findr_history')
+    let g:findr_history =  expand('<sfile>:h:r') . '/../.findr_history'
+end
+if !exists('g:findr_enable_border')
+  let g:findr_enable_border = 1
+endif
 
-call findr#source_hist(s:histfile)
+if !exists('g:findr_floating_window')
+  let g:findr_floating_window = 1
+endif
 
-command! Findr call findr#launch()
+if !exists('g:findr_highlight_matches')
+  let g:findr_highlight_matches = 1
+endif
+
+if !exists('g:findr_border')
+  let g:findr_border = {
+        \   'top':    ['┌', '─', '┐'],
+        \   'middle': ['│', ' ', '│'],
+        \   'bottom': ['└', '─', '┘'],
+        \ }
+endif
+
+if !exists('g:findr_max_hist')
+  let g:findr_max_hist = 100
+endif
+
+lua findr = require('findr')
+lua sources = require('findr/sources')
+
+function! FindrLaunch(source, ...)
+    if a:0
+        exe 'lua findr.init('.a:source.', "'. a:000[0] .'")'
+    else
+        exe 'lua findr.init('.a:source.', "./")'
+    endif
+endfunction
+
+command! -complete=dir -nargs=? Findr call FindrLaunch('sources.files', <f-args>)
+command! FindrBuffers call FindrLaunch('sources.buffers', './')
+command! FindrLocList call FindrLaunch('sources.loclist', './')
+command! FindrQFList call FindrLaunch('sources.qflist', './')
 
 if !highlight_exists('FindrMatch')
   hi! link FindrMatch search
@@ -27,3 +64,4 @@ endif
 if !highlight_exists('FindrNormal')
   hi! link FindrNormal Normal
 endif
+ sign define findrselected linehl=FindrSelected
