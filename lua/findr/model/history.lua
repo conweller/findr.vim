@@ -36,21 +36,32 @@ function M.source()
     len = 0
     local file = io.open(vim.api.nvim_get_var('findr_history') ,'r')
     if file then
+        local prev_pair = {}
         for line in file:lines() do
             local dir_file_pair = vim.api.nvim_call_function('split', {line, '\\t'})
-            if valid_line(dir_file_pair) then
+            if  valid_line(dir_file_pair) then
                 local dir = dir_file_pair[1]
                 local input = dir_file_pair[2]
                 if input == nil then
                     input = ''
                 elseif vim.api.nvim_call_function('isdirectory', {dir..input}) == 1 then
-                    dir = dir..input
-                    input = ''
+                    if input == '.' or input == './' then
+                        input = ''
+                    elseif input == '..' or input == '../' then
+                        dir = vim.api.nvim_call_function('fnamemodify', {dir, ':h:h'})
+                        input = ''
+                    else
+                        dir = dir..input
+                        input = ''
+                    end
                 end
                 dir_file_pair = {dir, input}
-                table.insert(history, dir_file_pair)
-                len = len + 1
+                if dir_file_pair[1] ~= prev_pair[1] and dir_file_pair[2] ~= prev_pair[2] then
+                    table.insert(history, dir_file_pair)
+                    len = len + 1
+                end
             end
+            prev_pair = dir_file_pair
         end
         file:close()
     end
@@ -60,10 +71,8 @@ function M.update(dir_file_pair)
         local same_dir = history[len][1] == dir_file_pair[1]
         local same_file = history[len][2] == dir_file_pair[2]
         TEST = not (same_dir and same_file)
-        if not (same_dir and same_file) then
-            table.insert(history, dir_file_pair)
-            len = len + 1
-        end
+        table.insert(history, dir_file_pair)
+        len = len + 1
     else
         table.insert(history, dir_file_pair)
         len = len + 1
