@@ -56,7 +56,7 @@ function M.source()
                     end
                 end
                 dir_file_pair = {dir, input}
-                if dir_file_pair[1] ~= prev_pair[1] and dir_file_pair[2] ~= prev_pair[2] then
+                if dir_file_pair[1] ~= prev_pair[1] or dir_file_pair[2] ~= prev_pair[2] then
                     table.insert(history, dir_file_pair)
                     len = len + 1
                 end
