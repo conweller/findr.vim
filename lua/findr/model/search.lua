@@ -18,21 +18,21 @@ end
 --  - push: push to top of stack
 --  - pop: pop from top of stack
 
--- Node:
---  - data: node's data
---  - next: next node
 
 local function push(stack, item)
     local node = {}
-    node.data = item
-    node.next = stack.head
-    stack.head = node
+    node = item
+    stack.idx = stack.idx + 1
+    table.insert(stack.table, node)
+    stack.head = stack.table[stack.idx]
 end
 
 local function pop(stack)
-    if stack.head ~= nil then
-        local tmp = stack.head.data
-        stack.head = stack.head.next
+    if stack.idx ~= 0 then
+        local tmp = stack.head
+        table.remove(stack.table,stack.idx)
+        stack.idx = stack.idx - 1
+        stack.head = stack.table[stack.idx]
         return tmp
     end
     return nil
@@ -65,7 +65,7 @@ local function is_input_subset(old, new)
 end
 
 function M.update(input, stack, source)
-    while stack.head ~= nil and not is_input_subset(stack.head.data.input, input) do
+    while stack.head ~= nil and not is_input_subset(stack.head.input, input) do
         pop(stack)
     end
     local completions
@@ -73,7 +73,7 @@ function M.update(input, stack, source)
         input = ''
         completions = M.candidates(source(), {})
     else
-        local new_source = stack.head.data.completions
+        local new_source = stack.head.completions
         completions = M.candidates(new_source, split(input))
     end
     local data = {}
@@ -85,11 +85,15 @@ end
 
 function M.reset()
     M.comp_stack = {}
+    M.comp_stack.idx = 0
     M.comp_stack.head = nil
+    M.comp_stack.table = {}
 end
 
 M.comp_stack = {}
+M.comp_stack.idx = 0
 M.comp_stack.head = nil
+M.comp_stack.table = {}
 
 
 return M

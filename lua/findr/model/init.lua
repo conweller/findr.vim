@@ -17,7 +17,7 @@ end
 function M.update(input, source)
     selected_loc = 1
     search.update(input, search.comp_stack, source)
-    M.display = search.comp_stack.head.data.completions
+    M.display = search.comp_stack.head.completions
 end
 
 function M.select_next()
@@ -46,7 +46,7 @@ function M.scroll_up()
 end
 
 function M.get_selected()
-    local selected = search.comp_stack.head.data.completions[selected_loc]
+    local selected = search.comp_stack.head.completions[selected_loc]
     if selected then
         return selected.value
     end
