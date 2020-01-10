@@ -83,4 +83,3 @@ For additional documentation see:
 
 ## TODO
 * User defined commands documentation
-* Use `nvim_get_commands` for command selection
