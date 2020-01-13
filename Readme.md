@@ -83,3 +83,6 @@ For additional documentation see:
 
 ## TODO
 * User defined commands documentation
+* Better buffers command
+    * Sort based on last visited
+    * Don't show full path if name is unique
