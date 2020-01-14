@@ -28,6 +28,8 @@ imap <buffer> <cr> <plug>findr_edit
 imap <buffer> <c-l> <plug>findr_edit
 imap <buffer> <tab> <plug>findr_edit
 
+imap <buffer> <c-h> <plug>clear_to_parent
+
 imap <buffer> <up>   <plug>findr_prev
 imap <buffer> <c-p>  <plug>findr_prev
 imap <buffer> <c-k>  <plug>findr_prev

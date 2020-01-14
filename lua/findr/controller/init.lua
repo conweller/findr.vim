@@ -150,6 +150,18 @@ function M.clear()
     end
 end
 
+function M.clear_to_parent()
+    if not on_prompt() then
+        local pos = vim.api.nvim_win_get_cursor(0)[2]
+        local line = vim.api.nvim_call_function('getline', {startloc})
+        local input = string.sub(line,pos+1,string.len(line))
+        view.setinput(prompt, input)
+        vim.api.nvim_win_set_cursor(0, {1, string.len(prompt)})
+    elseif filetype == 'findr-files' then
+            M.parent_dir()
+    end
+end
+
 function M.delete_word()
     if on_prompt() then
         if filetype == 'findr-files' then
