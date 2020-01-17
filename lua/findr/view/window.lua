@@ -15,7 +15,7 @@ function M.new_floating(filetype)
     local columns = vim.api.nvim_get_option('columns')
     local lines = vim.api.nvim_get_option('lines')
 
-    local height = lines - (4+tabline_visible())
+    local height = math.min(lines - (4+tabline_visible()), 15)
     local width = math.min(80, columns-4)
     local horizontal = math.floor((columns-width) / 2)
     local vertical = 1 + tabline_visible()
@@ -43,8 +43,8 @@ function M.new_floating(filetype)
         vim.api.nvim_command('setlocal winhl=Normal:FindrBorder')
         options.row = options.row + 1
         options.height = options.height - 2
-        options.col =  options.col + 2
-        options.width = options.width - 4
+        options.col =  options.col + 1
+        options.width = options.width - 2
         local buf = vim.api.nvim_create_buf(true, false)
         vim.api.nvim_open_win(buf, true, options)
         vim.api.nvim_command('au BufWipeout <buffer> exe "silent bw! "'..border_buf)
@@ -60,10 +60,11 @@ function M.new_floating(filetype)
 end
 
 function M.new_split(filetype)
-    vim.api.nvim_command('botright 13new')
+    vim.api.nvim_command('botright 10new')
     vim.api.nvim_command('file findr')
     vim.api.nvim_command('set ft='..filetype)
     vim.api.nvim_command('setlocal winhighlight=FoldColumn:Normal,Normal:FindrNormal')
+    vim.api.nvim_command('setlocal statusline=\\ ')
 end
 
 return M

@@ -17,6 +17,7 @@ local source = sources.files
 local filetype = source.filetype
 local prompt = '> '
 local use_history = source.history
+local num_tab = 0
 
 function M.init(new_source, directory)
     source = new_source
@@ -44,6 +45,7 @@ function M.init(new_source, directory)
 end
 
 function M.update()
+    num_tab = 0
     local input = user_io.getinput(prompt)
     model.update(input, source.table)
     selected_loc = math.min(utils.tablelength(model.display)+1, 2)
@@ -58,6 +60,7 @@ function M.select_next()
         model.scroll_down()
     end
     view.redraw(model.display, user_io.getinput(prompt), selected_loc)
+    num_tab = 0
 end
 
 function M.select_prev()
@@ -70,6 +73,7 @@ function M.select_prev()
         selected_loc = 1
     end
     view.redraw(model.display, user_io.getinput(prompt), selected_loc)
+    num_tab = 0
 end
 
 function M.history_next()
@@ -80,6 +84,7 @@ function M.history_next()
     model.history.set_jumpoint(idx, jump_point)
     view.setinput(prompt, input)
     vim.api.nvim_command('startinsert!')
+    num_tab = 0
 end
 
 function M.history_prev()
@@ -90,9 +95,11 @@ function M.history_prev()
     model.history.set_jumpoint(idx, jump_point)
     view.setinput(prompt, input)
     vim.api.nvim_command('startinsert!')
+    num_tab = 0
 end
 
 function M.reset()
+    num_tab = 0
     model.reset()
     startloc = 1
     selected_loc = 2
@@ -191,7 +198,16 @@ function M.expand()
     if input == '~' then
         M.change_dir('~')
     else
-        M.change_dir(user_io.get_filename(prompt))
+        local filename = user_io.get_filename(prompt)
+        if vim.api.nvim_call_function('isdirectory', {filename})  == 1 then
+            M.change_dir(filename)
+        elseif num_tab >= 1 then
+            M.edit()
+            vim.api.nvim_command('call nvim_feedkeys("\\<esc>", "n", v:true)')
+        else
+            num_tab = num_tab + 1
+        end
+
     end
 end
 
