@@ -72,8 +72,8 @@ File finder specific maps ~
                                                   *file_findr_<tab>*
                                                   *file_findr_<c-l>*
 /
-<tab>                     Enter the selected directory 
-<c-l>
+<tab>                     Enter the selected directory, or choose file (press
+<c-l>                     twice to choose file)
 
                                                   *file_findr_<c-h>*
 <c-h>                      Go back to the parent directory of the current
