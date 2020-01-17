@@ -3,7 +3,8 @@ local vim = vim
 
 local function tabline_visible()
     local tabs = vim.api.nvim_list_tabpages()
-    if tabs[2] ~= nil then
+    local show_tabs = vim.api.nvim_get_option('showtabline')
+    if show_tabs == 2 or (show_tabs == 1 and tabs[2] ~= nil) then
         return 1
     end
     return 0
