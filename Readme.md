@@ -1,7 +1,12 @@
 # Findr.vim
 An incremental narrowing engine for neovim, inspired by
 [ivy](https://github.com/abo-abo/swiper)
+
+**Note:** Vim support is still a work in progress and as of right now is not
+working
+
 ![Screenshot](screenshots/findr.gif)
+
 
 ## Requirements
 * `nvim`: version > 0.4.3
