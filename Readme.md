@@ -86,3 +86,4 @@ For additional documentation see:
 * Better buffers command
     * Sort based on last visited
     * Don't show full path if name is unique
+* Vim 8 support
