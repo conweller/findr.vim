@@ -38,6 +38,11 @@ local function draw_candidates(display_table, winheight)
         end
     end
     if api.vim8 then
+        local empty = {}
+        for i=1,winheight,1 do
+            table.insert(empty, '')
+        end
+        api.call_function('setline', {INPUT_LOC+1, empty})
         api.call_function('setline', {INPUT_LOC+1, t})
     else
         vim.api.nvim_buf_set_lines(0,INPUT_LOC, -1, true, t)
