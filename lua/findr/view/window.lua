@@ -65,7 +65,9 @@ function M.new_split(filetype)
     api.command('botright 10new')
     api.command('file findr')
     api.command('set ft='..filetype)
-    api.command('setlocal winhighlight=FoldColumn:Normal,Normal:FindrNormal')
+    if api.vim8 then
+        api.command('setlocal winhighlight=FoldColumn:Normal,Normal:FindrNormal')
+    end
     api.command('setlocal statusline=\\ ')
 end
 
