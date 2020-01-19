@@ -18,7 +18,7 @@ end
 function M.call_function(fun, args)
     if M.vim8 then
         local vim_fun =  vim.funcref(fun)
-        return vim_fun(table.upack(args))
+        return vim_fun(table.unpack(args))
     else
         return vim.api.nvim_call_function(fun, args)
     end
