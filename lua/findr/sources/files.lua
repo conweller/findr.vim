@@ -1,5 +1,6 @@
 local M = {}
 local vim = vim
+local api = require('findr/api')
 
 local function scandir(directory)
     local i, t, popen = 0, {}, io.popen
@@ -7,7 +8,7 @@ local function scandir(directory)
     for filename in pfile:lines() do
         i = i + 1
         t[i] = {}
-        if vim.api.nvim_call_function('isdirectory', {filename}) == 1 then
+        if api.call_function('isdirectory', {filename}) == 1 then
             t[i]['display'] = filename .. '/'
         else
             t[i]['display'] = filename
@@ -44,8 +45,8 @@ function M.sink(selected)
 end
 
 function M.prompt()
-    local cwd = vim.api.nvim_call_function('getcwd', {})
-    cwd = vim.api.nvim_call_function('pathshorten', {cwd})
+    local cwd = api.call_function('getcwd', {})
+    cwd = api.call_function('pathshorten', {cwd})
     cwd = cwd == '/' and '/' or cwd .. '/'
     return cwd
 end

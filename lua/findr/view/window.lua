@@ -1,5 +1,6 @@
 local M = {}
 local vim = vim
+local api = require('findr/api')
 
 local function tabline_visible()
     local tabs = vim.api.nvim_list_tabpages()
@@ -61,11 +62,11 @@ function M.new_floating(filetype)
 end
 
 function M.new_split(filetype)
-    vim.api.nvim_command('botright 10new')
-    vim.api.nvim_command('file findr')
-    vim.api.nvim_command('set ft='..filetype)
-    vim.api.nvim_command('setlocal winhighlight=FoldColumn:Normal,Normal:FindrNormal')
-    vim.api.nvim_command('setlocal statusline=\\ ')
+    api.command('botright 10new')
+    api.command('file findr')
+    api.command('set ft='..filetype)
+    api.command('setlocal winhighlight=FoldColumn:Normal,Normal:FindrNormal')
+    api.command('setlocal statusline=\\ ')
 end
 
 return M
