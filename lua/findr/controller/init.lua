@@ -20,6 +20,8 @@ local prompt = '> '
 local use_history = source.history
 local num_tab = 0
 
+local prev_input = -1
+
 function M.init(new_source, directory)
     source = new_source
     if source.init then
@@ -46,11 +48,14 @@ function M.init(new_source, directory)
 end
 
 function M.update()
-    num_tab = 0
     local input = user_io.getinput(prompt)
-    model.update(input, source.table)
-    selected_loc = math.min(utils.tablelength(model.display)+1, 2)
-    view.redraw(model.display, input, selected_loc)
+    if input ~= prev_input then
+        num_tab = 0
+        model.update(input, source.table)
+        selected_loc = math.min(utils.tablelength(model.display)+1, 2)
+        view.redraw(model.display, input, selected_loc)
+    end
+    prev_input = input
 end
 
 function M.select_next()
@@ -134,7 +139,7 @@ function M.parent_dir()
 end
 
 local function on_prompt()
-    local pos = api.call_function('getpos', {'.'})[3]-1
+    local pos = api.call_function('getpos', {'.'})[2]
     return pos == string.len(prompt)
 end
 
@@ -144,25 +149,26 @@ function M.backspace()
             M.parent_dir()
         end
     else
-        api.command('call feedkeys("\\<BS>", "n")')
+        api.command('call feedkeys("\\<left>\\<delete>", "n")')
     end
 end
 
 function M.clear()
     if not on_prompt() then
-        local pos = api.call_function('getpos', {'.'})[3]-1
+        local pos = api.call_function('getpos', {'.'})[2]
         local line = api.call_function('getline', {startloc})
-        local input = string.sub(line,pos+1,string.len(line))
+        local input = string.sub(line,pos,string.len(line))
         view.setinput(prompt, input)
         api.call_function('setpos', {'.', {0, 1, string.len(prompt)+1}})
+        M.update()
     end
 end
 
 function M.clear_to_parent()
     if not on_prompt() then
-        local pos = api.call_function('getpos', {'.'})[3]-1
+        local pos = api.call_function('getpos', {'.'})[2]
         local line = api.call_function('getline', {startloc})
-        local input = string.sub(line,pos+1,string.len(line))
+        local input = string.sub(line,pos,string.len(line))
         view.setinput(prompt, input)
         api.call_function('setpos', {'.', {0, 1, string.len(prompt)+1}})
     elseif filetype == 'findr-files' then
@@ -187,10 +193,10 @@ function M.left()
 end
 
 function M.delete()
-    local pos = api.call_function('getpos', {'.'})[3]-1
+    local pos = api.call_function('getpos', {'.'})[2]+1
     local line = api.call_function('getline', {startloc})
     if pos ~= string.len(line) then
-        api.command('call feedkeys("\\<delete>", "n")')
+    api.command('call feedkeys("\\<delete>", "n")')
     end
 end
 
