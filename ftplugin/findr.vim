@@ -24,26 +24,26 @@ imap <buffer> <c-h> <nop>
 imap <buffer> <Insert> <nop>
 " }}}
 
-imap <buffer> <cr> <plug>findr_edit
-imap <buffer> <c-l> <plug>findr_edit
-imap <buffer> <tab> <plug>findr_edit
+imap <buffer><nowait> <cr> <plug>findr_edit
+imap <buffer><nowait> <c-l> <plug>findr_edit
+imap <buffer><nowait> <tab> <plug>findr_edit
 
-imap <buffer> <c-h> <plug>clear_to_parent
+imap <buffer><nowait> <c-h> <plug>clear_to_parent
 
-imap <buffer> <up>   <plug>findr_prev
-imap <buffer> <c-p>  <plug>findr_prev
-imap <buffer> <c-k>  <plug>findr_prev
+imap <buffer><nowait> <up>   <plug>findr_prev
+imap <buffer><nowait> <c-p>  <plug>findr_prev
+imap <buffer><nowait> <c-k>  <plug>findr_prev
 
-imap <buffer> <c-j> <plug>findr_next
-imap <buffer> <c-n> <plug>findr_next
-imap <buffer> <down> <plug>findr_next
+imap <buffer><nowait> <c-j> <plug>findr_next
+imap <buffer><nowait> <c-n> <plug>findr_next
+imap <buffer><nowait> <down> <plug>findr_next
 
-imap <buffer> <c-c> <plug>findr_quit
-imap <buffer> <esc> <plug>findr_quit
-imap <buffer> <c-g> <plug>findr_quit
+imap <buffer><nowait> <c-c> <plug>findr_quit
+imap <buffer><nowait> <esc> <plug>findr_quit
+imap <buffer><nowait> <c-g> <plug>findr_quit
 
-imap <buffer> <backspace> <plug>findr_bs
-imap <buffer> <delete> <plug>findr_delete
-imap <buffer> <c-u> <plug>findr_clear
+imap <buffer><nowait> <backspace> <plug>findr_bs
+imap <buffer><nowait> <delete> <plug>findr_delete
+imap <buffer><nowait> <c-u> <plug>findr_clear
 
-imap <buffer> <left> <plug>findr_left
+imap <buffer><nowait> <left> <plug>findr_left
