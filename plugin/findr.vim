@@ -25,6 +25,8 @@ if !exists('g:findr_max_hist')
   let g:findr_max_hist = 100
 endif
 
+lua package.path = package.path .. ';/Users/Connor/.vim/plugged/findr.vim/lua/?/init.lua'
+lua package.path = package.path .. ';/Users/Connor/.vim/plugged/findr.vim/lua/?.lua'
 lua findr = require('findr')
 lua sources = require('findr/sources')
 
@@ -64,4 +66,5 @@ endif
 if !highlight_exists('FindrNormal')
   hi! link FindrNormal Normal
 endif
- sign define findrselected linehl=FindrSelected
+sign define findrselected linehl=FindrSelected
+

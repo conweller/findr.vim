@@ -1,6 +1,7 @@
 local M = {}
 
 local vim = vim
+local api = require('findr/api')
 
 local utils = require('findr/utils')
 local view = require('findr/view')
@@ -19,6 +20,8 @@ local prompt = '> '
 local use_history = source.history
 local num_tab = 0
 
+local prev_input = -1
+
 function M.init(new_source, directory)
     source = new_source
     if source.init then
@@ -29,9 +32,9 @@ function M.init(new_source, directory)
     else
         filetype = 'findr'
     end
-    winnum = vim.api.nvim_call_function('winnr', {})
+    winnum = api.call_function('winnr', {})
     view.init(filetype)
-    vim.api.nvim_command('lcd '..directory)
+    api.command('lcd '..directory)
     M.reset()
     if source.history then
         use_history = source.history
@@ -41,21 +44,24 @@ function M.init(new_source, directory)
     if use_history then
         model.history.source()
     end
-    bufnum = vim.api.nvim_call_function('bufnr',{})
+    bufnum = api.call_function('bufnr',{})
 end
 
 function M.update()
-    num_tab = 0
     local input = user_io.getinput(prompt)
-    model.update(input, source.table)
-    selected_loc = math.min(utils.tablelength(model.display)+1, 2)
-    view.redraw(model.display, input, selected_loc)
+    if input ~= prev_input then
+        num_tab = 0
+        model.update(input, source.table)
+        selected_loc = math.min(utils.tablelength(model.display)+1, 2)
+        view.redraw(model.display, input, selected_loc)
+    end
+    prev_input = input
 end
 
 function M.select_next()
     local success = model.select_next()
     selected_loc = selected_loc + ( success and 1 or 0 )
-    if selected_loc == vim.api.nvim_call_function('winheight',{'.'})+1 then
+    if selected_loc == api.call_function('winheight',{'.'})+1 then
         selected_loc = selected_loc - 1
         model.scroll_down()
     end
@@ -83,7 +89,7 @@ function M.history_next()
     M.change_dir(dir)
     model.history.set_jumpoint(idx, jump_point)
     view.setinput(prompt, input)
-    vim.api.nvim_command('startinsert!')
+    api.command('startinsert!')
     num_tab = 0
 end
 
@@ -94,7 +100,7 @@ function M.history_prev()
     M.change_dir(dir)
     model.history.set_jumpoint(idx, jump_point)
     view.setinput(prompt, input)
-    vim.api.nvim_command('startinsert!')
+    api.command('startinsert!')
     num_tab = 0
 end
 
@@ -104,7 +110,7 @@ function M.reset()
     startloc = 1
     selected_loc = 2
     if use_history then
-        local cwd = vim.api.nvim_call_function('getcwd',{})
+        local cwd = api.call_function('getcwd',{})
         model.history.reset(cwd, '')
     end
     if not source.prompt then
@@ -115,12 +121,12 @@ function M.reset()
     view.setinput(prompt, '')
     model.update('', source.table)
     view.redraw(model.display, '', selected_loc)
-    vim.api.nvim_command('startinsert!')
+    api.command('startinsert!')
 end
 
 function M.change_dir(dir)
-    if dir == '~' or vim.api.nvim_call_function('isdirectory', {dir}) == 1 then
-        vim.api.nvim_command('lcd '..dir)
+    if dir == '~' or api.call_function('isdirectory', {dir}) == 1 then
+        api.command('lcd '..dir)
         M.reset()
     end
 end
@@ -128,12 +134,17 @@ end
 function M.parent_dir()
     local input = user_io.getinput(prompt)
     M.change_dir('../')
-    local cwd = vim.api.nvim_call_function('getcwd',{})
+    local cwd = api.call_function('getcwd',{})
     view.setinput(prompt, input)
 end
 
 local function on_prompt()
-    local pos = vim.api.nvim_win_get_cursor(0)[2]
+    local pos
+    if api.vim8 then
+        pos = api.call_function('getcurpos', {})[4]-1
+    else
+        pos = vim.api.nvim_win_get_cursor(0)[2]
+    end
     return pos == string.len(prompt)
 end
 
@@ -143,7 +154,11 @@ function M.backspace()
             M.parent_dir()
         end
     else
-        vim.api.nvim_command('call nvim_feedkeys("\\<BS>", "n", v:true)')
+        if api.vim8 then 
+            api.command('call feedkeys("\\<left>\\<delete>", "n")')
+        else
+            vim.api.nvim_command('call nvim_feedkeys("\\<BS>", "n", v:true)')
+        end
     end
 end
 
@@ -175,21 +190,28 @@ function M.delete_word()
             M.parent_dir()
         end
     else
-        vim.api.nvim_command('call nvim_feedkeys("\\<c-w>", "n", v:true)')
+        api.command('call feedkeys("\\<c-w>", "n")')
     end
 end
 
 function M.left()
     if not on_prompt() then
-        vim.api.nvim_command('call nvim_feedkeys("\\<left>", "n", v:true)')
+        api.command('call feedkeys("\\<left>", "n")')
     end
 end
 
 function M.delete()
-    local pos = vim.api.nvim_win_get_cursor(0)[2]
-    local line = vim.api.nvim_call_function('getline', {startloc})
+    local pos
+    local line
+    if api.vim8 then
+        pos = api.call_function('getpos', {'.'})[2]-1
+        line = api.call_function('getline', {startloc})
+    else
+        pos = vim.api.nvim_win_get_cursor(0)[2]
+        line = vim.api.nvim_call_function('getline', {startloc})
+    end
     if pos ~= string.len(line) then
-        vim.api.nvim_command('call nvim_feedkeys("\\<delete>", "n", v:true)')
+        api.command('call feedkeys("\\<delete>", "n")')
     end
 end
 
@@ -199,11 +221,11 @@ function M.expand()
         M.change_dir('~')
     else
         local filename = user_io.get_filename(prompt)
-        if vim.api.nvim_call_function('isdirectory', {filename})  == 1 then
+        if api.call_function('isdirectory', {filename})  == 1 then
             M.change_dir(filename)
         elseif num_tab >= 1 then
             M.edit()
-            vim.api.nvim_command('call nvim_feedkeys("\\<esc>", "n", v:true)')
+            api.command('call feedkeys("\\<esc>", "n")')
         else
             num_tab = num_tab + 1
         end
@@ -212,8 +234,8 @@ function M.expand()
 end
 
 function M.quit()
-    vim.api.nvim_command(winnum..'windo echo ""')
-    vim.api.nvim_command('silent bw '..bufnum)
+    api.command(winnum..'windo echo ""')
+    api.command('silent bw '..bufnum)
 end
 
 function M.edit()
@@ -229,7 +251,7 @@ function M.edit()
         model.history.write()
     end
     M.quit()
-    vim.api.nvim_command(winnum..'windo '..command)
+    api.command(winnum..'windo '..command)
 end
 
 

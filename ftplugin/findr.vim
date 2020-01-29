@@ -39,11 +39,18 @@ imap <buffer><nowait> <c-n> <plug>findr_next
 imap <buffer><nowait> <down> <plug>findr_next
 
 imap <buffer><nowait> <c-c> <plug>findr_quit
-imap <buffer><nowait> <esc> <plug>findr_quit
+imap <buffer> <esc> <plug>findr_quit
 imap <buffer><nowait> <c-g> <plug>findr_quit
 
 imap <buffer><nowait> <backspace> <plug>findr_bs
 imap <buffer><nowait> <delete> <plug>findr_delete
 imap <buffer><nowait> <c-u> <plug>findr_clear
 
-imap <buffer><nowait> <left> <plug>findr_left
+imap <buffer><nowaite> <left> <plug>findr_left
+
+if !has('nvim')
+    imap <buffer> OD <plug>findr_left
+    imap <silent><buffer> OC :<c-u>call feedkeys("\<right>")
+    imap <silent><buffer> OA <plug>findr_prev
+    imap <silent><buffer> OB <plug>findr_next
+endif

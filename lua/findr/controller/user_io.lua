@@ -1,16 +1,17 @@
 local M = {}
 
 local vim = vim
+local api = require('findr/api')
 
 local model = require('findr/model')
 local startloc = 1
 
 function M.getpath()
-    return vim.api.nvim_call_function('getcwd', {}) .. '/'
+    return api.call_function('getcwd', {}) .. '/'
 end
 
 function M.getinput(prompt)
-    local line = vim.api.nvim_call_function('getline', {startloc})
+    local line = api.call_function('getline', {startloc})
     local input = string.sub(line, string.len(prompt)+1, string.len(line))
     if not input then
         return ''

@@ -1,23 +1,23 @@
 local utils = require('findr/utils')
-local vim = vim
+local api = require('findr/api')
 
 local M = {}
 
 local index = 0
 local jump_point = -1
 local history = {}
-local max_len = vim.api.nvim_get_var('findr_max_hist')
+local max_len = api.get_var('findr_max_hist')
 local len = 0
 
 local function valid_line(dir_file_pair)
     if utils.tablelength(dir_file_pair) >= 1 then
-        return vim.api.nvim_call_function('isdirectory', {dir_file_pair[1]}) == 1
+        return api.call_function('isdirectory', {dir_file_pair[1]}) == 1
     end
     return false
 end
 
 function M.reset(cwd, input)
-    max_len = vim.api.nvim_get_var('findr_max_hist')
+    max_len = api.get_var('findr_max_hist')
     index = 0
     jump_point = {cwd, input}
 end
@@ -34,21 +34,21 @@ end
 function M.source()
     history = {}
     len = 0
-    local file = io.open(vim.api.nvim_get_var('findr_history') ,'r')
+    local file = io.open(api.get_var('findr_history') ,'r')
     if file then
         local prev_pair = {}
         for line in file:lines() do
-            local dir_file_pair = vim.api.nvim_call_function('split', {line, '\\t'})
+            local dir_file_pair = api.call_function('split', {line, '\\t'})
             if  valid_line(dir_file_pair) then
                 local dir = dir_file_pair[1]
                 local input = dir_file_pair[2]
                 if input == nil then
                     input = ''
-                elseif vim.api.nvim_call_function('isdirectory', {dir..input}) == 1 then
+                elseif api.call_function('isdirectory', {dir..input}) == 1 then
                     if input == '.' or input == './' then
                         input = ''
                     elseif input == '..' or input == '../' then
-                        dir = vim.api.nvim_call_function('fnamemodify', {dir, ':h:h'})
+                        dir = api.call_function('fnamemodify', {dir, ':h:h'})
                         input = ''
                     else
                         dir = dir..input
@@ -81,7 +81,7 @@ end
 
 
 function M.write()
-    local file = io.open (vim.api.nvim_get_var('findr_history') ,'w')
+    local file = io.open (api.get_var('findr_history') ,'w')
     local start = math.max(len-max_len ,0)
     local end_pos = math.min(len, start+max_len)
     if file then
