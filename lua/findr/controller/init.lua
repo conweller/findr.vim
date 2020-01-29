@@ -204,7 +204,7 @@ function M.delete()
     local pos
     local line
     if api.vim8 then
-        pos = api.call_function('getpos', {'.'})[2]+1
+        pos = api.call_function('getpos', {'.'})[2]-1
         line = api.call_function('getline', {startloc})
     else
         pos = vim.api.nvim_win_get_cursor(0)[2]
