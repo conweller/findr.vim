@@ -10,6 +10,7 @@ working
 
 ## Requirements
 * `nvim`: version > 0.4.3
+* `vim:` version > 8.0, +lua
 * macos/linux
 
 ## Installation
