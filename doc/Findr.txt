@@ -63,8 +63,10 @@ General maps ~
 
                                                   *findr_<esc>*
                                                   *findr_<c-c>*
+                                                  *findr_<c-g>*
 <esc>                     Quit findr, return to previous buffer
 <c-c>
+<c-g>
 
 
 File finder specific maps ~
