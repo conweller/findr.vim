@@ -139,7 +139,12 @@ function M.parent_dir()
 end
 
 local function on_prompt()
-    local pos = api.call_function('getpos', {'.'})[2]
+    local pos
+    if api.vim8 then
+        pos = api.call_function('getcurpos', {})[4]-1
+    else
+        pos = vim.api.nvim_win_get_cursor(0)[2]
+    end
     return pos == string.len(prompt)
 end
 
@@ -149,28 +154,31 @@ function M.backspace()
             M.parent_dir()
         end
     else
-        api.command('call feedkeys("\\<left>\\<delete>", "n")')
+        if api.vim8 then 
+            api.command('call feedkeys("\\<left>\\<delete>", "n")')
+        else
+            vim.api.nvim_command('call nvim_feedkeys("\\<BS>", "n", v:true)')
+        end
     end
 end
 
 function M.clear()
     if not on_prompt() then
-        local pos = api.call_function('getpos', {'.'})[2]
-        local line = api.call_function('getline', {startloc})
-        local input = string.sub(line,pos,string.len(line))
+        local pos = vim.api.nvim_win_get_cursor(0)[2]
+        local line = vim.api.nvim_call_function('getline', {startloc})
+        local input = string.sub(line,pos+1,string.len(line))
         view.setinput(prompt, input)
-        api.call_function('setpos', {'.', {0, 1, string.len(prompt)+1}})
-        M.update()
+        vim.api.nvim_win_set_cursor(0, {1, string.len(prompt)})
     end
 end
 
 function M.clear_to_parent()
     if not on_prompt() then
-        local pos = api.call_function('getpos', {'.'})[2]
-        local line = api.call_function('getline', {startloc})
-        local input = string.sub(line,pos,string.len(line))
+        local pos = vim.api.nvim_win_get_cursor(0)[2]
+        local line = vim.api.nvim_call_function('getline', {startloc})
+        local input = string.sub(line,pos+1,string.len(line))
         view.setinput(prompt, input)
-        api.call_function('setpos', {'.', {0, 1, string.len(prompt)+1}})
+        vim.api.nvim_win_set_cursor(0, {1, string.len(prompt)})
     elseif filetype == 'findr-files' then
             M.parent_dir()
     end
@@ -193,10 +201,17 @@ function M.left()
 end
 
 function M.delete()
-    local pos = api.call_function('getpos', {'.'})[2]+1
-    local line = api.call_function('getline', {startloc})
+    local pos
+    local line
+    if api.vim8 then
+        pos = api.call_function('getpos', {'.'})[2]+1
+        line = api.call_function('getline', {startloc})
+    else
+        pos = vim.api.nvim_win_get_cursor(0)[2]
+        line = vim.api.nvim_call_function('getline', {startloc})
+    end
     if pos ~= string.len(line) then
-    api.command('call feedkeys("\\<delete>", "n")')
+        api.command('call feedkeys("\\<delete>", "n")')
     end
 end
 
