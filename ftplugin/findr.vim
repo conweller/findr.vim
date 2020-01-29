@@ -40,6 +40,7 @@ imap <buffer> <down> <plug>findr_next
 
 imap <buffer> <c-c> <plug>findr_quit
 imap <buffer> <esc> <plug>findr_quit
+imap <buffer> <c-g> <plug>findr_quit
 
 imap <buffer> <backspace> <plug>findr_bs
 imap <buffer> <delete> <plug>findr_delete
