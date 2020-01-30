@@ -1,6 +1,7 @@
 if !exists('g:findr_history')
     let g:findr_history =  expand('<sfile>:h:r') . '/../.findr_history'
 end
+let s:findr_lua_loc =  expand('<sfile>:h:r') . '/../lua/'
 if !exists('g:findr_enable_border')
   let g:findr_enable_border = 1
 endif
@@ -25,8 +26,8 @@ if !exists('g:findr_max_hist')
   let g:findr_max_hist = 100
 endif
 
-lua package.path = package.path .. ';/Users/Connor/.vim/plugged/findr.vim/lua/?/init.lua'
-lua package.path = package.path .. ';/Users/Connor/.vim/plugged/findr.vim/lua/?.lua'
+exe "lua package.path = package.path .. ';". s:findr_lua_loc."?/init.lua'"
+exe "lua package.path = package.path .. ';". s:findr_lua_loc."?.lua'"
 lua findr = require('findr')
 lua sources = require('findr/sources')
 
