@@ -1,5 +1,6 @@
-" autocmd! CursorMovedI <buffer> call findr#redraw()
-autocmd! CursorMovedI <buffer> lua findr.controller.update()
+augroup FindrMoved
+    autocmd! CursorMovedI <buffer> lua findr.controller.update()
+augroup END
 
 setlocal bufhidden=delete
 setlocal noshowmode
