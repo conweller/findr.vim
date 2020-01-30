@@ -53,5 +53,8 @@ end
 
 M.filetype = 'findr-files'
 M.history = true
+if api.vim8 then
+    M.history = false
+end
 
 return M
