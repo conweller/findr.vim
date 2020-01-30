@@ -164,21 +164,43 @@ end
 
 function M.clear()
     if not on_prompt() then
-        local pos = vim.api.nvim_win_get_cursor(0)[2]
-        local line = vim.api.nvim_call_function('getline', {startloc})
-        local input = string.sub(line,pos+1,string.len(line))
-        view.setinput(prompt, input)
-        vim.api.nvim_win_set_cursor(0, {1, string.len(prompt)})
+        if api.vim8 then
+            local pos = api.call_function('getcurpos', {})[4]-1
+            local line = api.call_function('getline', {1})
+            local input = string.sub(line,pos+1,string.len(line))
+            view.setinput(prompt, input)
+            api.call_function('setpos', {'.', {0, 1, string.len(prompt)+1}})
+            if string.len(line) == pos+1 then
+                api.command('call feedkeys("\\<left>", "n")')
+            end
+        else
+            local pos = vim.api.nvim_win_get_cursor(0)[2]
+            local line = vim.api.nvim_call_function('getline', {startloc})
+            local input = string.sub(line,pos+1,string.len(line))
+            view.setinput(prompt, input)
+            vim.api.nvim_win_set_cursor(0, {1, string.len(prompt)})
+        end
     end
 end
 
 function M.clear_to_parent()
     if not on_prompt() then
-        local pos = vim.api.nvim_win_get_cursor(0)[2]
-        local line = vim.api.nvim_call_function('getline', {startloc})
-        local input = string.sub(line,pos+1,string.len(line))
-        view.setinput(prompt, input)
-        vim.api.nvim_win_set_cursor(0, {1, string.len(prompt)})
+        if api.vim8 then
+            local pos = api.call_function('getcurpos', {})[4]-1
+            local line = api.call_function('getline', {1})
+            local input = string.sub(line,pos+1,string.len(line))
+            view.setinput(prompt, input)
+            api.call_function('setpos', {'.', {0, 1, string.len(prompt)+1}})
+            if string.len(line) == pos+1 then
+                api.command('call feedkeys("\\<left>", "n")')
+            end
+        else
+            local pos = vim.api.nvim_win_get_cursor(0)[2]
+            local line = vim.api.nvim_call_function('getline', {startloc})
+            local input = string.sub(line,pos+1,string.len(line))
+            view.setinput(prompt, input)
+            vim.api.nvim_win_set_cursor(0, {1, string.len(prompt)})
+        end
     elseif filetype == 'findr-files' then
             M.parent_dir()
     end

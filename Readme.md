@@ -95,4 +95,3 @@ For additional documentation see:
     * Don't show full path if name is unique
 * Vim 8:
     * Support for popup window
-    * `<c-u>` and `<c-h>` mappings

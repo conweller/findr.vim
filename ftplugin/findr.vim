@@ -28,10 +28,8 @@ imap <buffer><nowait> <cr> <plug>findr_edit
 imap <buffer><nowait> <c-l> <plug>findr_edit
 imap <buffer><nowait> <tab> <plug>findr_edit
 
-if has('nvim')
-    imap <buffer><nowait> <c-h> <plug>clear_to_parent
-    imap <buffer><nowait> <c-u> <plug>findr_clear
-endif
+imap <buffer><nowait> <c-h> <plug>clear_to_parent
+imap <buffer><nowait> <c-u> <plug>findr_clear
 
 imap <buffer><nowait> <up>   <plug>findr_prev
 imap <buffer><nowait> <c-p>  <plug>findr_prev
@@ -52,7 +50,7 @@ imap <buffer><nowaite> <left> <plug>findr_left
 
 if !has('nvim')
     imap <buffer> OD <plug>findr_left
-    imap <silent><buffer> OC :<c-u>call feedkeys("\<right>")
+    imap <silent><buffer> OC <right>
     imap <silent><buffer> OA <plug>findr_prev
     imap <silent><buffer> OB <plug>findr_next
 endif
