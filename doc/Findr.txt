@@ -88,13 +88,13 @@ File finder specific maps ~
 
                                                   *file_findr_<s-up>*
                                                   *file_findr_<m-p>*
-<c-p>                     Select the previous item in history
-<s-up>
+<c-p>                     Select the previous item in history (only currently
+<s-up>                    supported on neovim)
 
                                                   *file_findr_<s-down>*
                                                   *file_findr_<m-n>*
-<c-n>                     Select the next item in history
-<s-down>
+<c-n>                     Select the next item in history (only currently
+<s-down>                  supported on neovim)
 
                                                   *file_findr_<c-u>*
 <c-u>                     Clears text in prompt up until the path
@@ -109,6 +109,7 @@ CONFIGURATION                                        *findr_configuration*
 
                                                   *g:findr_floating_window*
 Enable/disable floating window (default 1)
+(Floating windows are currently only supported on neovim)
 
                                                   *g:findr_enable_border*
 Enable/disable border around floating window (default 1)
@@ -129,9 +130,11 @@ Example:
 
                                                   *g:findr_history*
 File to read and write history of previous files chosen from the file finder
+(History is currently only supported on neovim)
 
                                                   *g:findr_max_hist*
 Maximum number of files stored in history (default 100)
+(History is currently only supported on neovim)
 
 ===========================================================================
 HIGHLIGHTS                                        *findr_highlights*
