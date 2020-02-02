@@ -47,7 +47,7 @@ imap <buffer><nowait> <c-g> <plug>findr_quit
 imap <buffer><nowait> <backspace> <plug>findr_bs
 imap <buffer><nowait> <delete> <plug>findr_delete
 
-imap <buffer><nowaite> <left> <plug>findr_left
+imap <buffer><nowait> <left> <plug>findr_left
 
 if !has('nvim')
     imap <buffer> OD <plug>findr_left
