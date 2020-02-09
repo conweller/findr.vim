@@ -1,5 +1,5 @@
 # Findr.vim
-An incremental narrowing engine for neovim, inspired by
+An incremental narrowing engine for (neo)vim, inspired by
 [ivy](https://github.com/abo-abo/swiper)
 
 **Note:** Vim support is still a work in progress and as of right now is not
@@ -11,6 +11,7 @@ working
 ## Requirements
 * `nvim`: version > 0.4.3
 * `vim:` version > 8.0, +lua
+    * Note floating fidnr windows are not supported for vim as of right now
 * macos/linux
 
 ## Installation
