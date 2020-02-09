@@ -95,3 +95,4 @@ For additional documentation see:
 * Vim 8:
     * Support for popup window
     * Support for history
+* Use global history instead of findr history
