@@ -88,9 +88,6 @@ For additional documentation see:
 
 ## TODO
 * `<c-w>` mapping
-* User defined commands documentation
-* Better buffers command
-    * Sort based on last visited
-    * Don't show full path if name is unique
+* Better checks against conflicting insert mode mappings in Findr buffers
 * Vim 8:
     * Support for history
