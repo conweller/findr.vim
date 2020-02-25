@@ -88,6 +88,5 @@ For additional documentation see:
 
 ## TODO
 * `<c-w>` mapping
-* Better checks against conflicting insert mode mappings in Findr buffers
 * Vim 8:
     * Support for history

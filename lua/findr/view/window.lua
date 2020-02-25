@@ -68,7 +68,6 @@ function M.new_split(filetype)
     if not api.vim8 then
         api.command('setlocal winhighlight=FoldColumn:Normal,Normal:FindrNormal')
     end
-    api.command('setlocal statusline=\\ ')
 end
 
 return M
