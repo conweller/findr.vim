@@ -3,7 +3,7 @@ An incremental narrowing engine for (neo)vim, inspired by
 [ivy](https://github.com/abo-abo/swiper) and
 [helm](https://github.com/emacs-helm/helm)
 
-![Screenshot](screenshots/findr.gif)
+![Gif](screenshots/findr.gif)
 
 
 ## Requirements
