@@ -154,7 +154,7 @@ function M.backspace()
             M.parent_dir()
         end
     else
-        if api.vim8 then 
+        if api.vim8 then
             api.command('call feedkeys("\\<left>\\<delete>", "n")')
         else
             vim.api.nvim_command('call nvim_feedkeys("\\<BS>", "n", v:true)')
@@ -260,14 +260,14 @@ function M.quit()
     api.command('silent bw '..bufnum)
 end
 
-function M.edit()
+function M.edit(editcmd)
     local fname
     if filetype == 'findr-files' then
         fname = user_io.get_filename(prompt)
     else
         fname = user_io.get_selected(prompt)
     end
-    local command = source.sink(fname)
+    local command = source.sink(fname, editcmd)
     if use_history then
         model.history.update(user_io.get_dir_file_pair(prompt))
         model.history.write()

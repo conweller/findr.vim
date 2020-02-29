@@ -41,14 +41,20 @@ local to findr buffers
 General maps ~
                                                   *findr_<tab>*
                                                   *findr_<cr>*
+                                                  *findr_<c-x>*
+                                                  *findr_<c-v>*
+                                                  *findr_<c-t>*
 <cr>                      Choose selected item
 <tab>
+<c-x>                       in new split
+<c-v>                       in new vsplit
+<c-t>                       in new tab
 
                                                   *findr_up*
                                                   *findr_<c-p>*
                                                   *findr_<c-k>*
 <up>
-<c-p>                     Select the previous item 
+<c-p>                     Select the previous item
 <c-k>
 
                                                   *findr_down*
@@ -78,7 +84,7 @@ File finder specific maps ~
 <c-l>                     twice to choose file)
 
                                                   *file_findr_<c-h>*
-<c-h>                      Go back to the parent directory of the current
+<c-h>                     Go back to the parent directory of the current
                           directory
 
                                                   *file_findr_<bs>*

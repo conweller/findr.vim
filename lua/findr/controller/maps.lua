@@ -18,6 +18,9 @@ function M.set()
     api.set_map('i', '<plug>findr_left', '<cmd>lua findr.controller.left()<cr>', opts)
 
     api.set_map('i', '<plug>findr_edit', '<esc>:lua findr.controller.edit()<cr>', opts)
+    api.set_map('i', '<plug>findr_vsplit', '<esc>:lua findr.controller.edit("vs")<cr>', opts)
+    api.set_map('i', '<plug>findr_split', '<esc>:lua findr.controller.edit("split")<cr>', opts)
+    api.set_map('i', '<plug>findr_tabedit', '<esc>:lua findr.controller.edit("tabedit")<cr>', opts)
     api.set_map('i', '<plug>findr_quit', '<esc>:lua findr.controller.quit()<cr>', opts)
 end
 

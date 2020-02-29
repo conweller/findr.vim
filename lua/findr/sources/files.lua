@@ -40,8 +40,9 @@ function M.table()
     return scandir('.')
 end
 
-function M.sink(selected)
-    return 'edit '.. selected
+function M.sink(selected, editcmd)
+    editcmd = editcmd or 'edit'
+    return editcmd..' '.. selected
 end
 
 function M.prompt()
