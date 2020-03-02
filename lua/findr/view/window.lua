@@ -14,8 +14,8 @@ end
 function M.new_floating(filetype)
     local use_border = vim.api.nvim_get_var('findr_enable_border') == 1
     local border = vim.api.nvim_get_var('findr_border')
-    local lines = vim.api.nvim_get_option('lines')
     local columns = vim.api.nvim_get_option('columns')
+    local lines = vim.api.nvim_get_option('lines')
     local winopts = api.get_var('findr_floating_window')
     local height, width, options = nil
 
