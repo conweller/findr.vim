@@ -20,7 +20,6 @@ imap <buffer> <s-up> <nop>
 imap <buffer> <s-down> <nop>
 imap <buffer> <M-p> <nop>
 imap <buffer> <M-n> <nop>
-imap <buffer> <c-t> <nop>
 imap <buffer> <c-d> <nop>
 imap <buffer> <c-w> <nop>
 imap <buffer> <c-h> <nop>
@@ -33,6 +32,9 @@ endfor
 imap <buffer><nowait> <cr> <plug>findr_edit
 imap <buffer><nowait> <c-l> <plug>findr_edit
 imap <buffer><nowait> <tab> <plug>findr_edit
+imap <buffer><nowait> <c-t> <plug>findr_tabedit
+imap <buffer><nowait> <c-x> <plug>findr_split
+imap <buffer><nowait> <c-v> <plug>findr_vsplit
 
 imap <buffer><nowait> <c-h> <plug>clear_to_parent
 imap <buffer><nowait> <c-u> <plug>findr_clear
