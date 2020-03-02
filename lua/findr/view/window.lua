@@ -14,22 +14,28 @@ end
 function M.new_floating(filetype)
     local use_border = vim.api.nvim_get_var('findr_enable_border') == 1
     local border = vim.api.nvim_get_var('findr_border')
-    local columns = vim.api.nvim_get_option('columns')
     local lines = vim.api.nvim_get_option('lines')
+    local columns = vim.api.nvim_get_option('columns')
+    local winopts = api.get_var('findr_floating_window')
+    local height, width, options = nil
 
-    local height = math.min(lines - (4+tabline_visible()), 15)
-    local width = math.min(80, columns-4)
-    local horizontal = math.floor((columns-width) / 2)
-    local vertical = 1 + tabline_visible()
+    if type({}) == type(winopts) and winopts['window'] ~= nil then
+      options = vim.api.nvim_eval(winopts['window'])
+      width = options['width']
+      height = options['height']
+    else
+      height = math.min(lines - (4+tabline_visible()), 15)
+      width = math.min(80, columns-4)
+      options = {
+          relative = 'editor',
+          row = 1 + tabline_visible(),
+          col = math.floor((columns-width) / 2),
+          width = width,
+          height = height,
+          style = 'minimal'
+      }
+    end
 
-    local options = {
-        relative = 'editor',
-        row = vertical,
-        col = horizontal,
-        width = width,
-        height = height,
-        style = 'minimal'
-    }
     if use_border then
         local top = border.top[1] .. string.rep(border.top[2], width-2) .. border.top[3]
         local mid = border.middle[1] .. string.rep(border.middle[2], width-2) .. border.middle[3]
