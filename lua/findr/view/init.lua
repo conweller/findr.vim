@@ -13,7 +13,7 @@ local virtual_text = ' '
 local INPUT_LOC = 1
 
 function M.init(filetype)
-    local use_floating = api.get_var('findr_floating_window')==1
+    local use_floating = api.get_var('findr_floating_window') == 1 or type(api.get_var('findr_floating_window')) == type({})
     if use_floating and not api.vim8 then
         window.new_floating(filetype)
     else
