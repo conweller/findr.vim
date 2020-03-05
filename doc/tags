@@ -21,7 +21,10 @@ findr_<c-j>	Findr.txt	/*findr_<c-j>*
 findr_<c-k>	Findr.txt	/*findr_<c-k>*
 findr_<c-n>	Findr.txt	/*findr_<c-n>*
 findr_<c-p>	Findr.txt	/*findr_<c-p>*
+findr_<c-t>	Findr.txt	/*findr_<c-t>*
 findr_<c-u>	Findr.txt	/*findr_<c-u>*
+findr_<c-v>	Findr.txt	/*findr_<c-v>*
+findr_<c-x>	Findr.txt	/*findr_<c-x>*
 findr_<cr>	Findr.txt	/*findr_<cr>*
 findr_<esc>	Findr.txt	/*findr_<esc>*
 findr_<tab>	Findr.txt	/*findr_<tab>*
@@ -44,3 +47,4 @@ hl-FindrDirPartial	Findr.txt	/*hl-FindrDirPartial*
 hl-FindrMatch	Findr.txt	/*hl-FindrMatch*
 hl-FindrNormal	Findr.txt	/*hl-FindrNormal*
 hl-FindrSelected	Findr.txt	/*hl-FindrSelected*
+nvim_open_win	Findr.txt	/*nvim_open_win*
