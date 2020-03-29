@@ -47,7 +47,9 @@ end
 
 function M.prompt()
     local cwd = api.call_function('getcwd', {})
-    cwd = api.call_function('pathshorten', {cwd})
+    if api.call_function('winwidth', {'$'}) < (string.len(cwd) + 10) then
+        cwd = api.call_function('pathshorten', {cwd})
+    end
     cwd = cwd == '/' and '/' or cwd .. '/'
     return cwd
 end
