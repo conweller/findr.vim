@@ -1,3 +1,6 @@
+if !exists('g:findr_always_shorten_path')
+    let g:findr_always_shorten_path=0
+end
 if !exists('g:findr_history')
     let g:findr_history =  expand('<sfile>:h:r') . '/../.findr_history'
 end

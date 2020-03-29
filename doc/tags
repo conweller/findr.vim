@@ -35,6 +35,7 @@ findr_highlights	Findr.txt	/*findr_highlights*
 findr_maps	Findr.txt	/*findr_maps*
 findr_up	Findr.txt	/*findr_up*
 findr_usage	Findr.txt	/*findr_usage*
+g:findr_always_shorten_path	Findr.txt	/*g:findr_always_shorten_path*
 g:findr_border	Findr.txt	/*g:findr_border*
 g:findr_enable_border	Findr.txt	/*g:findr_enable_border*
 g:findr_floating_window	Findr.txt	/*g:findr_floating_window*
