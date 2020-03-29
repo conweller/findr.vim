@@ -47,7 +47,7 @@ end
 
 function M.prompt()
     local cwd = api.call_function('getcwd', {})
-    if api.call_function('winwidth', {'$'}) < (string.len(cwd) + 10) then
+    if api.get_var('findr_always_shorten_path') == 1 or api.call_function('winwidth', {'$'}) < (string.len(cwd) + 10) then
         cwd = api.call_function('pathshorten', {cwd})
     end
     cwd = cwd == '/' and '/' or cwd .. '/'
