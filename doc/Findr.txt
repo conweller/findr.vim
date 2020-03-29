@@ -160,10 +160,15 @@ File to read and write history of previous files chosen from the file finder
 Maximum number of files stored in history (default 100)
 (History is currently only supported on neovim)
 
-                                                  *g:findr_always_shorten_path*
-When displaying the file path prompt for the `Findr` command, always shorten
-the path (default 0). By default the path is only shortened if there is not
-enough screen space to display the full path
+                                                  *g:findr_shorten_path*
+When displaying the file path prompt for the `Findr` command, always
+abbreviate the path (default 1). Must be a value 0, 1, or 2
+>
+ let g:findr_shorten_path = 0 " Never abbreviate
+ let g:findr_shorten_path = 1 " Only abbreviate the path if there is not
+                              "  enough room for full path
+  let g:findr_shorten_path = 2 " Always abbreviate the path
+<
 
 ===========================================================================
 HIGHLIGHTS                                        *findr_highlights*

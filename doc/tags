@@ -35,13 +35,13 @@ findr_highlights	Findr.txt	/*findr_highlights*
 findr_maps	Findr.txt	/*findr_maps*
 findr_up	Findr.txt	/*findr_up*
 findr_usage	Findr.txt	/*findr_usage*
-g:findr_always_shorten_path	Findr.txt	/*g:findr_always_shorten_path*
 g:findr_border	Findr.txt	/*g:findr_border*
 g:findr_enable_border	Findr.txt	/*g:findr_enable_border*
 g:findr_floating_window	Findr.txt	/*g:findr_floating_window*
 g:findr_highlight_matches	Findr.txt	/*g:findr_highlight_matches*
 g:findr_history	Findr.txt	/*g:findr_history*
 g:findr_max_hist	Findr.txt	/*g:findr_max_hist*
+g:findr_shorten_path	Findr.txt	/*g:findr_shorten_path*
 hl-FindrBorder	Findr.txt	/*hl-FindrBorder*
 hl-FindrDir	Findr.txt	/*hl-FindrDir*
 hl-FindrDirPartial	Findr.txt	/*hl-FindrDirPartial*
