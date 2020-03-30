@@ -24,8 +24,8 @@ function M.new_floating(filetype)
       width = options['width']
       height = options['height']
     else
-      height = math.min(lines - (4+tabline_visible()), 15)
-      width = math.min(80, columns-4)
+      height = math.min(lines - (4+tabline_visible()), 20)
+      width = math.min(100, columns-4)
       options = {
           relative = 'editor',
           row = 1 + tabline_visible(),
