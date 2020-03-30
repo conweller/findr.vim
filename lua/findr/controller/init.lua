@@ -219,6 +219,8 @@ end
 function M.left()
     if not on_prompt() then
         api.command('call feedkeys("\\<left>", "n")')
+    else
+        api.command('call feedkeys("\\<c-o>zH", "n")')
     end
 end
 
