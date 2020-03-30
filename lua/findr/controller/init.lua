@@ -104,6 +104,12 @@ function M.history_prev()
     num_tab = 0
 end
 
+
+local function reset_scroll()
+    api.command('setlocal wrap')
+    api.command('setlocal nowrap')
+end
+
 function M.reset()
     num_tab = 0
     model.reset()
@@ -122,6 +128,7 @@ function M.reset()
     model.update('', source.table)
     view.redraw(model.display, '', selected_loc)
     api.command('startinsert!')
+    reset_scroll()
 end
 
 function M.change_dir(dir)
@@ -159,6 +166,7 @@ function M.backspace()
         else
             vim.api.nvim_command('call nvim_feedkeys("\\<BS>", "n", v:true)')
         end
+        reset_scroll()
     end
 end
 
@@ -180,6 +188,7 @@ function M.clear()
             view.setinput(prompt, input)
             vim.api.nvim_win_set_cursor(0, {1, string.len(prompt)})
         end
+        reset_scroll()
     end
 end
 
@@ -201,6 +210,7 @@ function M.clear_to_parent()
             view.setinput(prompt, input)
             vim.api.nvim_win_set_cursor(0, {1, string.len(prompt)})
         end
+        reset_scroll()
     elseif filetype == 'findr-files' then
             M.parent_dir()
     end
@@ -219,8 +229,7 @@ end
 function M.left()
     if not on_prompt() then
         api.command('call feedkeys("\\<left>", "n")')
-    else
-        api.command('call feedkeys("\\<c-o>zH", "n")')
+        reset_scroll()
     end
 end
 
