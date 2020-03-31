@@ -127,8 +127,8 @@ function M.reset()
     view.setinput(prompt, '')
     model.update('', source.table)
     view.redraw(model.display, '', selected_loc)
+    api.command('normal ze')
     api.command('startinsert!')
-    reset_scroll()
 end
 
 function M.change_dir(dir)
