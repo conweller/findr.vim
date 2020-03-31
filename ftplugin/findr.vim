@@ -3,7 +3,6 @@ augroup FindrMoved
 augroup END
 
 setlocal bufhidden=delete
-setlocal noshowmode
 setlocal signcolumn=no
 setlocal buftype=nofile
 setlocal noswapfile
