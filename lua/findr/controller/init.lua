@@ -106,8 +106,17 @@ end
 
 
 local function reset_scroll()
-    api.command('setlocal wrap')
-    api.command('setlocal nowrap')
+    local pos
+    if api.vim8 then
+        pos = api.call_function('getcurpos', {})[4]-1
+    else
+        pos = vim.api.nvim_win_get_cursor(0)[2]
+    end
+    local width = api.call_function('winwidth', {'.'})
+    if pos > width then
+        api.command('setlocal wrap')
+        api.command('setlocal nowrap')
+    end
 end
 
 function M.reset()
