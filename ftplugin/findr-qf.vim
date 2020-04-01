@@ -1,1 +1,1 @@
-setlocal ft=findr
+setlocal ft=findr.findr-qf

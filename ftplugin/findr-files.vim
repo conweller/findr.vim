@@ -1,4 +1,4 @@
-setlocal ft=findr
+setlocal ft=findr.findr-files
 
 
 imap <buffer><nowait> / <plug>findr_cd
