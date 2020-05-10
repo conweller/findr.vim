@@ -13,7 +13,6 @@ setlocal signcolumn=no
 setlocal nonumber
 
 " Unmap: {{{
-let s:unmap = ['a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z','A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z', 'LEFT', 'RIGHT', 'DOWN', 'UP', 'CR', 'TAB']
 imap <buffer> <s-up> <nop>
 imap <buffer> <s-down> <nop>
 imap <buffer> <M-p> <nop>
@@ -22,9 +21,6 @@ imap <buffer> <c-d> <nop>
 imap <buffer> <c-w> <nop>
 imap <buffer> <c-h> <nop>
 imap <buffer> <Insert> <nop>
-for c in s:unmap
-    exe "imap <buffer> <m-" . c . "> <nop>"
-endfor
 " }}}
 
 imap <buffer><nowait> <cr> <plug>findr_edit
