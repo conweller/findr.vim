@@ -68,7 +68,7 @@ function M.new_floating(filetype)
 end
 
 function M.new_split(filetype)
-    api.command('botright 10new')
+    api.command('botright 15new')
     api.command('file findr')
     api.command('set ft='..filetype)
     if not api.vim8 then

@@ -106,8 +106,7 @@ end
 
 
 local function reset_scroll()
-    api.command('setlocal wrap')
-    api.command('setlocal nowrap')
+    vim.api.nvim_command('call nvim_feedkeys("\\<c-o>zh", "n", v:true)')
 end
 
 function M.reset()
