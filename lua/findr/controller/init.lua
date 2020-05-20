@@ -106,7 +106,7 @@ end
 
 
 local function reset_scroll()
-    vim.api.nvim_command('call nvim_feedkeys("\\<c-o>zh", "n", v:true)')
+    vim.api.nvim_command('call nvim_feedkeys("\\<c-\\>\\<c-o>zh", "n", v:true)')
 end
 
 function M.reset()
