@@ -59,7 +59,8 @@ local function add_highlights(input, selected_loc)
     api.call_function('matchadd', {'FindrSelected', '\\%' .. selected_loc .. 'l.*'})
     if highlight_matches then
         for _, str in ipairs(utils.split(input)) do
-            api.call_function('matchadd', {'FindrMatch','\\%>'..INPUT_LOC..'l\\c'..api.call_function('escape',{str, '*?,.\\{}[]~'})})
+            api.call_function('matchadd', {'FindrMatchSelected','\\%>'..INPUT_LOC..'l\\c'..api.call_function('escape',{str, '*?,.\\{}[]~'})})
+            api.call_function('matchadd', {'FindrMatch','\\%>'..selected_loc..'l\\c'..api.call_function('escape',{str, '*?,.\\{}[]~'})})
         end
     end
 end

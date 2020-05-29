@@ -109,6 +109,11 @@ local function reset_scroll()
     vim.api.nvim_command('call nvim_feedkeys("\\<c-o>zh", "n", v:true)')
 end
 
+local function hard_reset_scroll()
+    vim.api.nvim_command('set wrap')
+    vim.api.nvim_command('set nowrap')
+end
+
 function M.reset()
     num_tab = 0
     model.reset()
@@ -140,7 +145,6 @@ end
 function M.parent_dir()
     local input = user_io.getinput(prompt)
     M.change_dir('../')
-    local cwd = api.call_function('getcwd',{})
     view.setinput(prompt, input)
 end
 
@@ -160,12 +164,12 @@ function M.backspace()
             M.parent_dir()
         end
     else
+        reset_scroll()
         if api.vim8 then
             api.command('call feedkeys("\\<left>\\<delete>", "n")')
         else
             vim.api.nvim_command('call nvim_feedkeys("\\<BS>", "n", v:true)')
         end
-        reset_scroll()
     end
 end
 
@@ -187,7 +191,7 @@ function M.clear()
             view.setinput(prompt, input)
             vim.api.nvim_win_set_cursor(0, {1, string.len(prompt)})
         end
-        reset_scroll()
+        hard_reset_scroll()
     end
 end
 
@@ -209,7 +213,7 @@ function M.clear_to_parent()
             view.setinput(prompt, input)
             vim.api.nvim_win_set_cursor(0, {1, string.len(prompt)})
         end
-        reset_scroll()
+        hard_reset_scroll()
     elseif filetype == 'findr-files' then
             M.parent_dir()
     end

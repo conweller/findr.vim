@@ -51,6 +51,11 @@ if !highlight_exists('FindrMatch')
   hi! link FindrMatch search
 endif
 
+if !highlight_exists('FindrMatchSelected')
+  hi! link FindrMatchSelected FindrMatch
+endif
+
+
 if !highlight_exists('FindrSelected')
   hi! link FindrSelected CursorLine
 endif
