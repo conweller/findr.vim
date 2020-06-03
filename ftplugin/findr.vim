@@ -11,6 +11,7 @@ setlocal nowrap
 setlocal norelativenumber
 setlocal signcolumn=no
 setlocal nonumber
+setlocal nobuflisted
 
 " Unmap: {{{
 imap <buffer> <s-up> <nop>
@@ -22,6 +23,8 @@ imap <buffer> <c-w> <nop>
 imap <buffer> <c-h> <nop>
 imap <buffer> <Insert> <nop>
 " }}}
+
+imap <buffer><nowait> <c-w> <plug>findr_word_delete
 
 imap <buffer><nowait> <cr> <plug>findr_edit
 imap <buffer><nowait> <c-l> <plug>findr_edit
