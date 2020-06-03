@@ -106,7 +106,7 @@ end
 
 
 local function reset_scroll()
-    api.command('call nvim_feedkeys("\\<c-o>zh", "n", v:true)')
+    api.command('call feedkeys("\\<c-o>zh", "n")')
 end
 
 local function hard_reset_scroll()
