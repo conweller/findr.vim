@@ -19,8 +19,6 @@ imap <buffer> <s-down> <nop>
 imap <buffer> <M-p> <nop>
 imap <buffer> <M-n> <nop>
 imap <buffer> <c-d> <nop>
-imap <buffer> <c-w> <nop>
-imap <buffer> <c-h> <nop>
 imap <buffer> <Insert> <nop>
 " }}}
 
