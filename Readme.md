@@ -86,7 +86,3 @@ For additional documentation see:
 :h findr
 ```
 
-## TODO
-* `<c-w>` mapping
-* Vim 8:
-    * Support for history
