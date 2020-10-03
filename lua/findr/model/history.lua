@@ -10,7 +10,7 @@ local max_len = api.get_var('findr_max_hist')
 local len = 0
 
 local function valid_line(dir_file_pair)
-    if utils.tablelength(dir_file_pair) >= 1 then
+    if #dir_file_pair >= 1 then
         return api.call_function('isdirectory', {dir_file_pair[1]}) == 1
     end
     return false

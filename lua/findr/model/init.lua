@@ -21,7 +21,7 @@ function M.update(input, source)
 end
 
 function M.select_next()
-    if selected_loc + 1 > utils.tablelength(M.display) then
+    if selected_loc + 1 > #M.display then
         return false
     end
     selected_loc = selected_loc + 1

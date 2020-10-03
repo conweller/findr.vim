@@ -51,8 +51,8 @@ function M.new_floating(filetype)
         vim.api.nvim_command('setlocal winhl=Normal:FindrBorder')
         options.row = options.row + 1
         options.height = options.height - 2
-        options.col =  options.col + 1
-        options.width = options.width - 2
+        options.col =  options.col + 2
+        options.width = options.width - 4
         local buf = vim.api.nvim_create_buf(true, false)
         vim.api.nvim_open_win(buf, true, options)
         vim.api.nvim_command('au BufWipeout <buffer> exe "silent bw! "'..border_buf)

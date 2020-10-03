@@ -52,7 +52,7 @@ function M.update()
     if input ~= prev_input then
         num_tab = 0
         model.update(input, source.table)
-        selected_loc = math.min(utils.tablelength(model.display)+1, 2)
+        selected_loc = math.min(#model.display+1, 2)
         view.redraw(model.display, input, selected_loc)
     end
     prev_input = input

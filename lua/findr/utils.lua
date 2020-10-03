@@ -1,13 +1,5 @@
 local M = {}
 
-function M.tablelength(T)
-    local count = 0
-    for _, _ in ipairs(T) do
-        count = count + 1
-    end
-    return count
-end
-
 function M.split(line)
     local t = {}
     for str in string.gmatch(line, "[^%s]+") do
