@@ -116,7 +116,7 @@ CONFIGURATION                                        *findr_configuration*
                                                   *g:findr_floating_window*
 Enable/disable floating window (default 1). You may also supply a 'dict'
 containing the key "window" with a value that will be evaluated and must
-return the values needed for the config argument in *nvim_open_win*
+return the values needed for the config argument in nvim_open_win
 (Floating windows are currently only supported on neovim)
 >
   let g:findr_floating_window = {
@@ -134,6 +134,19 @@ return the values needed for the config argument in *nvim_open_win*
          \ }
   endfunction
 <
+
+Alternatively you can specify the positioning, max width and max height for
+the floating window as follows:
+>
+  let g:findr_floating_window = {
+        \ 'position': 'center',
+        \ 'max_width': 100,
+        \ 'max_height': 20,
+        \ }
+<
+As of right now only `g:findr_floating_window.position = 'center'` is
+supported
+
 
                                                   *g:findr_enable_border*
 Enable/disable border around floating window (default 1)

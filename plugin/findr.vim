@@ -13,6 +13,19 @@ if !exists('g:findr_floating_window')
   let g:findr_floating_window = 1
 endif
 
+if type(g:findr_floating_window) == 4 && !exists("g:findr_floating_window.window") && (exists("g:findr_floating_window.position") || exists("g:findr_floating_window.max_height") || exists("g:findr_floating_window.max_width"))
+    if !exists("g:findr_floating_window.position")
+        let g:findr_floating_window.position = 'center'
+    endif
+    if !exists("g:findr_floating_window.max_height")
+        let g:findr_floating_window.max_height =20
+    endif
+    if !exists("g:findr_floating_window.max_width")
+        let g:findr_floating_window.max_width =100
+    endif
+    let g:findr_floating_window.window = "findr#winopts()"
+end
+
 if !exists('g:findr_highlight_matches')
   let g:findr_highlight_matches = 1
 endif

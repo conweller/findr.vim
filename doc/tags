@@ -48,4 +48,3 @@ hl-FindrDirPartial	Findr.txt	/*hl-FindrDirPartial*
 hl-FindrMatch	Findr.txt	/*hl-FindrMatch*
 hl-FindrNormal	Findr.txt	/*hl-FindrNormal*
 hl-FindrSelected	Findr.txt	/*hl-FindrSelected*
-nvim_open_win	Findr.txt	/*nvim_open_win*
