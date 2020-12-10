@@ -151,7 +151,8 @@ end
 local function on_prompt()
     local pos
     if api.vim8 then
-        pos = api.call_function('getcurpos', {})[4]-1
+	    print(pos)
+        pos = api.call_function('getcurpos', {})[3]
     else
         pos = vim.api.nvim_win_get_cursor(0)[2]
     end
@@ -176,9 +177,9 @@ end
 function M.clear()
     if not on_prompt() then
         if api.vim8 then
-            local pos = api.call_function('getcurpos', {})[4]-1
+            local pos = api.call_function('getcurpos', {})[3]
             local line = api.call_function('getline', {1})
-            local input = string.sub(line,pos+1,string.len(line))
+            local input = string.sub(line,pos+1,string.len(line)-1)
             view.setinput(prompt, input)
             api.call_function('setpos', {'.', {0, 1, string.len(prompt)+1}})
             if string.len(line) == pos+1 then
@@ -198,7 +199,7 @@ end
 function M.delete_prev_word()
     if not on_prompt() then
         if api.vim8 then
-            local pos = api.call_function('getcurpos', {})[4]-1
+            local pos = api.call_function('getcurpos', {})[3]
             local line = api.call_function('getline', {1})
             local before = string.sub(line, string.len(prompt)+1,pos+1)
             local del_idx = string.find(before, "%s*[^ ]*%s*$")-1
@@ -228,7 +229,7 @@ end
 function M.clear_to_parent()
     if not on_prompt() then
         if api.vim8 then
-            local pos = api.call_function('getcurpos', {})[4]-1
+            local pos = api.call_function('getcurpos', {})[3]
             local line = api.call_function('getline', {1})
             local input = string.sub(line,pos+1,string.len(line))
             view.setinput(prompt, input)
