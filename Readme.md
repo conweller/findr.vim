@@ -1,8 +1,8 @@
 # Findr.vim
 
 An incremental narrowing engine for (neo)vim, inspired by
-[ido](https://www.gnu.org/software/emacs/manual/html_mono/ido.html)
-[ivy](https://github.com/abo-abo/swiper) and
+[ido](https://www.gnu.org/software/emacs/manual/html_mono/ido.html),
+[ivy](https://github.com/abo-abo/swiper), and
 [helm](https://github.com/emacs-helm/helm)
 
 ![Gif](screenshots/findr.gif)
