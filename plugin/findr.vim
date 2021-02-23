@@ -78,7 +78,7 @@ if !highlight_exists('FindrDir')
 endif
 
 if !highlight_exists('FindrBorder')
-  hi! link FindrBorder VertSplit
+  hi! link FindrBorder Normal
 endif
 
 if !highlight_exists('FindrNormal')

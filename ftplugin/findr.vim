@@ -31,7 +31,7 @@ imap <buffer><nowait> <c-t> <plug>findr_tabedit
 imap <buffer><nowait> <c-x> <plug>findr_split
 imap <buffer><nowait> <c-v> <plug>findr_vsplit
 
-imap <buffer><nowait> <c-h> <plug>clear_to_parent
+imap <buffer><nowait> <c-h> <plug>findr_bs
 imap <buffer><nowait> <c-u> <plug>findr_clear
 
 imap <buffer><nowait> <up>   <plug>findr_prev
