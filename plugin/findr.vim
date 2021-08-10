@@ -1,5 +1,5 @@
 if !exists('g:findr_ls_cmd')
-    let g:findr_ls_cmd="ls"
+    let g:findr_ls_cmd="ls -A"
 end
 if !exists('g:findr_shorten_path')
     let g:findr_shorten_path=1

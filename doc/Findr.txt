@@ -149,7 +149,7 @@ supported
 
 
                                                   *g:findr_ls_cmd*
-Command used to retrieve files to display (default "ls")
+Command used to retrieve files to display (default "ls -A")
 
                                                   *g:findr_enable_border*
 Enable/disable border around floating window (default 1)
