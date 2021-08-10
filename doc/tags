@@ -44,6 +44,7 @@ g:findr_enable_border	Findr.txt	/*g:findr_enable_border*
 g:findr_floating_window	Findr.txt	/*g:findr_floating_window*
 g:findr_highlight_matches	Findr.txt	/*g:findr_highlight_matches*
 g:findr_history	Findr.txt	/*g:findr_history*
+g:findr_ls_cmd	Findr.txt	/*g:findr_ls_cmd*
 g:findr_max_hist	Findr.txt	/*g:findr_max_hist*
 g:findr_shorten_path	Findr.txt	/*g:findr_shorten_path*
 hl-FindrBorder	Findr.txt	/*hl-FindrBorder*

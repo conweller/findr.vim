@@ -4,7 +4,7 @@ local api = require('findr/api')
 
 local function scandir(directory)
     local i, t, popen = 0, {}, io.popen
-    local pfile = popen('ls -a '..directory..'')
+    local pfile = popen(api.get_var("findr_ls_cmd")..' '..directory..'')
     for filename in pfile:lines() do
         i = i + 1
         t[i] = {}

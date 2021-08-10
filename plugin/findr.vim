@@ -1,3 +1,6 @@
+if !exists('g:findr_ls_cmd')
+    let g:findr_ls_cmd="ls"
+end
 if !exists('g:findr_shorten_path')
     let g:findr_shorten_path=1
 end
