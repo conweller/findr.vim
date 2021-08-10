@@ -177,11 +177,26 @@ Maximum number of files stored in history (default 100)
 When displaying the file path prompt for the `Findr` command, always
 abbreviate the path (default 1). Must be a value 0, 1, or 2
 >
- let g:findr_shorten_path = 0 " Never abbreviate
- let g:findr_shorten_path = 1 " Only abbreviate the path if there is not
-                              "  enough room for full path
+  let g:findr_shorten_path = 0 " Never abbreviate
+  let g:findr_shorten_path = 1 " Only abbreviate the path if there is not
+                               "  enough room for full path
   let g:findr_shorten_path = 2 " Always abbreviate the path
 <
+===========================================================================
+AUTOCMDS                                        *findr_autocmds* 
+                                                *findr_autocommands*
+
+                                                *FindrOpened*
+FindrOpened             Event when a findr window is opened
+>
+  autocmd! User FindrOpened echo "opened"
+<
+                                                *FindrClosed*
+FindrClosed             Event when a findr window is closed
+>
+  autocmd! User FindrClosed echo "closed"
+<
+
 
 ===========================================================================
 HIGHLIGHTS                                        *findr_highlights*

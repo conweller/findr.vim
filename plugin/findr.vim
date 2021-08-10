@@ -32,9 +32,9 @@ endif
 
 if !exists('g:findr_border')
   let g:findr_border = {
-        \   'top':    ['┌', '─', '┐'],
+        \   'top':    ['╭', '─', '╮'],
         \   'middle': ['│', ' ', '│'],
-        \   'bottom': ['└', '─', '┘'],
+        \   'bottom': ['╰', '─', '╯'],
         \ }
 endif
 
