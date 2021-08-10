@@ -148,6 +148,9 @@ As of right now only `g:findr_floating_window.position = 'center'` is
 supported
 
 
+                                                  *g:findr_ls_cmd*
+Command used to retrieve files to display (default "ls")
+
                                                   *g:findr_enable_border*
 Enable/disable border around floating window (default 1)
 
