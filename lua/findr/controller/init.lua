@@ -293,7 +293,7 @@ end
 
 function M.quit()
   api.command("doautocmd User FindrClosed")
-  -- api.command(winnum..'windo echo ""')
+  api.command(winnum..'windo echo ""')
   api.command('silent bw '..bufnum)
 end
 
