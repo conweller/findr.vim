@@ -59,6 +59,7 @@ function! FindrLaunch(source, ...)
 endfunction
 
 command! -complete=dir -nargs=? Findr call FindrLaunch('sources.files', <f-args>)
+command! FindrParentDir call FindrLaunch('sources.files', expand('%:p:h'))
 command! FindrBuffers call FindrLaunch('sources.buffers', './')
 command! FindrLocList call FindrLaunch('sources.loclist', './')
 command! FindrQFList call FindrLaunch('sources.qflist', './')

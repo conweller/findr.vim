@@ -22,6 +22,10 @@ COMMANDS                                          *findr_commands*
 :Findr                          launches a file finder buffer in the current
                                 directory
 
+                                                  *:FindrParentDir*
+:FindrParentDir                 launches a file finder buffer in the parent
+                                directory of current file
+
                                                   *:FindrBuffers*
 :FindrBuffers                   launches a buffer selector
 

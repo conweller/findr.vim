@@ -1,4 +1,5 @@
 :Findr	Findr.txt	/*:Findr*
+:FindrParentDir	Findr.txt	/*:FindrParentDir*
 :FindrBuffers	Findr.txt	/*:FindrBuffers*
 :FindrLocList	Findr.txt	/*:FindrLocList*
 :FindrQFList	Findr.txt	/*:FindrQFList*

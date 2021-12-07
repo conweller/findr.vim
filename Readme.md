@@ -27,6 +27,8 @@ Plug 'conweller/findr.vim'
 
 File finder: `:Findr`
 
+Parent Direcotry of Current File finder: `:FindrParentDir`
+
 Buffer selector: `:FindrBuffers`
 
 Location List selector: `:FindrLocList`
