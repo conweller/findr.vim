@@ -20,7 +20,18 @@ COMMANDS                                          *findr_commands*
 
                                                   *:Findr*
 :Findr                          launches a file finder buffer in the current
-                                directory
+                                directory. 
+
+:Findr  {path}                  launches a file finder buffer in the specified
+                                path.
+
+                                If you want to launch the file finder in the
+                                directory of the file you are currently
+                                editing, you can do so via
+
+>
+  :Findr %:p:h
+<
 
                                                   *:FindrBuffers*
 :FindrBuffers                   launches a buffer selector
