@@ -45,7 +45,9 @@ function M.init(new_source, directory)
     model.history.source()
   end
   bufnum = api.call_function('bufnr',{})
-  api.command("doautocmd User FindrOpened")
+  if not api.vim8 then
+      api.command("doautocmd User FindrOpened")
+  end
 end
 
 function M.update()
@@ -292,9 +294,11 @@ function M.expand()
 end
 
 function M.quit()
-  api.command("doautocmd User FindrClosed")
-  api.command(winnum..'windo echo ""')
-  api.command('silent bw '..bufnum)
+    if not api.vim8 then
+        api.command("doautocmd User FindrClosed")
+    end
+    api.command(winnum..'windo echo ""')
+    api.command('silent bw '..bufnum)
 end
 
 function M.edit(editcmd)
